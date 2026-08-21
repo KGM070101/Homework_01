@@ -14,6 +14,11 @@ public class CharacterData : ScriptableObject
     private float moveSpeed = 5f;
     public float MoveSpeed => moveSpeed;
 
+    [Header("DASH_SPEED")]
+    [SerializeField]
+    private float dashSpeed = 20f;
+    public float DashSpeed => dashSpeed;
+
 
     [Header("POWER")]
     [SerializeField]

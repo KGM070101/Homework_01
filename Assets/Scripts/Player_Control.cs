@@ -20,16 +20,28 @@ public partial class Player
     [SerializeField]
     private float shotgunSpreadAngle = 40.0f;
 
+    [SerializeField]
+    private float dashDuration=0.2f;
+
+    [SerializeField]
+    private float dashCoolTime=2.0f;
+
     private bool isMoving;
     private bool isReloading = false;
+    private bool isDashing = false;
+    private bool canDash;
+    public bool isDead=false;
+    
 
     private Vector2 moveDir;
     private Vector2 mousePosition;
     private Vector2 PlayerOriginalFacingDir;
 
+    private float moveSpeed;
     private float fireCoolTimer = 0.5f;
     private float reloadTimer = 2;
-    private float ammo = 99;
+    private float ammo = 99;    
+    public float SkillStack = 0;
     private int trigger = 1;
 
     private Coroutine coroutine;
@@ -40,8 +52,28 @@ public partial class Player
 
     protected override void FixedUpdate()
     {
-        rigidbody2D.linearVelocity = new Vector2(moveDir.x * data[0].MoveSpeed, moveDir.y * data[0].MoveSpeed);
+        if(isDead==false)
+        {
+            rigidbody2D.linearVelocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
+        }
+        
         //transform.Rotate(facingDir);                       
+    }
+
+    public void TakeDamage(float damage)
+    {
+        maxHP -= damage;
+    }
+
+    public void Dead()
+    {
+        if(maxHP<=0)
+        {
+            maxHP = 0;
+            isDead=true;
+            Destroy(gameObject);
+            Time.timeScale = 0;
+        }
     }
 
     private void LookPointer()
@@ -111,6 +143,23 @@ public partial class Player
         }
     }
 
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if(canDash==true)
+        {
+            isDashing = true;
+            canDash = false;
+            dashDuration = 0.2f;
+            dashCoolTime = 2.0f;
+        }
+    }
+
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        ammo = 0;        
+        IndicateReloadingAmmoBar();
+    }
+
     public void OnFireModeChange(InputAction.CallbackContext context)
     {
         trigger++;
@@ -134,7 +183,7 @@ public partial class Player
 
         bullet.Shoot(PlayerOriginalFacingDir);
         ammo -= 1;
-        WeaponBounce();
+        WeaponBounceVer1();
 
         yield return new WaitForSeconds(0.1f);
 
@@ -143,7 +192,7 @@ public partial class Player
 
         bullet1.Shoot(PlayerOriginalFacingDir);
         ammo -= 1;
-        WeaponBounce();
+        WeaponBounceVer1();
 
         yield return new WaitForSeconds(0.1f);
 
@@ -152,7 +201,7 @@ public partial class Player
 
         bullet2.Shoot(PlayerOriginalFacingDir);
         ammo -= 1;
-        WeaponBounce();
+        WeaponBounceVer1();
     }
     private void Shotgun()
     {
@@ -179,6 +228,7 @@ public partial class Player
                 Quaternion.identity,
                 bulletBox
             );
+            WeaponBounceVer2();
 
             bullet.durationTime = 0.5f;
             bullet.Shoot(bulletDirection);

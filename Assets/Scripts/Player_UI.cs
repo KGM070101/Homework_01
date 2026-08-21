@@ -17,10 +17,15 @@ public partial class Player
     private TextMeshProUGUI fireModeText;
     [SerializeField]
     private TextMeshProUGUI fireModeAnnouncementText;
+    [SerializeField]
+    private Image playerHpBar;
+    [SerializeField]
+    private TextMeshProUGUI playerHpText;
 
     private float maxAmmo = 99;
     private float currentAmmo;
     private float reloadTime = 2.0f;
+    private float maxHP;
     private void IndicateAmmo()
     {
         ammoText.text = "Ammo :" + ammo;
@@ -35,6 +40,7 @@ public partial class Player
     {
         ammoBar.fillAmount = 0;
         ammoBar.fillAmount = 1.0f-(reloadTimer / reloadTime);
+        ammoText.text = "Reloading...";
     }
 
     private void IndicateFireMode()
@@ -48,6 +54,16 @@ public partial class Player
 
         fireModeAnnouncementText.DOFade(1.0f,0f);
         fireModeAnnouncementText.DOFade(0.0f, 2.0f);
+    }
+
+    private void IndicatePlayerHp()
+    {
+        playerHpText.text = "HP :" + maxHP;
+    }
+
+    private void IndicatePlayerHpBar()
+    {
+        playerHpBar.fillAmount = maxHP / data[0].MaxHp;
     }
 
     private IEnumerator Co_WaitIndicateAnnouncement()

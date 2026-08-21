@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 100
   moveSpeed: 3
-  power: 10
-  attackSpeed: 5
-  stopDistance: 1
+  dashSpeed: 20
+  power: 5
+  attackSpeed: 1
+  stopDistance: 2.2

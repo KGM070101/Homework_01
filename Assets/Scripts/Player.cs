@@ -27,7 +27,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
 
 
     private InputSystem_Actions action;
-    private Camera mainCamera;
+    private Camera mainCamera;    
     protected override void Awake()
     {
         //dataFile = "Assets / CharactersDatas / Player";
@@ -41,55 +41,96 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
         OriginalWeaponSize = Weapon.transform.localScale;
         OriginalWheelSize = 
             LeftWheel.transform.localScale = RightWheel.transform.localScale;
+
+        maxHP = data[0].MaxHp;
     }
 
     protected override void Update()
     {
         base.Update();
 
-        LookPointer(); //Player_Control --> 플레이어 시선 마우스 제어 로직
-        if(isMoving==true&&coroutine==null)
+        if(isDead==false)
         {
-            coroutine = StartCoroutine(Co_WheelAnimationStart());
-        }
+            LookPointer(); //Player_Control --> 플레이어 시선 마우스 제어 로직
 
-        //총알발사 간격 타이머
-        {
-            fireCoolTimer += Time.deltaTime;
-
-            if (fireCoolTimer >= 0.5f)
-                fireCoolTimer = 0.5f;
-        }
-
-        //재장전 타이머
-        {
-            if (ammo <= 0)
+            if (isMoving == true && coroutine == null)
             {
-                ammo = 0;
-                reloadTimer -= Time.deltaTime;
-                isReloading = true;
+                coroutine = StartCoroutine(Co_WheelAnimationStart());
+            }
 
-                if (reloadTimer <= 0)
+            //총알발사 간격 타이머
+            {
+                fireCoolTimer += Time.deltaTime;
+
+                if (fireCoolTimer >= 0.5f)
+                    fireCoolTimer = 0.5f;
+            }
+
+            //재장전 타이머
+            {
+                if (ammo <= 0)
                 {
-                    isReloading = false;
-                    ammo += 99;
-                    reloadTimer = 2f;
+                    ammo = 0;
+                    reloadTimer -= Time.deltaTime;
+                    isReloading = true;
+
+                    if (reloadTimer <= 0)
+                    {
+                        isReloading = false;
+                        ammo += 99;
+                        reloadTimer = 2f;
+                    }
                 }
             }
-        }
 
-        //화면 UI 표시
-        {
-            IndicateAmmo();
-            IndicateAmmoBar();
-            IndicateFireMode();
-            if (isReloading)
+            //화면 UI 표시
             {
-                IndicateReloadingAmmoBar();
+                IndicateAmmo();
+                IndicateAmmoBar();
+                IndicateFireMode();
+                IndicatePlayerHp();
+                IndicatePlayerHpBar();
+                if (isReloading)
+                {
+                    IndicateReloadingAmmoBar();
+                }
             }
+
+            //대쉬 타이머
+            {
+                dashCoolTime -= Time.deltaTime;
+                if (dashCoolTime <= 0)
+                {
+                    canDash = true;
+                }
+            }
+
+            //대쉬 지속시간
+            {
+                dashDuration -= Time.deltaTime;
+                if (dashDuration <= 0)
+                {
+                    isDashing = false;
+                }
+            }
+
+            //플레이어 속도 제어
+            {
+                if (isDashing == false)
+                {
+                    moveSpeed = data[0].MoveSpeed;
+                }
+                else
+                {
+                    moveSpeed = data[0].DashSpeed;
+                }
+            }
+        }        
+
+        //플레이어 사망
+        {
+            Dead();
         }
-        
-            
 
         //Debug.Log(ammo);
     }

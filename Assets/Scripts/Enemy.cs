@@ -9,9 +9,21 @@ public partial class Enemy : Character
     private float hp;
 
     [SerializeField]
-    private Transform player;
+    private GameObject leftArm;
+
+    [SerializeField]
+    private GameObject RightArm;
+
+    [SerializeField]
+    private Transform playerPos;
+
+    private Player player;
       
     private Vector3 originalPos;
+    private Vector2 originalLeftArmPos;
+    private Vector2 originalRightArmPos;
+
+    private DOTween doTween;
 
     private Coroutine coroutine;
     protected override void Awake()
@@ -19,6 +31,15 @@ public partial class Enemy : Character
         base.Awake();
 
         hp = data[1].MaxHp;
+        player = FindFirstObjectByType<Player>();
+
+        Physics2D.IgnoreLayerCollision
+            (LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"));
+        Physics2D.IgnoreLayerCollision
+            (LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("RedLine"));
+
+        originalLeftArmPos = leftArm.transform.localPosition;
+        originalRightArmPos = RightArm.transform.localPosition;
     }
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
@@ -34,6 +55,7 @@ public partial class Enemy : Character
         if (collision.gameObject.CompareTag("BulletForPlayer"))
         {
             hp -= data[0].Power;
+            player.SkillStack += 1;
             Destroy(collision.gameObject);
         }
     }
@@ -42,7 +64,7 @@ public partial class Enemy : Character
     {
         base.Update();
 
-        Debug.Log(hp);
+        //Debug.Log(hp);
         if (gameObject)
         {
             coroutine = StartCoroutine(Co_Dead());
@@ -57,27 +79,35 @@ public partial class Enemy : Character
         {
             originalPos = transform.position;
         }
-
-        
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        TracePlayer();
+        if(player.isDead==false)
+        {
+            TracePlayer();
+        }
+        else
+        {
+            return;
+        }
+        
     }
 
     private IEnumerator Co_Dead()
     {         
         if(hp<=0)
         {
-            hp = 0;
-           
+            hp = 0;            
+                
             spriteRenderer.DOFade(0f, 0.5f);
+            enemy_LeftArm.spriteRenderer.DOFade(0f, 0.5f);
+            enemy_RightArm.spriteRenderer.DOFade(0f, 0.5f);
 
-            yield return new WaitForSeconds(0.5f);
-            Destroy(gameObject);
+            yield return new WaitForSeconds(0.51f);
+            Destroy(gameObject);           
         }             
     }    
 }

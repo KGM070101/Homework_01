@@ -7,7 +7,7 @@ public partial class Player
 {
     private DG.Tweening.Sequence seq;
 
-    private void WeaponBounce()
+    private void WeaponBounceVer1()
     {
         seq = DOTween.Sequence().
              Append(Weapon.transform.DOScaleY(OriginalWeaponSize.y*0.6f,0.05f)).
@@ -17,6 +17,18 @@ public partial class Player
         seq = DOTween.Sequence().
              Append(Weapon.transform.DOScaleX(OriginalWeaponSize.x * 1.5f, 0.075f)).
              Append(Weapon.transform.DOScaleX(OriginalWeaponSize.x * 1.0f, 0.075f));       
+    }
+
+    private void WeaponBounceVer2()
+    {
+        seq = DOTween.Sequence().
+             Append(Weapon.transform.DOScaleY(OriginalWeaponSize.y * 0.4f, 0.05f)).
+             Append(Weapon.transform.DOScaleY(OriginalWeaponSize.y * 1.1f, 0.05f)).
+             Append(Weapon.transform.DOScaleY(OriginalWeaponSize.y * 1.0f, 0.05f));
+
+        seq = DOTween.Sequence().
+             Append(Weapon.transform.DOScaleX(OriginalWeaponSize.x * 2.0f, 0.075f)).
+             Append(Weapon.transform.DOScaleX(OriginalWeaponSize.x * 1.0f, 0.075f));
     }
 
     private void WheelAnimation()
