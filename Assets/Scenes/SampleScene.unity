@@ -2378,7 +2378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minRadius: 22
   _maxRadius: 25
-  spawnInterval: 1
+  spawnInterval: 2
   enemyPrefab: {fileID: 8591538544235677437, guid: 5c7a7bd00a84b6549af691cd90e197e6, type: 3}
   enemy2Prefab: {fileID: 7408831633136903763, guid: 6bd245db948461b47b24dc2116d48915, type: 3}
   enemyBox: {fileID: 2001906324}
