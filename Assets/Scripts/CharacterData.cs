@@ -34,4 +34,9 @@ public class CharacterData : ScriptableObject
     [SerializeField]
     private float stopDistance = 2.0f;
     public float StopDistance => stopDistance;
+
+    [Header("RELOAD_TIME")]
+    [SerializeField]
+    private float reloadTime = 3.0f;
+    public float ReloadTIme => reloadTime;
 }

@@ -1,4 +1,4 @@
-using Mono.Cecil;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,13 +23,18 @@ public class Character : MonoBehaviour
         //data = Resources.Load<CharacterData>(dataFile);
     }
 
+    protected virtual void Start()
+    {
+
+    }
+
     protected virtual void Update()
     {
 
     }
 
 #if UNITY_EDITOR
-    protected virtual void Reset()
+   protected virtual void Reset()
     {
 
     }

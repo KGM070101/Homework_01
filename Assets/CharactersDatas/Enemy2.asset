@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9aac94d6f7d89b140b9d5d5409ee3e50, type: 3}
-  m_Name: Enemy
+  m_Name: Enemy2
   m_EditorClassIdentifier: 
-  maxHp: 50
-  moveSpeed: 3
+  maxHp: 35
+  moveSpeed: 2
   dashSpeed: 20
   power: 10
   attackSpeed: 1
-  stopDistance: 2.2
+  stopDistance: 12
   reloadTime: 3

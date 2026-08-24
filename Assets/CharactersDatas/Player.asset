@@ -15,6 +15,7 @@ MonoBehaviour:
   maxHp: 100
   moveSpeed: 5
   dashSpeed: 20
-  power: 15
+  power: 5
   attackSpeed: 5
   stopDistance: 3
+  reloadTime: 3

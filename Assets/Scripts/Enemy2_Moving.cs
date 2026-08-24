@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public partial class Enemy
+public partial class Enemy2
 {
     private float EnemyTimer;
+
     private void TracePlayer()
     {
         //if (playerPos == null|| hp <= 0)
@@ -10,34 +11,36 @@ public partial class Enemy
         //    return;
         //}        
 
+        facingDir = (player.transform.position - transform.position);
+
         Vector2 direction =
             (player.transform.position - transform.position).normalized;
 
         float distance =
             (Vector2.Distance(player.transform.position, transform.position));
-     
+
         float angle =
             Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         rigidbody2D.SetRotation(angle);
 
-        if(isKnockbacking)
+        if (isKnockbacking)
         {
             return;
-        }    
+        }
 
-        if (distance > data[1].StopDistance)
+        if (distance > data[2].StopDistance)
         {
-            if(isKnockbacking==false)
+            if (isKnockbacking == false)
             {
-                rigidbody2D.linearVelocity = direction * data[1].MoveSpeed;
-            }            
-        }        
+                rigidbody2D.linearVelocity = direction * speed;
+            }
+        }
         else
         {
             rigidbody2D.linearVelocity = Vector2.zero;
             TryAttack();
-            
+
         }
     }
 
@@ -48,10 +51,14 @@ public partial class Enemy
             return;
         }
 
-        EnemyTimer = Time.time + data[1].AttackSpeed;
+        EnemyTimer = Time.time + data[2].AttackSpeed;
 
-        player.TakeDamage(power);
+        BulletForEnemy2 bullet =
+            Instantiate(bulletPrefab, firePoint.position, Quaternion.identity, bulletBox);
+        bullet.Shoot(facingDir);
 
-        Enemy_Punch();
+        WeaponBounce();
+            
+        //player.TakeDamage(power);        
     }
 }

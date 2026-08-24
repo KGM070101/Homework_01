@@ -5,14 +5,25 @@ public class Enemy_Spawner : MonoBehaviour
 {
     [SerializeField]
     private float _minRadius;
+
     [SerializeField]
     private float _maxRadius;
+
     [SerializeField]
     private float spawnInterval=2;
+
     [SerializeField]
     private Enemy enemyPrefab;
+
+    [SerializeField]
+    private Enemy2 enemy2Prefab;
+
     [SerializeField]
     private Transform enemyBox;
+   
+    public int enemyCount;
+
+    private Vector2 randomSpawnTrigger = new Vector2(0f, 99f);
 
     private Coroutine coroutine;
 
@@ -20,10 +31,21 @@ public class Enemy_Spawner : MonoBehaviour
     {
         coroutine = StartCoroutine(Co_SpawnEnemy());
     }
-    private void SpawnEnemies()
+
+    private void Update()
+    {
+        //Debug.Log(enemyCount);
+    }
+    private void SpawnEnemy()
     {
         Enemy enemy = 
             Instantiate(enemyPrefab, GetRandomPos(),Quaternion.identity,enemyBox);
+    }
+
+    private void SpawnEnemy2()
+    {
+        Enemy2 enemy2 =
+            Instantiate(enemy2Prefab, GetRandomPos(), Quaternion.identity, enemyBox);
     }
 
 
@@ -41,13 +63,25 @@ public class Enemy_Spawner : MonoBehaviour
     }
 
     private IEnumerator Co_SpawnEnemy()
-    {
+    {        
         while(true)
         {
+            float randomTrigger = Random.Range(randomSpawnTrigger.x, randomSpawnTrigger.y);
+
             yield return new WaitForSeconds(spawnInterval);
-            SpawnEnemies();
+
+            if (randomTrigger<20)
+            {
+                SpawnEnemy2();
+                enemyCount++;
+            }
+            else
+            {
+                SpawnEnemy();
+                enemyCount++;
+            }                       
         }
-        
+       
     }
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
