@@ -69,7 +69,7 @@ public class Enemy_Spawner : MonoBehaviour
             float randomTrigger = Random.Range(randomSpawnTrigger.x, randomSpawnTrigger.y);
 
             yield return new WaitForSeconds(spawnInterval);
-
+            
             if (randomTrigger<20)
             {
                 SpawnEnemy2();

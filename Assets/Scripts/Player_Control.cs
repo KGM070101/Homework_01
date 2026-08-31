@@ -101,7 +101,7 @@ public partial class Player
         {
             hp = 0;
             isDead=true;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             Time.timeScale = 0;
         }
     }
