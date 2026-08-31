@@ -1,53 +1,64 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+
+public enum PoolEnum
+{
+    Enemy1,
+    Enemy2,
+    Sound
+}
 
 public class PoolManager : MonoBehaviour
 {
-    [SerializeField] private PoolObject[] poolables;
+    [SerializeField] private PoolSet[] poolSets;
+    private Dictionary<PoolEnum, PoolObject> poolSetDic = new();
 
-    private List<Stack<PoolObject>> poolStack = new();
-
+    private Dictionary<PoolEnum, Stack<PoolObject>> poolStackDic = new();
+    
     private void Init()
     {
-        poolStack = new List<Stack<PoolObject>>();
-
-        foreach(PoolObject poolable in poolables)
+        foreach (PoolSet set in poolSets)
         {
-            poolStack.Add(new Stack<PoolObject>());
+            poolSetDic.Add(set.PoolEnum, set.PoolObject);
+        }
+
+        foreach (PoolSet poolSet in poolSets)
+        {
+            poolStackDic.Add(poolSet.PoolEnum, new Stack<PoolObject>());
 
             for(int i=0; i<5; i++)
             {
-                PoolObject pool = Instantiate(poolable);
+                PoolObject pool = Instantiate(poolSet.PoolObject);
 
                 pool.transform.SetParent(transform);
 
                 pool.gameObject.SetActive(false);
 
-                poolStack[^1].Push(pool);
+                poolStackDic[poolSet.PoolEnum].Push(pool);
             }
 
         }
     }
 
-    public PoolObject Get(int index)
+    public PoolObject Get(PoolEnum poolEnum)
     {
-        if(poolStack[index].Count>0)
+        if(poolStackDic[poolEnum].Count>0)
         {
-            PoolObject target= poolStack[index].Pop();
+            PoolObject target= poolStackDic[poolEnum].Pop();
 
             target.gameObject.SetActive(true);
 
-            target.SetIndex(index);
+            target.SetEnum(poolEnum);
 
             target.Init();
 
             return target;
         }      
         
-        PoolObject pool = Instantiate(poolables[index]);
+        PoolObject pool = Instantiate(poolSetDic[poolEnum]);
 
-        pool.SetIndex(index);
+        pool.SetEnum(poolEnum);
 
         pool.Init();
 
@@ -58,7 +69,7 @@ public class PoolManager : MonoBehaviour
     {
         pool.gameObject.SetActive(false);
 
-        poolStack[pool.index].Push(pool);
+        poolStackDic[pool.poolEnum].Push(pool);
     }
 }
 
@@ -66,17 +77,24 @@ public class PoolManager : MonoBehaviour
 
 public interface IPoolable
 {
-    void SetIndex(int index);
+    void SetEnum(PoolEnum poolEnum);
     void Init();
 }
 
 public abstract class PoolObject : MonoBehaviour, IPoolable
 {
-    public int index;
-    public virtual void SetIndex(int index)
+    public PoolEnum poolEnum;
+    public virtual void SetEnum(PoolEnum poolEnum)
     {
-        this.index = index;
+        this.poolEnum = poolEnum;
     }       
 
     public abstract void Init();
+}
+
+[Serializable]
+public class PoolSet
+{
+    public PoolEnum PoolEnum;
+    public PoolObject PoolObject;
 }
