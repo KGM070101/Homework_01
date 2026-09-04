@@ -8,6 +8,7 @@ TagManager:
   - BulletForPlayer
   - BulletBox
   - BulletForEnemy2
+  - Item_Heal
   layers:
   - Default
   - TransparentFX

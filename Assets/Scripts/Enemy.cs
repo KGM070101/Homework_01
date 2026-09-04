@@ -19,6 +19,8 @@ public partial class Enemy : Character
     
     private Player player;
     private Enemy_Spawner enemy_Spawner;
+    private PoolManager poolManager;
+    private PoolObject poolObject;
 
     private Vector3 originalPos;
     private Vector2 originalLeftArmPos;
@@ -49,6 +51,8 @@ public partial class Enemy : Character
 
         player = FindFirstObjectByType<Player>();
         enemy_Spawner = FindFirstObjectByType<Enemy_Spawner>();
+        poolManager = FindAnyObjectByType<PoolManager>();
+        poolObject = GetComponent<PoolObject>();
 
         Physics2D.IgnoreLayerCollision
             (LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"),true);
@@ -198,8 +202,7 @@ public partial class Enemy : Character
     {         
         if(hp<=0)
         {
-            hp = 0;
-           
+            hp = 0;          
 
             spriteRenderer.DOFade(0f, 0.5f);
             enemy_LeftArm.spriteRenderer.DOFade(0f, 0.5f);
@@ -217,8 +220,33 @@ public partial class Enemy : Character
             if(deadTrigger==1)
             {
                 enemy_Spawner.enemyCount--;
-            }            
-            Destroy(gameObject);           
+            }
+            poolManager.Push(poolObject);       
         }             
-    }    
+    }
+
+    public void ResetEnemy()
+    {
+        hp = data[1].MaxHp;
+
+        deadTrigger = 0;
+
+        boxCollider2D.enabled = true;
+
+        spriteRenderer.DOKill();
+        enemy_LeftArm.spriteRenderer.DOKill();
+        enemy_RightArm.spriteRenderer.DOKill();
+
+        Color color = spriteRenderer.color;
+        color.a = 1f;
+        spriteRenderer.color = color;
+
+        Color leftColor = enemy_LeftArm.spriteRenderer.color;
+        leftColor.a = 1f;
+        enemy_LeftArm.spriteRenderer.color = leftColor;
+
+        Color rightColor = enemy_RightArm.spriteRenderer.color;
+        rightColor.a = 1f;
+        enemy_RightArm.spriteRenderer.color = rightColor;        
+    }
 }

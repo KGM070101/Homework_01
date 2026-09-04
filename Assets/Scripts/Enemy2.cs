@@ -22,6 +22,8 @@ public partial class Enemy2 : Character
     
     private Player player;
     private Enemy_Spawner enemy_Spawner;
+    private PoolManager poolManager;
+    private PoolObject poolObject;
 
     private Vector3 originalPos;
     private Vector2 randomXpAmount = new Vector2(1.0f, 2.0f);
@@ -55,6 +57,8 @@ public partial class Enemy2 : Character
 
         player = FindFirstObjectByType<Player>();
         enemy_Spawner = FindFirstObjectByType<Enemy_Spawner>();
+        poolManager = FindAnyObjectByType<PoolManager>();
+        poolObject = GetComponent<PoolObject>();
 
         Physics2D.IgnoreLayerCollision
             (LayerMask.NameToLayer("Enemy2"), LayerMask.NameToLayer("Enemy2"),true);
@@ -220,7 +224,27 @@ public partial class Enemy2 : Character
             {
                 enemy_Spawner.enemyCount--;
             }            
-            Destroy(gameObject);
+            poolManager.Push(poolObject);
         }
+    }
+
+    public void ResetEnemy()
+    {
+        hp = data[1].MaxHp;
+
+        deadTrigger = 0;
+
+        boxCollider2D.enabled = true;
+
+        spriteRenderer.DOKill();
+        enemy2_Weapon.spriteRenderer.DOKill();
+
+        Color color = spriteRenderer.color;
+        color.a = 1f;
+        spriteRenderer.color = color;
+
+        Color WeaponColor = enemy2_Weapon.spriteRenderer.color;
+        WeaponColor.a = 1f;
+        enemy2_Weapon.spriteRenderer.color = WeaponColor;       
     }
 }

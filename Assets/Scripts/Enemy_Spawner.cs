@@ -20,6 +20,9 @@ public class Enemy_Spawner : MonoBehaviour
 
     [SerializeField]
     private Transform enemyBox;
+
+    [SerializeField]
+    private PoolManager poolManager;
    
     public int enemyCount;
 
@@ -36,16 +39,25 @@ public class Enemy_Spawner : MonoBehaviour
     {
         //Debug.Log(enemyCount);
     }
+
+    [ContextMenu("적1 스폰")]
     private void SpawnEnemy()
     {
-        Enemy enemy = 
-            Instantiate(enemyPrefab, GetRandomPos(),Quaternion.identity,enemyBox);
+        PoolObject enemy = poolManager.Get(0);
+
+        enemy.transform.SetParent(enemyBox);
+        enemy.transform.position = GetRandomPos();
+        enemy.transform.rotation = Quaternion.identity;
     }
 
+    [ContextMenu("적2 스폰")]
     private void SpawnEnemy2()
     {
-        Enemy2 enemy2 =
-            Instantiate(enemy2Prefab, GetRandomPos(), Quaternion.identity, enemyBox);
+        PoolObject enemy2 = poolManager.Get(1);
+
+        enemy2.transform.SetParent(enemyBox);
+        enemy2.transform.position = GetRandomPos();
+        enemy2.transform.rotation = Quaternion.identity;
     }
 
 

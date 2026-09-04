@@ -5,26 +5,42 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     [SerializeField] private PoolObject[] poolables;
+    [SerializeField] private Transform enemyBox;
 
     private List<Stack<PoolObject>> poolStack = new();
 
-    private void Init()
+#if UNITY_EDITOR
+
+    private void Reset()
+    {
+        
+    }
+#endif
+
+    private void Awake()
+    {
+        Init();
+    }
+
+    public void Init()
     {
         poolStack = new List<Stack<PoolObject>>();
 
-        foreach(PoolObject poolable in poolables)
+        for(int i = 0; i < poolables.Length; i++)
         {
             poolStack.Add(new Stack<PoolObject>());
 
-            for(int i=0; i<5; i++)
+            for(int j=0; j<10; j++)
             {
-                PoolObject pool = Instantiate(poolable);
+                PoolObject pool = Instantiate(poolables[i]);
 
-                pool.transform.SetParent(transform);
+                pool.SetIndex(i);
+
+                pool.transform.SetParent(enemyBox);
 
                 pool.gameObject.SetActive(false);
 
-                poolStack[^1].Push(pool);
+                poolStack[i].Push(pool); //^1 or int index?
             }
 
         }
@@ -54,9 +70,18 @@ public class PoolManager : MonoBehaviour
         return pool;        
     }
 
+    //public void Push(PoolObject pool)
+    //{
+    //    pool.gameObject.SetActive(false);
+
+    //    poolStack[pool.index].Push(pool);
+    //}
+
     public void Push(PoolObject pool)
     {
         pool.gameObject.SetActive(false);
+
+        //PoolObject poolObject = GetComponent<PoolObject>();
 
         poolStack[pool.index].Push(pool);
     }
@@ -64,19 +89,19 @@ public class PoolManager : MonoBehaviour
 
 
 
-public interface IPoolable
-{
-    void SetIndex(int index);
-    void Init();
-}
+//public interface IPoolable
+//{
+//    void SetIndex(int index);
+//    void Init();
+//}
 
-public abstract class PoolObject : MonoBehaviour, IPoolable
-{
-    public int index;
-    public virtual void SetIndex(int index)
-    {
-        this.index = index;
-    }       
+//public abstract class PoolObject : MonoBehaviour, IPoolable
+//{
+//    public int index;
+//    public virtual void SetIndex(int index)
+//    {
+//        this.index = index;
+//    }       
 
-    public abstract void Init();
-}
+//    public abstract void Init();
+//}
