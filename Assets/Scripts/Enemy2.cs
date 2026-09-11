@@ -131,6 +131,20 @@ public partial class Enemy2 : Character
 
             }
         }
+        else if (collision.gameObject.CompareTag("Arrow"))
+        {
+            if (player.isInArrowUltState == false)
+            {
+                Damage(player.power * 10 * player.arrow_ChargeRation);
+                player.UltStack += (10 * player.arrow_ChargeRation);
+                Destroy(collision.gameObject);
+            }
+            if (player.isInArrowUltState == true)
+            {
+                Damage((player.power * 10 * player.arrow_ChargeRation) * 1.2f);
+                Destroy(collision.gameObject);
+            }
+        }
     }
 
     private IEnumerator Co_Knockback()

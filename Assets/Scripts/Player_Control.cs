@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 public enum FireMode
 {
     Burst,
-    Shotgun
+    Shotgun,
+    Arrow
 }
 public partial class Player
 {
@@ -39,6 +40,8 @@ public partial class Player
     private bool isInUltState = false;
     public bool isInBurstFireUltState = false;
     public bool isInShotgunUltState = false;
+    public bool isInArrowUltState = false;
+    private bool isCharging;
     
 
     private Vector2 moveDir;
@@ -54,7 +57,11 @@ public partial class Player
     private float ultTimer;
     private float maxHP;
     private float hp;
-    public float power;   
+    public float power;
+    private float arrow_MaxChargeTime = 3f;
+    private float arrow_ChargeStartTime;
+    public float arrow_ChargeRation;
+    private float arrow_ChargeTime;
     private int trigger = 1;
 
     private Coroutine coroutine;
@@ -67,7 +74,8 @@ public partial class Player
     {
         if(isDead==false)
         {
-            rigidbody2D.linearVelocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
+            rigidbody2D.linearVelocity = 
+                new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
         }
         
         //transform.Rotate(facingDir);                       
@@ -127,27 +135,49 @@ public partial class Player
     }
 
     public void OnAttack(InputAction.CallbackContext context)
-    {
-        if (!context.performed)
-        {
-            return;
-        }
-
+    {       
         if(canFire==true)
         {
             if(isReloading==false)
             {
-                if(fireMode==FireMode.Burst)
+                if (fireMode == FireMode.Arrow)
+                {
+                    if (isInUltState == false)
+                    {
+                        isInBurstFireUltState = false;
+                        isInShotgunUltState = false;
+                        isInArrowUltState = false;
+                    }
+                    else
+                    {
+                        isInBurstFireUltState = false;
+                        isInShotgunUltState = false;
+                        isInArrowUltState = true;
+                    }
+
+                    Arrow_Input(context);
+
+                    return;
+                }
+
+                if (!context.performed)
+                {
+                    return;
+                }
+
+                if (fireMode==FireMode.Burst)
                 {
                     if(isInUltState==false)
                     {
                         isInBurstFireUltState = false;
+                        isInArrowUltState = false;
                         isInShotgunUltState = false;
                         coroutine = StartCoroutine(Co_BurstFire());
                     }
                     else
                     {
                         isInBurstFireUltState = true;
+                        isInArrowUltState = false;
                         isInShotgunUltState = false;
                         coroutine = StartCoroutine(CoBurstFire_Ult());
                     }
@@ -157,22 +187,23 @@ public partial class Player
                     if(isInUltState==false)
                     {
                         isInBurstFireUltState = false;
+                        isInArrowUltState = false;
                         isInShotgunUltState = false;
                         Shotgun();
                     }
                     else
                     {
                         isInBurstFireUltState = false;
+                        isInArrowUltState = false;
                         isInShotgunUltState = true;
                         Shotgun_Ult();                        
                     }
                 }
                 
             }            
-
             fireCoolTimer = 0;
-        }                
-    }
+        }//if(isReloading == true)                
+    }//if(canFire == true)
 
     public void OnUlt(InputAction.CallbackContext context)
     {
@@ -228,7 +259,11 @@ public partial class Player
 
     public void OnFireModeChange(InputAction.CallbackContext context)
     {
+        if (!context.performed)
+            return;
+
         trigger++;
+
         if(trigger==1)
         {
             fireMode = FireMode.Burst;
@@ -237,9 +272,54 @@ public partial class Player
         if(trigger==2)
         {
             fireMode = FireMode.Shotgun;
+            coroutine = StartCoroutine(Co_WaitIndicateAnnouncement());            
+        }
+        if (trigger == 3)
+        {
+            fireMode = FireMode.Arrow;
             coroutine = StartCoroutine(Co_WaitIndicateAnnouncement());
             trigger = 0;
         }
+    }
+
+    private void Arrow_Input(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            Arrow_StartCharging();
+        }
+        else if(context.canceled)
+        {
+            Arrow_ReleaseCharge();           
+        }
+    }
+
+    private void Arrow_StartCharging()
+    {
+        if(isCharging)
+        {
+            return;
+        }
+
+        isCharging = true;
+        
+        //arrow_ChargeStartTime = Time.time;       
+    }
+
+    private void Arrow_ReleaseCharge()
+    {
+        if(!isCharging)
+        {
+            return;
+        }
+
+        isCharging = false;
+       
+        //float chargeTime = Time.time - arrow_ChargeStartTime;
+        //arrow_ChargeRation = Mathf.Clamp01(chargeTime / arrow_MaxChargeTime);
+
+        Arrow_Shoot();        
+        arrow_ChargeTime = 0;
     }
 
     private IEnumerator Co_BurstFire()
@@ -422,5 +502,21 @@ public partial class Player
         }
 
         ammo -= 18;
+    }
+
+    private void Arrow_Shoot()
+    {
+        Arrow arrow =
+            Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);
+
+        arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation);
+    }
+
+    private void Arrow_Shoot_Ult()
+    {
+        Arrow arrow =
+            Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);
+
+        arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation);
     }
 }

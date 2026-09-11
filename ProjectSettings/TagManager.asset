@@ -9,6 +9,9 @@ TagManager:
   - BulletBox
   - BulletForEnemy2
   - Item_Heal
+  - Arrow
+  - Enemy
+  - Enemy2
   layers:
   - Default
   - TransparentFX

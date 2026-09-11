@@ -29,5 +29,10 @@ public class CameraFollow : MonoBehaviour
             ref followVelocity,
             followDelay
             );
+
+        //Vector3 pos = transform.position;
+        //pos.x = target.position.x;
+        //pos.y = target.position.y;
+        //transform.position = pos;
     }
 }

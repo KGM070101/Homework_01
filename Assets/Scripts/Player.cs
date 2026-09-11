@@ -12,6 +12,9 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
     private BulletForPlayer bulletPrefab;
 
     [SerializeField]
+    private Arrow arrowPrefab;
+
+    [SerializeField]
     private Transform firepoint;
 
     [SerializeField]
@@ -313,7 +316,20 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                     }                  
                 }
             }
-            
+
+            //플레이어 화살 차징 계산
+            {
+                if(isCharging)
+                {
+                    arrow_ChargeTime += Time.deltaTime;
+                    arrow_ChargeRation = Mathf.Clamp01(arrow_ChargeTime / arrow_MaxChargeTime); 
+                    
+                    if(arrow_ChargeRation<0.05f)
+                    {
+                        arrow_ChargeRation = 0.1f;
+                    }
+                }
+            }
         }        
 
         //플레이어 사망
@@ -321,9 +337,13 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             Dead();
         }
 
-        //Debug.Log(ammo);
-        //Debug.Log(requireXp);
-        //Debug.Log(power);
+        //디버깅
+        {
+            //Debug.Log(ammo);
+            //Debug.Log(requireXp);
+            //Debug.Log(power);
+            Debug.Log(arrow_ChargeRation);
+        }
     }
 
     //protected override void Reset()

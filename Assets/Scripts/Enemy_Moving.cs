@@ -15,7 +15,7 @@ public partial class Enemy
 
         float distance =
             (Vector2.Distance(player.transform.position, transform.position));
-     
+             
         float angle =
             Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
@@ -30,7 +30,11 @@ public partial class Enemy
         {
             if(isKnockbacking==false)
             {
-                rigidbody2D.linearVelocity = direction * data[1].MoveSpeed;
+                rigidbody2D.linearVelocity = direction * speed;
+                if(distance>25.0f)
+                {
+                    rigidbody2D.linearVelocity = direction * speed * 3.0f;
+                }
             }            
         }        
         else

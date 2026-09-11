@@ -1739,7 +1739,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -1759,6 +1759,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 56c389ee63b794e43a4faeaa5107c8f5, type: 2}
   - {fileID: 11400000, guid: 7b490cb6c3188ca45addbd76060233be, type: 2}
   bulletPrefab: {fileID: 4842538203907762653, guid: 5c85d48448554bf4aa8b8253c10d97cd, type: 3}
+  arrowPrefab: {fileID: 7610460455243402599, guid: 4458dc83a9763c04d8f8a0d67db1b7e9, type: 3}
   firepoint: {fileID: 1414224084}
   firepoint_BurstUlt_1: {fileID: 119611109}
   firepoint_BurstUlt_2: {fileID: 683044687}
@@ -1775,8 +1776,10 @@ MonoBehaviour:
   isDead: 0
   isInBurstFireUltState: 0
   isInShotgunUltState: 0
+  isInArrowUltState: 0
   UltStack: 0
   power: 0
+  arrow_ChargeRation: 0
   ammoUI: {fileID: 1242029132}
   ammoText: {fileID: 1014696270}
   ammoBar: {fileID: 428827044}
@@ -6326,8 +6329,8 @@ Camera:
   m_GameObject: {fileID: 672105934}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -13825,7 +13828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1579859449
 Transform:
   m_ObjectHideFlags: 0
