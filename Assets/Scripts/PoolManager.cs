@@ -42,7 +42,6 @@ public class PoolManager : MonoBehaviour
 
                 poolStack[i].Push(pool); //^1 or int index?
             }
-
         }
     }
 

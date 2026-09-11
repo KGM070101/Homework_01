@@ -24,6 +24,7 @@ public partial class Enemy2 : Character
     private Enemy_Spawner enemy_Spawner;
     private PoolManager poolManager;
     private PoolObject poolObject;
+    private EnemyHpBarRotation enemyHpBar;
 
     private Vector3 originalPos;
     private Vector2 randomXpAmount = new Vector2(1.0f, 2.0f);
@@ -38,6 +39,7 @@ public partial class Enemy2 : Character
     public float power;
     private float speed;
     private int deadTrigger = 0;
+    private float maxHp;
 
     private bool isKnockbacking = false;
 
@@ -49,6 +51,7 @@ public partial class Enemy2 : Character
     {
         base.Awake();
 
+        maxHp = data[2].MaxHp;
         hp = data[2].MaxHp;
         power = data[2].Power;
         speed = data[2].MoveSpeed;
@@ -59,6 +62,7 @@ public partial class Enemy2 : Character
         enemy_Spawner = FindFirstObjectByType<Enemy_Spawner>();
         poolManager = FindAnyObjectByType<PoolManager>();
         poolObject = GetComponent<PoolObject>();
+        enemyHpBar = GetComponentInChildren<EnemyHpBarRotation>();
 
         Physics2D.IgnoreLayerCollision
             (LayerMask.NameToLayer("Enemy2"), LayerMask.NameToLayer("Enemy2"),true);
@@ -182,6 +186,10 @@ public partial class Enemy2 : Character
     private void Damage(float damage)
     {
         hp -= damage;
+        float currentHpRation = hp / maxHp;
+
+        enemyHpBar.SetCurrentHp(currentHpRation);
+
         coroutine = StartCoroutine(Co_DamageColor());
     }
 
@@ -230,7 +238,10 @@ public partial class Enemy2 : Character
 
     public void ResetEnemy()
     {
-        hp = data[1].MaxHp;
+        maxHp = data[2].MaxHp;
+        hp = maxHp;
+
+        enemyHpBar.SetCurrentHp(1);
 
         deadTrigger = 0;
 
