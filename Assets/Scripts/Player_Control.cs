@@ -32,6 +32,7 @@ public partial class Player
 
     private bool isMoving;
     private bool isReloading = false;
+    private bool isReloading_Arrow = false;
     private bool isDashing = false;
     private bool canDash;
     private bool canFire;
@@ -51,7 +52,9 @@ public partial class Player
     private float moveSpeed;
     private float fireCoolTimer = 0.5f;
     private float reloadTimer;
-    private float ammo = 99;    
+    private float arrowReloadTImer;
+    private float ammo = 99;
+    private int arrows = 10;
     public float UltStack = 0;
     private float ultMaxDuration=15.0f;
     private float ultTimer;
@@ -63,6 +66,7 @@ public partial class Player
     public float arrow_ChargeRation;
     private float arrow_ChargeTime;
     private int trigger = 1;
+    private int arrowReloadTrigger = 0;
 
     private Coroutine coroutine;
     private void Awake_BindInput()
@@ -138,7 +142,7 @@ public partial class Player
     {       
         if(canFire==true)
         {
-            if(isReloading==false)
+            if(isReloading_Arrow==false)
             {
                 if (fireMode == FireMode.Arrow)
                 {
@@ -159,7 +163,10 @@ public partial class Player
 
                     return;
                 }
-
+            }
+            
+            if (isReloading==false)
+            {                
                 if (!context.performed)
                 {
                     return;
@@ -510,6 +517,8 @@ public partial class Player
             Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);
 
         arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation);
+
+        arrows--;
     }
 
     private void Arrow_Shoot_Ult()

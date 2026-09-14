@@ -63,6 +63,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             LeftWheel.transform.localScale = RightWheel.transform.localScale;
 
         reloadTimer = data[0].ReloadTIme;
+        arrowReloadTImer = data[0].ReloadTIme;
         reloadTime = data[0].ReloadTIme;
 
         maxHP = data[0].MaxHp;
@@ -141,7 +142,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 }                
             }
 
-            //재장전 타이머
+            //총알 재장전 타이머
             {
                 if (ammo <= 0)
                 {
@@ -158,6 +159,23 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 }
             }
 
+            //화살 재장전 타이머
+            {
+                if(arrows<=0)
+                {
+                    arrows = 0;
+                    arrowReloadTImer -= Time.deltaTime;                    
+                    isReloading_Arrow = true;
+
+                    if(arrowReloadTImer<=0)
+                    {
+                        isReloading_Arrow = false;
+                        arrows += 10;
+                        arrowReloadTImer = data[0].ReloadTIme;
+                    }
+                }
+            }
+
             //화면 UI 표시
             {
                 IndicateAmmo();
@@ -168,9 +186,21 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 IndicateXpBar();
                 IndicateLevel();
                 IndicateEnemyCount();
+                IndicateArrowBar();
+                IndicateArrowOrBullet();
                 if (isReloading)
                 {
                     IndicateReloadingAmmoBar();
+                }        
+                
+                if(isReloading_Arrow)
+                {
+                    arrowReloadTrigger++;
+                    if(arrowReloadTrigger==1)
+                    {
+                        coroutine = StartCoroutine(Co_IndicateArrowBarReloading());
+                        arrowReloadTrigger = 0;                        
+                    }
                 }
 
                 if(isInUltState==true)
@@ -342,7 +372,8 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             //Debug.Log(ammo);
             //Debug.Log(requireXp);
             //Debug.Log(power);
-            Debug.Log(arrow_ChargeRation);
+            //Debug.Log(arrow_ChargeRation);
+            //Debug.Log(Co_IndicateArrowBarReloading());
         }
     }
 

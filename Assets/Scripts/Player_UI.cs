@@ -17,6 +17,12 @@ public partial class Player
     private Image ammoBar;
 
     [SerializeField]
+    private GameObject arrowUI;
+
+    [SerializeField]
+    private GameObject[] arrowBars;
+
+    [SerializeField]
     private TextMeshProUGUI fireModeText;
 
     [SerializeField]
@@ -51,6 +57,8 @@ public partial class Player
 
     private Color originalUltBarColor = new Color(1, 0.5f, 0);
     private Color blinkingUltBarColor = new Color(1, 0.8f, 0);
+    private Color invisibleArrowBarColor = new Color(0, 0, 0, 0);
+    private Color originalArrowBarColor = new Color(1, 0.5f, 0f, 1f);
     private void IndicateAmmo()
     {
         ammoText.text = "Ammo :" + ammo;
@@ -149,5 +157,86 @@ public partial class Player
     private void IndicateEnemyCount()
     {
         enemyCountText.text = "" + enemy_Spawner.enemyCount;
+    }
+
+    private void IndicateArrowBar()
+    {
+        for(int i=0; i<arrowBars.Length; i++)
+        {
+            if (isReloading_Arrow)
+            {
+                return;
+            }
+
+            Image image = arrowBars[i].GetComponent<Image>();
+
+            if(i<arrows)
+            {
+                image.color = originalArrowBarColor;
+            }
+            else
+            {                               
+                image.color = invisibleArrowBarColor;                            
+            }           
+        }
+    }
+    
+    private IEnumerator Co_IndicateArrowBarReloading()
+    {
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[0].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[1].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[2].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[3].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[4].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[5].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[6].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[7].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[8].GetComponent<Image>().color = originalArrowBarColor;
+
+        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+
+        arrowBars[9].GetComponent<Image>().color = originalArrowBarColor;
+
+        StopAllCoroutines();
+    }
+
+    private void IndicateArrowOrBullet()
+    {
+        if(fireMode==FireMode.Burst||fireMode==FireMode.Shotgun)
+        {
+            ammoUI.SetActive(true);
+            arrowUI.SetActive(false);
+        }
+        else
+        {
+            ammoUI.SetActive(false);
+            arrowUI.SetActive(true);
+        }
     }
 }
