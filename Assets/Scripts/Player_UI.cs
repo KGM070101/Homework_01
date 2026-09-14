@@ -177,7 +177,7 @@ public partial class Player
             else
             {                               
                 image.color = invisibleArrowBarColor;                            
-            }           
+            }                           
         }
     }
     
