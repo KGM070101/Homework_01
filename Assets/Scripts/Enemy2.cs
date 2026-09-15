@@ -141,8 +141,7 @@ public partial class Enemy2 : Character
             }
             if (player.isInArrowUltState == true)
             {
-                Damage((player.power * 10 * player.arrow_ChargeRation) * 1.2f);
-                Destroy(collision.gameObject);
+                Damage((player.power * 10 * player.arrow_ChargeRation) * 1.2f);                
             }
         }
     }

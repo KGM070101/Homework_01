@@ -188,6 +188,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 IndicateEnemyCount();
                 IndicateArrowBar();
                 IndicateArrowOrBullet();
+                IndicateArrowChargingBar();
                 if (isReloading)
                 {
                     IndicateReloadingAmmoBar();

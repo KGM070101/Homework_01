@@ -23,6 +23,9 @@ public partial class Player
     private GameObject[] arrowBars;
 
     [SerializeField]
+    private Image arrowChargingBar;
+
+    [SerializeField]
     private TextMeshProUGUI fireModeText;
 
     [SerializeField]
@@ -238,5 +241,10 @@ public partial class Player
             ammoUI.SetActive(false);
             arrowUI.SetActive(true);
         }
+    }
+
+    private void IndicateArrowChargingBar()
+    {
+        arrowChargingBar.fillAmount = arrow_ChargeRation;
     }
 }

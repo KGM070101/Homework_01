@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      free-icon-arrows-8311230_0: 293578466131625232
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

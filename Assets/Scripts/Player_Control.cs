@@ -327,6 +327,8 @@ public partial class Player
 
         Arrow_Shoot();        
         arrow_ChargeTime = 0;
+        arrowChargingBar.fillAmount = 0;
+        //arrow_ChargeRation = 0;
     }
 
     private IEnumerator Co_BurstFire()
@@ -515,6 +517,15 @@ public partial class Player
     {
         Arrow arrow =
             Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);
+
+        if(isInUltState)
+        {
+            arrow.transform.localScale = arrow.transform.localScale * 3 * arrow_ChargeRation;
+            if (arrow.transform.localScale.x <= 1.0f)
+            {
+                arrow.transform.localScale = new Vector2(1.0f, 1.0f);
+            }
+        }        
 
         arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation);
 

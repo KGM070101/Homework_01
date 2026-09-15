@@ -12,13 +12,23 @@ public class Arrow : MonoBehaviour
     [SerializeField]
     private Transform bulletBox;
 
+    [SerializeField]
+    private float homingSearchRange = 20.0f;
+
+    [SerializeField]
+    private float homingMaxCount = 5.0f;
+
     private new Rigidbody2D rigidbody2D;
     private Enemy enemy;
     private Enemy2 enemy2;
     private Player player;
 
     private float angle;
+    private float arrowSpeed;
+    private int hitCount;
     public Transform EndPos;
+
+    public Vector2 Dir;
 
     private void Awake()
     {
@@ -27,9 +37,17 @@ public class Arrow : MonoBehaviour
         enemy2 = FindAnyObjectByType<Enemy2>(FindObjectsInactive.Include);
         player = FindAnyObjectByType<Player>();
     }
-    
+
+    private void Update()
+    {
+        //Debug.Log()
+    }
+
     public void Shoot(Vector2 direction,float speed)
     {
+        Dir = direction.normalized;
+        arrowSpeed = speed;
+       
         Vector2 normalizedDirection = direction.normalized;
 
         rigidbody2D.linearVelocity = normalizedDirection * speed;
@@ -44,37 +62,92 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Enemy")||
+        if (!player.isInArrowUltState)
+        {
+            return;
+        }
+
+        if (collision.gameObject.CompareTag("Enemy")||
             collision.gameObject.CompareTag("Enemy2"))
         {
-            EndPos.position = transform.position;
+            EndPos = collision.transform;
 
-            if(player.isInArrowUltState==true)
+            hitCount++;
+            
+            if(hitCount>=homingMaxCount)
             {
-                //float arrowSpreadAngle = 360f;
-                float arrowCount = 10f;
-
-                //float startAngle = arrowSpreadAngle * 0.5f;
-                //float angleStep =
-                //    arrowSpreadAngle / (arrowCount - 1);
-
-
-                for (int i=0; i<arrowCount; i++)
-                {
-                    float angle = 360f / arrowCount * i;
-                    Vector2 dir = 
-                        new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), 
-                        Mathf.Sin(angle * Mathf.Deg2Rad));
-
-                    Arrow arrow =
-                        Instantiate(arrowPrefab,
-                        EndPos.position,
-                        Quaternion.identity,
-                        bulletBox);
-
-                    arrow.Shoot(dir, 60);
-                }
+                Destroy(gameObject);
+                return;
             }
+
+            Transform nextTarget = FindNearestEnemy(EndPos);
+
+            Debug.Log(nextTarget);
+
+            if(nextTarget==null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Retarget(nextTarget);
         }
     }
+
+    private Transform FindNearestEnemy(Transform firstEnemy)
+    {
+        Collider2D[] enemyColliders = 
+            Physics2D.OverlapCircleAll(transform.position, homingSearchRange);
+
+        Transform nearestEnemy = null;
+        float nearestEnemyDistance=float.MaxValue;
+
+        foreach(Collider2D enemyCollider in enemyColliders)
+        {
+            if(!enemyCollider.CompareTag("Enemy")&&
+                !enemyCollider.CompareTag("Enemy2"))
+            {
+                continue;
+            }
+
+            Transform enemyTransform = enemyCollider.transform;
+
+            if(enemyTransform==firstEnemy)
+            {
+                continue;
+            }
+
+            float distance = (enemyTransform.position - transform.position).sqrMagnitude;
+
+            if(distance<nearestEnemyDistance)
+            {
+                nearestEnemyDistance = distance;
+                nearestEnemy = enemyTransform;
+            }
+        }
+
+        return nearestEnemy;
+    }
+
+    private void Retarget(Transform target)
+    {
+        Vector2 nextdirection = ((Vector2)target.position - rigidbody2D.position).normalized;
+
+        Dir = nextdirection;
+
+        rigidbody2D.position += Dir * 0.2f;
+
+        rigidbody2D.linearVelocity = Dir * arrowSpeed;
+
+        angle = Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle - 90f);       
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, homingSearchRange);
+    }
+#endif
 }

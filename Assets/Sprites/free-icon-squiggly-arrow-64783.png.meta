@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      free-icon-squiggly-arrow-64783_0: -8543210512926263054
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
