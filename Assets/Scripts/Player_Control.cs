@@ -284,7 +284,7 @@ public partial class Player
         if (trigger == 3)
         {
             fireMode = FireMode.Arrow;
-            coroutine = StartCoroutine(Co_WaitIndicateAnnouncement());
+            coroutine = StartCoroutine(Co_WaitIndicateAnnouncement());            
             trigger = 0;
         }
     }

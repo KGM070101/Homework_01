@@ -349,15 +349,23 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
 
             //플레이어 화살 차징 계산
             {
-                if(isCharging)
+                if(fireMode==FireMode.Arrow)
                 {
-                    arrow_ChargeTime += Time.deltaTime;
-                    arrow_ChargeRation = Mathf.Clamp01(arrow_ChargeTime / arrow_MaxChargeTime); 
-                    
-                    if(arrow_ChargeRation<0.05f)
+                    if (isCharging)
                     {
-                        arrow_ChargeRation = 0.1f;
+                        arrow_ChargeTime += Time.deltaTime;
+                        arrow_ChargeRation = Mathf.Clamp01(arrow_ChargeTime / arrow_MaxChargeTime);
+
+                        if (arrow_ChargeRation < 0.05f)
+                        {
+                            arrow_ChargeRation = 0.1f;
+                        }
                     }
+                }
+                else
+                {
+                    arrow_ChargeTime = 0;   
+                    arrow_ChargeRation = 0;
                 }
             }
         }        
@@ -372,7 +380,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             //Debug.Log(ammo);
             //Debug.Log(requireXp);
             //Debug.Log(power);
-            //Debug.Log(arrow_ChargeRation);
+            Debug.Log(arrow_ChargeRation);
             //Debug.Log(Co_IndicateArrowBarReloading());
         }
     }
