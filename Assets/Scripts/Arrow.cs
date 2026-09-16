@@ -27,6 +27,7 @@ public class Arrow : MonoBehaviour
     private float arrowSpeed;
     private int hitCount;
     public Transform firstEnemy;
+    private Transform hittedEnemy;
 
     public Vector2 Dir;
 
@@ -50,10 +51,8 @@ public class Arrow : MonoBehaviour
 
         Dir = direction.normalized;
         arrowSpeed = speed;
-       
-        Vector2 normalizedDirection = direction.normalized;
-
-        rigidbody2D.linearVelocity = normalizedDirection * speed;
+              
+        rigidbody2D.linearVelocity = Dir * speed;
 
         angle = 
             Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
@@ -67,7 +66,7 @@ public class Arrow : MonoBehaviour
     {
         //Debug.Log("충돌");
 
-        if (!player.isInUltState)
+        if (!player.isInUltState) //플레이어 궁극기 상태일때만 발동
         {
             return;
         }
@@ -78,6 +77,7 @@ public class Arrow : MonoBehaviour
             //Debug.Log("충돌");
 
             firstEnemy = collision.transform;
+            hittedEnemy = collision.transform;
 
             hitCount++;
             
@@ -119,7 +119,12 @@ public class Arrow : MonoBehaviour
 
             Transform enemyTransform = enemyCollider.transform;
 
-            if(enemyTransform==firstEnemy)
+            if(enemyTransform==firstEnemy) //첫 충돌 적 제외대상
+            {
+                continue;
+            }
+
+            if(enemyTransform==hittedEnemy)
             {
                 continue;
             }

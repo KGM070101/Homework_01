@@ -379,5 +379,5 @@ MonoBehaviour:
   bulletBox: {fileID: 0}
   homingSearchRange: 20
   homingMaxCount: 5
-  EndPos: {fileID: 0}
+  firstEnemy: {fileID: 0}
   Dir: {x: 0, y: 0}
