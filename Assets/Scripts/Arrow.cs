@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Arrow : MonoBehaviour
@@ -27,8 +29,8 @@ public class Arrow : MonoBehaviour
     private float arrowSpeed;
     private int hitCount;
     public Transform firstEnemy;
-    private Transform hittedEnemy;
-
+    private List<Transform> hittedEnemy = new List<Transform>();
+    
     public Vector2 Dir;
 
     private void Awake()
@@ -77,8 +79,9 @@ public class Arrow : MonoBehaviour
             //Debug.Log("Ãæµ¹");
 
             firstEnemy = collision.transform;
-            hittedEnemy = collision.transform;
-
+                        
+            hittedEnemy.Add(collision.transform);
+                     
             hitCount++;
             
             if(hitCount>=homingMaxCount)
@@ -98,6 +101,7 @@ public class Arrow : MonoBehaviour
             }
 
             Retarget(nextTarget);
+            //hittedEnemy.Clear();
         }
     }
 
@@ -124,9 +128,12 @@ public class Arrow : MonoBehaviour
                 continue;
             }
 
-            if(enemyTransform==hittedEnemy)
+            foreach(Transform enemy in hittedEnemy)
             {
-                continue;
+                if(enemyTransform==enemy)
+                {
+                    continue;
+                }
             }
 
             float distance = (enemyTransform.position - transform.position).sqrMagnitude;
@@ -143,7 +150,8 @@ public class Arrow : MonoBehaviour
 
     private void Retarget(Transform target)
     {
-        Vector2 nextdirection = ((Vector2)target.position - rigidbody2D.position).normalized;
+        Vector2 nextdirection = 
+            ((Vector2)target.position - rigidbody2D.position).normalized;
 
         Dir = nextdirection;
 
