@@ -26,7 +26,7 @@ public class Arrow : MonoBehaviour
     private float angle;
     private float arrowSpeed;
     private int hitCount;
-    public Transform EndPos;
+    public Transform firstEnemy;
 
     public Vector2 Dir;
 
@@ -45,6 +45,9 @@ public class Arrow : MonoBehaviour
 
     public void Shoot(Vector2 direction,float speed)
     {
+        hitCount = 0;
+        firstEnemy = null;
+
         Dir = direction.normalized;
         arrowSpeed = speed;
        
@@ -53,7 +56,7 @@ public class Arrow : MonoBehaviour
         rigidbody2D.linearVelocity = normalizedDirection * speed;
 
         angle = 
-            Mathf.Atan2(normalizedDirection.y, normalizedDirection.x) * Mathf.Rad2Deg;
+            Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle-90);
 
@@ -62,7 +65,9 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!player.isInArrowUltState)
+        //Debug.Log("충돌");
+
+        if (!player.isInUltState)
         {
             return;
         }
@@ -70,7 +75,9 @@ public class Arrow : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy")||
             collision.gameObject.CompareTag("Enemy2"))
         {
-            EndPos = collision.transform;
+            //Debug.Log("충돌");
+
+            firstEnemy = collision.transform;
 
             hitCount++;
             
@@ -80,9 +87,9 @@ public class Arrow : MonoBehaviour
                 return;
             }
 
-            Transform nextTarget = FindNearestEnemy(EndPos);
+            Transform nextTarget = FindNearestEnemy(firstEnemy);
 
-            Debug.Log(nextTarget);
+            //Debug.Log(nextTarget);
 
             if(nextTarget==null)
             {
@@ -135,7 +142,7 @@ public class Arrow : MonoBehaviour
 
         Dir = nextdirection;
 
-        rigidbody2D.position += Dir * 0.2f;
+        //rigidbody2D.position += Dir * 0.2f;
 
         rigidbody2D.linearVelocity = Dir * arrowSpeed;
 

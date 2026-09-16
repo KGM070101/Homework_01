@@ -38,7 +38,7 @@ public partial class Player
     private bool canFire;
     public bool isDead=false;
     private bool canUlt;
-    private bool isInUltState = false;
+    public bool isInUltState = false;
     public bool isInBurstFireUltState = false;
     public bool isInShotgunUltState = false;
     public bool isInArrowUltState = false;

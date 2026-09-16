@@ -381,7 +381,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             //Debug.Log(ammo);
             //Debug.Log(requireXp);
             //Debug.Log(power);
-            Debug.Log(arrow_ChargeRation);
+            //Debug.Log(arrow_ChargeRation);
             //Debug.Log(Co_IndicateArrowBarReloading());
         }
     }
