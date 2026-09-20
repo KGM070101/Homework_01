@@ -36,9 +36,13 @@ public partial class Enemy2
                 rigidbody2D.linearVelocity = direction * speed;
                 if (distance > 25.0f)
                 {
-                    rigidbody2D.linearVelocity = direction * data[2].MoveSpeed * 3.0f;
+                    rigidbody2D.linearVelocity = direction * speed * 3.0f;
                 }
             }
+        }
+        else if(distance<6)
+        {
+            rigidbody2D.linearVelocity = -direction * speed;
         }
         else
         {

@@ -173,60 +173,38 @@ public partial class Player
 
             Image image = arrowBars[i].GetComponent<Image>();
 
-            if(i<arrows)
+            if (i < arrows)
             {
                 image.color = originalArrowBarColor;
             }
             else
-            {                               
-                image.color = invisibleArrowBarColor;                            
-            }                           
+            {
+                image.color = invisibleArrowBarColor;
+            }
         }
     }
-    
+
     private IEnumerator Co_IndicateArrowBarReloading()
     {
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+        isReloading_Arrow = true;
+        arrows = 0;
 
-        arrowBars[0].GetComponent<Image>().color = originalArrowBarColor;
+        foreach(var bar in arrowBars)
+        {
+            bar.GetComponent<Image>().color = invisibleArrowBarColor;
+        }
 
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+        float interval = data[0].ReloadTIme / arrowBars.Length;
 
-        arrowBars[1].GetComponent<Image>().color = originalArrowBarColor;
+        for(int i=0; i<arrowBars.Length; i++)
+        {
+            yield return new WaitForSeconds(interval);
 
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
+            arrowBars[i].GetComponent<Image>().color = originalArrowBarColor;
+        }
 
-        arrowBars[2].GetComponent<Image>().color = originalArrowBarColor;
-
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
-
-        arrowBars[3].GetComponent<Image>().color = originalArrowBarColor;
-
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
-
-        arrowBars[4].GetComponent<Image>().color = originalArrowBarColor;
-
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
-
-        arrowBars[5].GetComponent<Image>().color = originalArrowBarColor;
-
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
-
-        arrowBars[6].GetComponent<Image>().color = originalArrowBarColor;
-
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
-
-        arrowBars[7].GetComponent<Image>().color = originalArrowBarColor;
-
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
-
-        arrowBars[8].GetComponent<Image>().color = originalArrowBarColor;
-
-        yield return new WaitForSeconds(data[0].ReloadTIme / 10);
-
-        arrowBars[9].GetComponent<Image>().color = originalArrowBarColor;
-
-        StopAllCoroutines();
+        arrows = 10;
+        isReloading_Arrow = false;
     }
 
     private void IndicateArrowOrBullet()

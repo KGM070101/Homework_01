@@ -161,18 +161,9 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
 
             //화살 재장전 타이머
             {
-                if(arrows<=0)
+                if(arrows<=0&&!isReloading_Arrow)
                 {
-                    arrows = 0;
-                    arrowReloadTImer -= Time.deltaTime;                    
-                    isReloading_Arrow = true;
-
-                    if(arrowReloadTImer<=0)
-                    {
-                        isReloading_Arrow = false;
-                        arrows += 10;
-                        arrowReloadTImer = data[0].ReloadTIme;
-                    }
+                    StartCoroutine(Co_IndicateArrowBarReloading());
                 }
             }
 
@@ -193,17 +184,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 {
                     IndicateReloadingAmmoBar();
                 }        
-                
-                if(isReloading_Arrow)
-                {
-                    arrowReloadTrigger++;
-                    if(arrowReloadTrigger==1)
-                    {
-                        coroutine = StartCoroutine(Co_IndicateArrowBarReloading());
-                        arrowReloadTrigger = 0;                        
-                    }
-                }
-
+                               
                 if(isInUltState==true)
                 {
                     IndicateUltDuration();
@@ -383,6 +364,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             //Debug.Log(power);
             //Debug.Log(arrow_ChargeRation);
             //Debug.Log(Co_IndicateArrowBarReloading());
+            Debug.Log(isReloading_Arrow);
         }
     }
 

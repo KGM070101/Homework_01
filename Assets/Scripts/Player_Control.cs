@@ -269,6 +269,12 @@ public partial class Player
         if (!context.performed)
             return;
 
+        if (isReloading_Arrow||isReloading)
+            return;
+
+        if (isCharging)
+            return;
+
         trigger++;
 
         if(trigger==1)

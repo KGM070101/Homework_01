@@ -51,6 +51,8 @@ public class Arrow : MonoBehaviour
         hitCount = 0;
         firstEnemy = null;
 
+        hittedEnemy.Clear();
+
         Dir = direction.normalized;
         arrowSpeed = speed;
               
@@ -128,12 +130,9 @@ public class Arrow : MonoBehaviour
                 continue;
             }
 
-            foreach(Transform enemy in hittedEnemy)
+            if(hittedEnemy.Contains(enemyTransform))
             {
-                if(enemyTransform==enemy)
-                {
-                    continue;
-                }
+                continue;
             }
 
             float distance = (enemyTransform.position - transform.position).sqrMagnitude;
