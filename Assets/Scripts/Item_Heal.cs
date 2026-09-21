@@ -18,7 +18,7 @@ public class Item_Heal : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {            
             player.Heal(10);
-            poolManager.Push(poolObject);
+            poolManager.Push(poolObject,0);
         }
     }
 

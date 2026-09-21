@@ -40,9 +40,9 @@ public partial class Enemy2
                 }
             }
         }
-        else if(distance<6)
+        else if(distance<10 )
         {
-            rigidbody2D.linearVelocity = -direction * speed;
+            rigidbody2D.linearVelocity = -direction * speed*1.5f;
         }
         else
         {

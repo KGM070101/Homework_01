@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private Transform enemyBox;
 
     private List<Stack<PoolObject>> poolStack = new();
+    private Coroutine coroutine;
 
 #if UNITY_EDITOR
 
@@ -76,12 +78,32 @@ public class PoolManager : MonoBehaviour
     //    poolStack[pool.index].Push(pool);
     //}
 
-    public void Push(PoolObject pool)
+    public void Push(PoolObject pool,float durationTIme)
+    {        
+        StartCoroutine(Co_Push(pool, durationTIme));        
+    }
+
+    private IEnumerator Co_Push(PoolObject pool, float time)
     {
+        //yield return new WaitForSeconds(time);
+
+        //pool.gameObject.SetActive(false);
+
+        //poolStack[pool.index].Push(pool);        
+
+        float timer = 0;
+
+        while(timer<time)
+        {
+            yield return null;
+
+            timer += Time.deltaTime;
+
+            if (!pool.gameObject.activeInHierarchy)
+                yield break;
+        }
+
         pool.gameObject.SetActive(false);
-
-        //PoolObject poolObject = GetComponent<PoolObject>();
-
         poolStack[pool.index].Push(pool);
     }
 }

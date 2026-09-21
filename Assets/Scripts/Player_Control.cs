@@ -338,104 +338,131 @@ public partial class Player
     }
 
     private IEnumerator Co_BurstFire()
+    {        
+        SpawnBullet();
+        
+        yield return new WaitForSeconds(0.1f);
+        
+        SpawnBullet();
+       
+        yield return new WaitForSeconds(0.1f);
+        
+        SpawnBullet();    
+    }
+
+    private void SpawnBullet()
     {
-        BulletForPlayer bullet =
-            Instantiate(bulletPrefab, firepoint.position, Quaternion.identity, bulletBox);
+        PoolObject pool = poolManager.Get(3);
+
+        pool.transform.SetParent(bulletBox);
+        pool.transform.position = firepoint.position;
+        pool.transform.rotation = Quaternion.identity;
+
+        BulletForPlayer bullet = pool.GetComponent<BulletForPlayer>();
 
         bullet.Shoot(PlayerOriginalFacingDir);
-        ammo -= 1;
         WeaponBounceVer1();
-
-        yield return new WaitForSeconds(0.1f);
-
-        BulletForPlayer bullet1 =
-            Instantiate(bulletPrefab, firepoint.position, Quaternion.identity, bulletBox);
-
-        bullet1.Shoot(PlayerOriginalFacingDir);
         ammo -= 1;
-        WeaponBounceVer1();
+    }
 
-        yield return new WaitForSeconds(0.1f);
+    private void SpawnBullet_Ult()
+    {
+        PoolObject pool_0 = poolManager.Get(3);
+        PoolObject pool_1 = poolManager.Get(3);
 
-        BulletForPlayer bullet2 =
-            Instantiate(bulletPrefab, firepoint.position, Quaternion.identity, bulletBox);
+        pool_0.transform.SetParent(bulletBox);
+        pool_0.transform.position = firepoint_BurstUlt_1.position;
+        pool_0.transform.rotation = Quaternion.identity;
 
-        bullet2.Shoot(PlayerOriginalFacingDir);
-        ammo -= 1;
-        WeaponBounceVer1();
+        pool_1.transform.SetParent(bulletBox);
+        pool_1.transform.position = firepoint_BurstUlt_2.position;
+        pool_1.transform.rotation = Quaternion.identity;
+
+        BulletForPlayer bullet_0 = pool_0.GetComponent<BulletForPlayer>();
+        BulletForPlayer bullet_1 = pool_1.GetComponent<BulletForPlayer>();
+
+        bullet_0.Shoot(PlayerOriginalFacingDir);
+        bullet_1.Shoot(PlayerOriginalFacingDir);
+        WeaponBounceVer1();       
     }
 
     private IEnumerator CoBurstFire_Ult()
     {
-        BulletForPlayer bulletLeft =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
-        BulletForPlayer bulletRight =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletLeft =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletRight =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
 
-        bulletLeft.Shoot(PlayerOriginalFacingDir);
-        bulletRight.Shoot(PlayerOriginalFacingDir);
+        //bulletLeft.Shoot(PlayerOriginalFacingDir);
+        //bulletRight.Shoot(PlayerOriginalFacingDir);
 
-        WeaponBounceVer1();
-
-        yield return new WaitForSeconds(0.1f);
-
-        BulletForPlayer bulletLeft1 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
-        BulletForPlayer bulletRight1 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
-
-        bulletLeft1.Shoot(PlayerOriginalFacingDir);
-        bulletRight1.Shoot(PlayerOriginalFacingDir);
-
-        WeaponBounceVer1();
+        //WeaponBounceVer1();
+        SpawnBullet_Ult();
 
         yield return new WaitForSeconds(0.1f);
 
-        BulletForPlayer bulletLeft2 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
-        BulletForPlayer bulletRight2 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletLeft1 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletRight1 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
 
-        bulletLeft2.Shoot(PlayerOriginalFacingDir);
-        bulletRight2.Shoot(PlayerOriginalFacingDir);
+        //bulletLeft1.Shoot(PlayerOriginalFacingDir);
+        //bulletRight1.Shoot(PlayerOriginalFacingDir);
 
-        WeaponBounceVer1();
-
-        yield return new WaitForSeconds(0.1f);
-
-        BulletForPlayer bulletLeft3 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
-        BulletForPlayer bulletRight3 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
-
-        bulletLeft3.Shoot(PlayerOriginalFacingDir);
-        bulletRight3.Shoot(PlayerOriginalFacingDir);
-
-        WeaponBounceVer1();
+        //WeaponBounceVer1();
+        SpawnBullet_Ult();
 
         yield return new WaitForSeconds(0.1f);
 
-        BulletForPlayer bulletLeft4 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
-        BulletForPlayer bulletRight4 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletLeft2 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletRight2 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
 
-        bulletLeft4.Shoot(PlayerOriginalFacingDir);
-        bulletRight4.Shoot(PlayerOriginalFacingDir);
+        //bulletLeft2.Shoot(PlayerOriginalFacingDir);
+        //bulletRight2.Shoot(PlayerOriginalFacingDir);
 
-        WeaponBounceVer1();
+        //WeaponBounceVer1();
+        SpawnBullet_Ult();
 
         yield return new WaitForSeconds(0.1f);
 
-        BulletForPlayer bulletLeft5 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
-        BulletForPlayer bulletRight5 =
-            Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletLeft3 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletRight3 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
 
-        bulletLeft5.Shoot(PlayerOriginalFacingDir);
-        bulletRight5.Shoot(PlayerOriginalFacingDir);
+        //bulletLeft3.Shoot(PlayerOriginalFacingDir);
+        //bulletRight3.Shoot(PlayerOriginalFacingDir);
 
-        WeaponBounceVer1();        
+        //WeaponBounceVer1();
+        SpawnBullet_Ult();
+
+        yield return new WaitForSeconds(0.1f);
+
+        //BulletForPlayer bulletLeft4 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletRight4 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
+
+        //bulletLeft4.Shoot(PlayerOriginalFacingDir);
+        //bulletRight4.Shoot(PlayerOriginalFacingDir);
+
+        //WeaponBounceVer1();
+        SpawnBullet_Ult();
+
+        yield return new WaitForSeconds(0.1f);
+
+        //BulletForPlayer bulletLeft5 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_1.position, Quaternion.identity, bulletBox);
+        //BulletForPlayer bulletRight5 =
+        //    Instantiate(bulletPrefab, firepoint_BurstUlt_2.position, Quaternion.identity, bulletBox);
+
+        //bulletLeft5.Shoot(PlayerOriginalFacingDir);
+        //bulletRight5.Shoot(PlayerOriginalFacingDir);
+
+        //WeaponBounceVer1();
+        SpawnBullet_Ult();
     }
 
     private void Shotgun()

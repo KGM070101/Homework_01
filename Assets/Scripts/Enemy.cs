@@ -93,13 +93,13 @@ public partial class Enemy : Character
             if(player.isInBurstFireUltState==false&&
                 player.isInShotgunUltState==false)                
             {
-                Damage(player.power);
-                player.UltStack += 1;
-                Destroy(collision.gameObject);
+                //Damage(player.power);
+                //player.UltStack += 1;
+                //Destroy(collision.gameObject);
             }
             if(player.isInBurstFireUltState==true)
             {
-                Damage(player.power*1.2f);
+                //Damage(player.power*1.2f);
             }
             if(player.isInShotgunUltState==true)
             {
@@ -189,7 +189,7 @@ public partial class Enemy : Character
         
     }
 
-    private void Damage(float damage)
+    public void Damage(float damage)
     {
         hp -= damage;
         float currentHpRation = hp / maxHp;
@@ -241,7 +241,7 @@ public partial class Enemy : Character
             {
                 enemy_Spawner.enemyCount--;
             }
-            poolManager.Push(poolObject);       
+            poolManager.Push(poolObject,0);       
         }             
     }
 

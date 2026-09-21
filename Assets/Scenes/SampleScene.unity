@@ -1924,6 +1924,7 @@ MonoBehaviour:
   dashCoolTime: 2
   maxUltStack: 60
   isDead: 0
+  isInUltState: 0
   isInBurstFireUltState: 0
   isInShotgunUltState: 0
   isInArrowUltState: 0
@@ -3127,6 +3128,7 @@ MonoBehaviour:
   - {fileID: 3322767621188431570, guid: 5c7a7bd00a84b6549af691cd90e197e6, type: 3}
   - {fileID: 7264024298879669789, guid: 6bd245db948461b47b24dc2116d48915, type: 3}
   - {fileID: 9005912339899018520, guid: b09a8f0b82330664488bb73978a9393d, type: 3}
+  - {fileID: 4281833068972459755, guid: 5c85d48448554bf4aa8b8253c10d97cd, type: 3}
   enemyBox: {fileID: 2001906324}
 --- !u!4 &328881306
 Transform:

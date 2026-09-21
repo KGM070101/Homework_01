@@ -38,6 +38,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
     private Enemy2 enemy2;
     private Enemy_Spawner enemy_Spawner;
     private CameraShaking cameraShaking;
+    private PoolManager poolManager;
 
     private Vector2 OriginalWeaponSize; //무기 발사할때 애니메이션 로직에 사용
     private Vector2 OriginalWheelSize; //플레이어 이동할때 바퀴 애니메이션 로직에 사용
@@ -52,6 +53,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
 
         enemy_Spawner = FindFirstObjectByType<Enemy_Spawner>();
         cameraShaking = FindFirstObjectByType<CameraShaking>();
+        poolManager = FindAnyObjectByType<PoolManager>();
 
         action = new InputSystem_Actions();
         action.Player.Enable();
