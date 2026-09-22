@@ -9,6 +9,7 @@ public class BulletForPlayer : MonoBehaviour
 
     [SerializeField]
     public float durationTime = 3.0f;
+    public float DurationTIme => durationTime;
 
     private new Rigidbody2D rigidbody2D;
 
