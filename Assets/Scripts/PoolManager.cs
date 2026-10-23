@@ -107,22 +107,3 @@ public class PoolManager : MonoBehaviour
         poolStack[pool.index].Push(pool);
     }
 }
-
-
-
-//public interface IPoolable
-//{
-//    void SetIndex(int index);
-//    void Init();
-//}
-
-//public abstract class PoolObject : MonoBehaviour, IPoolable
-//{
-//    public int index;
-//    public virtual void SetIndex(int index)
-//    {
-//        this.index = index;
-//    }       
-
-//    public abstract void Init();
-//}
