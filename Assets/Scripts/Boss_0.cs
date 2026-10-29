@@ -3,17 +3,28 @@ using UnityEngine;
 public class Boss_0 : Character
 {
     private Player player;
-
+    private Boss0_FSM fsm;
+   
     private float hp;
+    public float Hp => hp;
+
     private float speed;
+    public float Speed => speed;
+
     private float power;
+    public float Power => power;
+
     private float stopDistance;
+    public float StopDistance => stopDistance;
+
+    public Rigidbody2D Rigidbody2D => rigidbody2D;
 
     protected override void Awake()
     {
         base.Awake();
 
         player = FindFirstObjectByType<Player>();
+        fsm = new Boss0_FSM(player, this);        
 
         hp = data[1].MaxHp;
         speed = data[1].MoveSpeed;
@@ -24,6 +35,18 @@ public class Boss_0 : Character
             (LayerMask.NameToLayer("Boss_0"), LayerMask.NameToLayer("Enemy"), true);           
         Physics2D.IgnoreLayerCollision
             (LayerMask.NameToLayer("Boss_0"), LayerMask.NameToLayer("Enemy2"), true);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        fsm.Tick(Time.deltaTime);
     }
 
     protected override void OnCollisionEnter2D(Collision2D collision)
@@ -38,36 +61,6 @@ public class Boss_0 : Character
 
     protected override void FixedUpdate()
     {
-        base.FixedUpdate();
-
-        TracePlayer();
-    }
-
-    private void TracePlayer()
-    {           
-        Vector2 direction =
-            (player.transform.position - transform.position).normalized;
-
-        float distance =
-            (Vector2.Distance(player.transform.position, transform.position));
-
-        float angle =
-            Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        rigidbody2D.SetRotation(angle);
-        
-        if (distance > stopDistance)
-        {
-            rigidbody2D.linearVelocity = direction * speed;
-
-            if (distance > 25.0f)
-            {
-                rigidbody2D.linearVelocity = direction * speed * 3.0f;
-            }            
-        }
-        else
-        {
-            rigidbody2D.linearVelocity = Vector2.zero;            
-        }
-    }
+        base.FixedUpdate();        
+    }    
 }

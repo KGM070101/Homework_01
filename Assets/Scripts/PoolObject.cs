@@ -8,7 +8,7 @@ public class PoolObject : MonoBehaviour
         this.index = index;
     }
 
-    public void Init()
+    public virtual void Init()
     {
         Enemy enemy = GetComponent<Enemy>();
         Enemy2 enemy2 = GetComponent<Enemy2>();

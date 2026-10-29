@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class BulletForPlayer : MonoBehaviour
+public class BulletForPlayer : PoolObject
 {
     [SerializeField]
     private float speed = 12.0f;
@@ -31,6 +31,11 @@ public class BulletForPlayer : MonoBehaviour
         player = FindAnyObjectByType<Player>();
         //enemy = FindAnyObjectByType<Enemy>();
         //enemy2 = FindAnyObjectByType<Enemy2>();
+    }
+
+    public override void Init()
+    {
+        
     }
 
     public void Shoot(Vector2 direction)

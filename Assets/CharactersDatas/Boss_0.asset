@@ -17,5 +17,5 @@ MonoBehaviour:
   dashSpeed: 20
   power: 10
   attackSpeed: 5
-  stopDistance: 15
+  stopDistance: 3
   reloadTime: 3

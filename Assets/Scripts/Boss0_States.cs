@@ -3,6 +3,17 @@ using UnityEngine;
 
 public abstract class Boss0_States 
 {
+    protected Player player;
+    protected Boss_0 boss;
+    protected Boss0_FSM fsm;
+
+    public Boss0_States(Player player,Boss_0 boss, Boss0_FSM fsm)
+    {
+        this.player = player;
+        this.boss = boss;
+        this.fsm = fsm;
+    }
+
     public virtual void Enter()
     {
 
@@ -13,7 +24,7 @@ public abstract class Boss0_States
 
     }
 
-    public virtual void Tick()
+    public virtual void Tick(float deltaTime)
     {
 
     }
