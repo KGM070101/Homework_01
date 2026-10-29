@@ -2,7 +2,10 @@ using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Boss0_Normal : Boss0_States
-{   
+{
+    private bool canUsePattern;
+    public bool CanusePattern => canUsePattern;
+
     public Boss0_Normal(Player player, Boss_0 boss, Boss0_FSM fsm) : base(player, boss, fsm)
     {
 
@@ -22,29 +25,34 @@ public class Boss0_Normal : Boss0_States
     {
         base.Enter();
 
-        Vector2 direction =
+        //Tracing Player
+        {
+            Vector2 direction =
             (player.transform.position - boss.transform.position).normalized;
 
-        float distance =
-            (Vector2.Distance(player.transform.position, boss.transform.position));
+            float distance =
+                (Vector2.Distance(player.transform.position, boss.transform.position));
 
-        float angle =
-            Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float angle =
+                Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        boss.Rigidbody2D.SetRotation(angle);
+            boss.Rigidbody2D.SetRotation(angle);
 
-        if (distance > boss.StopDistance)
-        {
-            boss.Rigidbody2D.linearVelocity = direction * boss.Speed;
+            if (distance > boss.StopDistance)
+            {                
+                boss.Rigidbody2D.linearVelocity = direction * boss.Speed;
 
-            if (distance > 25.0f)
+                if (distance > 25.0f)
+                {
+                    boss.Rigidbody2D.linearVelocity = direction * boss.Speed * 3.0f;
+                }
+            }
+            else
             {
-                boss.Rigidbody2D.linearVelocity = direction * boss.Speed * 3.0f;
+                boss.Rigidbody2D.linearVelocity = Vector2.zero;
+                canUsePattern = true;
             }
         }
-        else
-        {
-            boss.Rigidbody2D.linearVelocity = Vector2.zero;
-        }
+       
     }
 }
