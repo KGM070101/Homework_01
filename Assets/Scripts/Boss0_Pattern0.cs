@@ -19,20 +19,22 @@ public class Boss0_Pattern0 : Boss0_States
     private float spinSpeed = 1440.0f;
 
     private float timer;
-    private Vector2 dashDirection;
+    private Vector2 dashDirection;       
 
-    public Boss0_Pattern0(Player player, Boss_0 boss, Boss0_FSM fsm, Boss0_Normal normalState) : base(player, boss, fsm, normalState)
+    public Boss0_Pattern0(Boss_0 boss, Boss0_FSM fsm) : base(boss, fsm)
     {
-
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        phase = Phase.Aim;
+        phase = Phase.Aim;                
         timer = 0.0f;
         spinAngle = 0.0f;
+        
+        boss.DashReady(aimDuration);
+        
         boss.Rigidbody2D.linearVelocity = Vector2.zero;
     }
 
@@ -65,7 +67,9 @@ public class Boss0_Pattern0 : Boss0_States
 
     private void Tick_Aim()
     {
-        Vector2 dir = (player.transform.position - boss.transform.position).normalized;
+        boss.OnDashRange(timer, aimDuration);
+
+        Vector2 dir = (boss.Player.transform.position - boss.transform.position).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         boss.Rigidbody2D.SetRotation(angle);
 
@@ -79,6 +83,8 @@ public class Boss0_Pattern0 : Boss0_States
 
     private void Tick_Dash()
     {
+        boss.CancelDashRange();
+
         boss.Rigidbody2D.linearVelocity = dashDirection * boss.Speed * 6f;
 
         spinAngle += spinSpeed * Time.deltaTime;
@@ -95,6 +101,10 @@ public class Boss0_Pattern0 : Boss0_States
 
     private void Tick_End()
     {
+        Vector2 dir = (boss.Player.transform.position - boss.transform.position).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        boss.Rigidbody2D.SetRotation(angle);
+
         if(timer>=endDelay)
         {
             fsm.ChangeState(StateEnum.normal);

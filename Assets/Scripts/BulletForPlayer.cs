@@ -51,7 +51,7 @@ public class BulletForPlayer : PoolObject
         //Destroy(gameObject, durationTime);
         if(hitted==false)
         {
-            poolManager.Push(poolObject, durationTime);
+            poolManager.PushDelay(poolObject, durationTime);
         }        
     }
 
@@ -65,7 +65,7 @@ public class BulletForPlayer : PoolObject
                 Enemy enemy = collision.GetComponentInParent<Enemy>();
                 enemy.Damage(player.power);
                 player.UltStack += 1;
-                poolManager.Push(poolObject, 0);
+                poolManager.PushNow(poolObject);
             }
             else
             {
@@ -82,7 +82,7 @@ public class BulletForPlayer : PoolObject
                 Enemy2 enemy2 = collision.GetComponentInParent<Enemy2>();
                 enemy2.Damage(player.power);
                 player.UltStack += 1;
-                poolManager.Push(poolObject, 0);
+                poolManager.PushNow(poolObject);
             }
             else
             {
@@ -97,15 +97,15 @@ public class BulletForPlayer : PoolObject
             {
                 hitted = true;
                 Boss_0 boss = collision.gameObject.GetComponentInParent<Boss_0>();
-                boss.Damge(player.power);
+                boss.Damage(player.power);
                 player.UltStack += 1;
-                poolManager.Push(poolObject, 0);
+                poolManager.PushNow(poolObject);
             }
             else
             {
                 hitted = true;
                 Boss_0 boss = collision.gameObject.GetComponentInParent<Boss_0>();
-                boss.Damge(player.power*1.2f);
+                boss.Damage(player.power*1.2f);
             }
         }
     }

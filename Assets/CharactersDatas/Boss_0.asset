@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aac94d6f7d89b140b9d5d5409ee3e50, type: 3}
   m_Name: Boss_0
   m_EditorClassIdentifier: 
-  maxHp: 700
+  maxHp: 1000
   moveSpeed: 4
   dashSpeed: 20
   power: 10
   attackSpeed: 5
-  stopDistance: 10
+  stopDistance: 15
   reloadTime: 3

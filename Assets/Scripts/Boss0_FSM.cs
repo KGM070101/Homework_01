@@ -18,11 +18,11 @@ public class Boss0_FSM
 
     private Dictionary<StateEnum, Boss0_States> states = new();
 
-    public Boss0_FSM(Player player,Boss_0 boss,Boss0_Normal normalState)
+    public Boss0_FSM(Boss_0 boss)
     {
-        normal = new Boss0_Normal(player,boss,this,normalState);
-        pattern0 = new Boss0_Pattern0(player, boss, this, normalState);
-        pattern1 = new Boss0_Pattern1(player, boss, this, normalState);
+        normal = new Boss0_Normal(boss,this);
+        pattern0 = new Boss0_Pattern0(boss, this);
+        pattern1 = new Boss0_Pattern1(boss, this);
 
         states.Add(StateEnum.normal, normal);
         states.Add(StateEnum.pattern0, pattern0);

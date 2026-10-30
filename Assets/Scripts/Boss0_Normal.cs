@@ -10,15 +10,15 @@ public class Boss0_Normal : Boss0_States
 
     private bool canUsePattern;
     public bool CanUsePattern => canUsePattern;
+
     
     private Vector2 direction;
     public Vector2 Direction => direction;
 
     private float angle;
-    public float Angle => angle;
+    public float Angle => angle;    
 
-    
-    public Boss0_Normal(Player player, Boss_0 boss, Boss0_FSM fsm, Boss0_Normal normalState) : base(player, boss, fsm, normalState)
+    public Boss0_Normal(Boss_0 boss, Boss0_FSM fsm) : base(boss, fsm)
     {
     }
 
@@ -39,10 +39,10 @@ public class Boss0_Normal : Boss0_States
         //Tracing Player
         {
             direction =
-            (player.transform.position - boss.transform.position).normalized;
+            (boss.Player.transform.position - boss.transform.position).normalized;
 
             float distance =
-                (Vector2.Distance(player.transform.position, boss.transform.position));
+                (Vector2.Distance(boss.Player.transform.position, boss.transform.position));
 
             angle =
                 Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -80,7 +80,6 @@ public class Boss0_Normal : Boss0_States
                     }
                 }
             }
-        }
-       
+        }       
     }
 }

@@ -68,17 +68,18 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("Ãæµ¹");
+        //Debug.Log("ï¿½æµ¹");
 
-        if (!player.isInUltState) //ÇÃ·¹ÀÌ¾î ±Ã±Ø±â »óÅÂÀÏ¶§¸¸ ¹ßµ¿
+        if (!player.isInUltState) //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ã±Ø±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ßµï¿½
         {
             return;
         }
 
         if (collision.gameObject.CompareTag("Enemy")||
-            collision.gameObject.CompareTag("Enemy2"))
+            collision.gameObject.CompareTag("Enemy2")||
+            collision.gameObject.CompareTag("Boss0"))
         {
-            //Debug.Log("Ãæµ¹");
+            //Debug.Log("ï¿½æµ¹");
 
             firstEnemy = collision.transform;
                         
@@ -118,14 +119,15 @@ public class Arrow : MonoBehaviour
         foreach(Collider2D enemyCollider in enemyColliders)
         {
             if(!enemyCollider.CompareTag("Enemy")&&
-                !enemyCollider.CompareTag("Enemy2"))
+                !enemyCollider.CompareTag("Enemy2")&&
+                !enemyCollider.CompareTag("Boss0"))
             {
                 continue;
             }
 
             Transform enemyTransform = enemyCollider.transform;
 
-            if(enemyTransform==firstEnemy) //Ã¹ Ãæµ¹ Àû Á¦¿Ü´ë»ó
+            if(enemyTransform==firstEnemy) //Ã¹ ï¿½æµ¹ ï¿½ï¿½ ï¿½ï¿½ï¿½Ü´ï¿½ï¿½
             {
                 continue;
             }
