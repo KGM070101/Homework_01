@@ -12,6 +12,7 @@ TagManager:
   - Arrow
   - Enemy
   - Enemy2
+  - Boss0
   layers:
   - Default
   - TransparentFX

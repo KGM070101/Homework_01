@@ -2,11 +2,19 @@ using UnityEngine;
 
 public class Boss_0 : Character
 {
+    [SerializeField]
+    private GameObject bulletPrefab;
+    public GameObject BulletPrefab => bulletPrefab;
+
     private Player player;
     private Boss0_FSM fsm;
+    private Boss0_Normal normalState;
+    private EnemyHpBarRotation enemyHpBar;
    
     private float hp;
     public float Hp => hp;
+
+    private float maxHp;
 
     private float speed;
     public float Speed => speed;
@@ -23,10 +31,12 @@ public class Boss_0 : Character
     {
         base.Awake();
 
-        player = FindFirstObjectByType<Player>();
-        fsm = new Boss0_FSM(player, this);        
+        player = FindFirstObjectByType<Player>();        
+        fsm = new Boss0_FSM(player, this,normalState);
+        enemyHpBar = GetComponentInChildren<EnemyHpBarRotation>();
 
         hp = data[1].MaxHp;
+        maxHp = data[1].MaxHp;
         speed = data[1].MoveSpeed;
         power = data[1].Power;
         stopDistance = data[1].StopDistance;
@@ -47,6 +57,11 @@ public class Boss_0 : Character
         base.Update();
 
         fsm.Tick(Time.deltaTime);
+
+        //Debug
+        {
+            Debug.Log(fsm.currentState);
+        }
     }
 
     protected override void OnCollisionEnter2D(Collision2D collision)
@@ -63,4 +78,12 @@ public class Boss_0 : Character
     {
         base.FixedUpdate();        
     }    
+
+    public void Damge(float damage)
+    {
+        hp -= damage;
+        float currentHpRation = hp / maxHp;
+
+        enemyHpBar.SetCurrentHp(currentHpRation);
+    }
 }

@@ -74,7 +74,7 @@ public class BulletForPlayer : PoolObject
                 enemy.Damage(player.power * 1.2f);
             }
         }
-        if (collision.gameObject.CompareTag("Enemy2"))
+        else if (collision.gameObject.CompareTag("Enemy2"))
         {
             if (player.isInBurstFireUltState == false)
             {
@@ -89,6 +89,23 @@ public class BulletForPlayer : PoolObject
                 hitted = true;
                 Enemy2 enemy2 = collision.GetComponentInParent<Enemy2>();
                 enemy2.Damage(player.power * 1.2f);
+            }
+        }
+        else if(collision.gameObject.gameObject.CompareTag("Boss0"))
+        {
+            if(player.isInBurstFireUltState==false)
+            {
+                hitted = true;
+                Boss_0 boss = collision.gameObject.GetComponentInParent<Boss_0>();
+                boss.Damge(player.power);
+                player.UltStack += 1;
+                poolManager.Push(poolObject, 0);
+            }
+            else
+            {
+                hitted = true;
+                Boss_0 boss = collision.gameObject.GetComponentInParent<Boss_0>();
+                boss.Damge(player.power*1.2f);
             }
         }
     }
