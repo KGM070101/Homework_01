@@ -354,8 +354,7 @@ public partial class Player
 
         BulletForPlayer bullet = pool.GetComponent<BulletForPlayer>();
 
-        bullet.Shoot(PlayerOriginalFacingDir);    
-        bullet.Init();
+        bullet.Shoot(PlayerOriginalFacingDir);            
         
         switch(fireMode)
         {
