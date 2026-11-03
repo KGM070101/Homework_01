@@ -22,7 +22,7 @@ public class Boss0_Pattern1 : Boss0_States
     private float fireInterval = 0.4f;
     private int bulletCount = 5;
     private float spawnRadius = 1.0f;
-
+    
     //Phase.End
     private float endDelay = 1.0f;
 
@@ -36,6 +36,7 @@ public class Boss0_Pattern1 : Boss0_States
         
     public Boss0_Pattern1(Boss_0 boss, Boss0_FSM fsm) : base(boss, fsm)
     {
+
     }
 
     public override void Enter()
@@ -47,7 +48,8 @@ public class Boss0_Pattern1 : Boss0_States
         fireTImer = 0.0f;
         totalSpin = 0.0f;
 
-        dashDirection = (boss.Player.transform.position - boss.transform.position).normalized;
+        dashDirection = 
+            (boss.Player.transform.position - boss.transform.position).normalized;
         spinAngle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg;
         boss.Rigidbody2D.SetRotation(spinAngle);
 

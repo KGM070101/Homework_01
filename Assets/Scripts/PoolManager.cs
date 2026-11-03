@@ -93,14 +93,7 @@ public class PoolManager : MonoBehaviour
         pool.Init();
 
         return pool;        
-    }
-
-    //public void Push(PoolObject pool)
-    //{
-    //    pool.gameObject.SetActive(false);
-
-    //    poolStack[pool.index].Push(pool);
-    //}
+    }    
 
     public void PushNow(PoolObject pool)
     {
@@ -120,6 +113,13 @@ public class PoolManager : MonoBehaviour
             delayed.Add(pool);
         }
     }
+
+    //public void Push(PoolObject pool)
+    //{
+    //    pool.gameObject.SetActive(false);
+
+    //    poolStack[pool.index].Push(pool);
+    //}
 
     //public void Push(PoolObject pool,float durationTIme)
     //{        

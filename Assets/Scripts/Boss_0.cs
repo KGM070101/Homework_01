@@ -138,7 +138,7 @@ public class Boss_0 : Character
         Destroy(gameObject);
     }
 
-    public void DashReady(float duration)
+    public void ShakeBody(float duration)
     {
         sprite.DOKill();
         sprite.transform.DOShakePosition(duration, 0.1f, 50, 180, snapping: false, fadeOut: false);

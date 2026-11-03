@@ -33,7 +33,7 @@ public class Boss0_Pattern0 : Boss0_States
         timer = 0.0f;
         spinAngle = 0.0f;
         
-        boss.DashReady(aimDuration);
+        boss.ShakeBody(aimDuration);
         
         boss.Rigidbody2D.linearVelocity = Vector2.zero;
     }
