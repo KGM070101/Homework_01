@@ -17,7 +17,6 @@ public class BulletForPlayer : PoolObject
     private PoolObject poolObject;
     private Player player;
 
-    private bool hitted = false;
     //private Enemy enemy;
     //private Enemy2 enemy2;
 
@@ -44,15 +43,13 @@ public class BulletForPlayer : PoolObject
 
         rigidbody2D.linearVelocity = normalizedDirection * speed;
 
-        angle = Mathf.Atan2(normalizedDirection.y, normalizedDirection.x) * Mathf.Rad2Deg;
+        angle = Mathf.Atan2
+            (normalizedDirection.y, normalizedDirection.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle+90);
 
-        //Destroy(gameObject, durationTime);
-        if(hitted==false)
-        {
-            poolManager.PushDelay(poolObject, durationTime);
-        }        
+        //Destroy(gameObject, durationTime);                
+            poolManager.PushDelay(poolObject, durationTime);               
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -61,7 +58,6 @@ public class BulletForPlayer : PoolObject
         {
             if(player.isInBurstFireUltState==false)
             {
-                hitted = true;
                 Enemy enemy = collision.GetComponentInParent<Enemy>();
                 enemy.Damage(player.power);
                 player.UltStack += 1;
@@ -69,7 +65,6 @@ public class BulletForPlayer : PoolObject
             }
             else
             {
-                hitted = true;
                 Enemy enemy = collision.GetComponentInParent<Enemy>();                
                 enemy.Damage(player.power * 1.2f);
             }
@@ -78,7 +73,6 @@ public class BulletForPlayer : PoolObject
         {
             if (player.isInBurstFireUltState == false)
             {
-                hitted = true;
                 Enemy2 enemy2 = collision.GetComponentInParent<Enemy2>();
                 enemy2.Damage(player.power);
                 player.UltStack += 1;
@@ -86,7 +80,6 @@ public class BulletForPlayer : PoolObject
             }
             else
             {
-                hitted = true;
                 Enemy2 enemy2 = collision.GetComponentInParent<Enemy2>();
                 enemy2.Damage(player.power * 1.2f);
             }
@@ -95,7 +88,6 @@ public class BulletForPlayer : PoolObject
         {
             if(player.isInBurstFireUltState==false)
             {
-                hitted = true;
                 Boss_0 boss = collision.gameObject.GetComponentInParent<Boss_0>();
                 boss.Damage(player.power);
                 player.UltStack += 1;
@@ -103,7 +95,6 @@ public class BulletForPlayer : PoolObject
             }
             else
             {
-                hitted = true;
                 Boss_0 boss = collision.gameObject.GetComponentInParent<Boss_0>();
                 boss.Damage(player.power*1.2f);
             }

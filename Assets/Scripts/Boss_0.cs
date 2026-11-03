@@ -19,7 +19,8 @@ public class Boss_0 : Character
 
     private Boss0_FSM fsm;
     private Boss0_Normal normalState;
-    private EnemyHpBarRotation enemyHpBar;  
+    private EnemyHpBarRotation enemyHpBar;
+    private Sequence sequence;
    
     private float hp;
     public float Hp => hp;
@@ -37,6 +38,8 @@ public class Boss_0 : Character
 
     public Rigidbody2D Rigidbody2D => rigidbody2D;
 
+    private Vector2 originalScale;
+
     protected override void Awake()
     {
         base.Awake();
@@ -51,6 +54,7 @@ public class Boss_0 : Character
         speed = data[1].MoveSpeed;
         power = data[1].Power;
         stopDistance = data[1].StopDistance;
+        originalScale = sprite.transform.localScale;
 
         Physics2D.IgnoreLayerCollision
             (LayerMask.NameToLayer("Boss_0"), LayerMask.NameToLayer("Enemy"), true);           
@@ -139,7 +143,7 @@ public class Boss_0 : Character
         sprite.DOKill();
         sprite.transform.DOShakePosition(duration, 0.1f, 50, 180, snapping: false, fadeOut: false);
     }
-
+   
     public void OnDashRange(float timer,float duration)
     {
         dashRange.fillAmount = timer / duration;

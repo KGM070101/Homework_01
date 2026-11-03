@@ -109,12 +109,7 @@ public class PoolManager : MonoBehaviour
 
         pool.gameObject.SetActive(false);
         poolStack[pool.index].Push(pool);
-    }
-
-    public void Push(PoolObject pool,float durationTIme)
-    {        
-        StartCoroutine(Co_Push(pool, durationTIme));        
-    }
+    }    
 
     public void PushDelay(PoolObject pool,float delayTime)
     {
@@ -124,36 +119,35 @@ public class PoolManager : MonoBehaviour
         {
             delayed.Add(pool);
         }
-      
-
-
-
-        
     }
 
+    //public void Push(PoolObject pool,float durationTIme)
+    //{        
+    //    StartCoroutine(Co_Push(pool, durationTIme));        
+    //}
 
 
-    private IEnumerator Co_Push(PoolObject pool, float time)
-    {
-        //yield return new WaitForSeconds(time);
+    //private IEnumerator Co_Push(PoolObject pool, float time)
+    //{
+    //    //yield return new WaitForSeconds(time);
 
-        //pool.gameObject.SetActive(false);
+    //    //pool.gameObject.SetActive(false);
 
-        //poolStack[pool.index].Push(pool);        
+    //    //poolStack[pool.index].Push(pool);        
 
-        float timer = 0;
+    //    float timer = 0;
 
-        while(timer<time)
-        {
-            yield return null;
+    //    while(timer<time)
+    //    {
+    //        yield return null;
 
-            timer += Time.deltaTime;
+    //        timer += Time.deltaTime;
 
-            if (!pool.gameObject.activeInHierarchy)
-                yield break;
-        }
+    //        if (!pool.gameObject.activeInHierarchy)
+    //            yield break;
+    //    }
 
-        pool.gameObject.SetActive(false);
-        poolStack[pool.index].Push(pool);
-    }
+    //    pool.gameObject.SetActive(false);
+    //    poolStack[pool.index].Push(pool);
+    //}
 }

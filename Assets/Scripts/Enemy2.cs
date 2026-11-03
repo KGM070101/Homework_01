@@ -42,6 +42,7 @@ public partial class Enemy2 : Character
     private float maxHp;
 
     private bool isKnockbacking = false;
+    private bool isDying;
 
     private DOTween doTween;
 
@@ -125,8 +126,15 @@ public partial class Enemy2 : Character
 
                     coroutine = StartCoroutine(Co_Knockback());
 
-                    Destroy(collision.gameObject);
-
+                    PoolObject bullet = collision.GetComponent<PoolObject>();
+                    if (bullet != null)
+                    {
+                        poolManager.PushNow(bullet);
+                    }
+                    else
+                    {
+                        Destroy(collision.gameObject);
+                    }
                 }
 
             }
@@ -156,17 +164,7 @@ public partial class Enemy2 : Character
     protected override void Update()
     {
         base.Update();
-
-        if (gameObject)
-        {
-            coroutine = StartCoroutine(Co_Dead());
-        }
-        else
-        {
-            return;
-        }
-
-
+        
         if (hp <= 0)
         {
             originalPos = transform.position;
@@ -198,10 +196,19 @@ public partial class Enemy2 : Character
 
     public void Damage(float damage)
     {
+        if (isDying)
+            return;
+
         hp -= damage;
         float currentHpRation = hp / maxHp;
 
         enemyHpBar.SetCurrentHp(currentHpRation);
+
+        if(hp<=0)
+        {
+            StartCoroutine(Co_Dead());
+            return;
+        }
 
         coroutine = StartCoroutine(Co_DamageColor());
     }
@@ -225,32 +232,30 @@ public partial class Enemy2 : Character
 
     private IEnumerator Co_Dead()
     {
-        if (hp <= 0)
+        isDying = true;        
+        
+        hp = 0;
+
+        spriteRenderer.DOFade(0f, 0.5f);
+        enemy2_Weapon.spriteRenderer.DOFade(0f, 0.5f);
+        boxCollider2D.enabled = false;
+
+        yield return new WaitForSeconds(0.5f);
+
+        spriteRenderer.DOKill();
+        enemy2_Weapon.spriteRenderer.DOKill();
+        GiveXp();
+        deadTrigger++;
+        if(deadTrigger==1)
         {
-            hp = 0;
-
-
-            spriteRenderer.DOFade(0f, 0.5f);
-            enemy2_Weapon.spriteRenderer.DOFade(0f, 0.5f);
-            boxCollider2D.enabled = false;
-
-
-            yield return new WaitForSeconds(0.5f);
-
-            spriteRenderer.DOKill();
-            enemy2_Weapon.spriteRenderer.DOKill();
-            GiveXp();
-            deadTrigger++;
-            if(deadTrigger==1)
-            {
-                enemy_Spawner.enemyCount--;
-            }            
-            poolManager.Push(poolObject,0);
-        }
+            enemy_Spawner.enemyCount--;
+        }            
+        poolManager.PushNow(poolObject);        
     }
 
     public void ResetEnemy()
     {
+        isDying = false;
         maxHp = data[2].MaxHp;
         hp = maxHp;
 

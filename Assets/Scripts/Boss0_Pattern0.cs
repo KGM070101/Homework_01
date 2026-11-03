@@ -84,7 +84,6 @@ public class Boss0_Pattern0 : Boss0_States
     private void Tick_Dash()
     {
         boss.CancelDashRange();
-
         boss.Rigidbody2D.linearVelocity = dashDirection * boss.Speed * 6f;
 
         spinAngle += spinSpeed * Time.deltaTime;
