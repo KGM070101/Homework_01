@@ -105,7 +105,7 @@ public class BulletForPlayer : PoolObject
         poolManager.PushDelay(poolObject, durationTime);
     }
 
-    public void Shoot(Vector2 direction)
+    public void Shoot(Vector2 direction, float lifeTime = -1.0f)
     {
         Vector2 normalizedDirection = direction.normalized;
 
@@ -116,7 +116,8 @@ public class BulletForPlayer : PoolObject
 
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle+90);
 
-        //Destroy(gameObject, durationTime);                
-            poolManager.PushDelay(poolObject, durationTime);               
+        //Destroy(gameObject, durationTime);
+        float life = lifeTime > 0.0f ? lifeTime : durationTime;
+        poolManager.PushDelay(poolObject, life);               
     }    
 }

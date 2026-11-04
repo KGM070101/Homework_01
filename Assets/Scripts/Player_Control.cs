@@ -354,18 +354,8 @@ public partial class Player
 
         BulletForPlayer bullet = pool.GetComponent<BulletForPlayer>();
 
-        bullet.Shoot(PlayerOriginalFacingDir);            
+        bullet.Shoot(PlayerOriginalFacingDir);
         
-        switch(fireMode)
-        {
-            case FireMode.Burst:
-                bullet.durationTime = bullet.DurationTIme;
-                break;
-
-            case FireMode.Shotgun:
-                bullet.durationTime = (bullet.DurationTIme / 6.0f);
-                break;
-        }
         WeaponBounceVer1();
         ammo -= 1;
     }
@@ -418,7 +408,7 @@ public partial class Player
 
     private void Shotgun()
     {
-        //스크립트 제어
+        //총알 부채꼴각 / 탄수 스크립트 제어
         {
             shotgunSpreadAngle = 60.0f;
             shotgunBulletCount = 9;
@@ -448,18 +438,15 @@ public partial class Player
                 bulletBox
             );
             WeaponBounceVer2();
-
-            bullet.durationTime = 0.5f;
-            bullet.Shoot(bulletDirection);
-        }
-
-        //cameraShaking.ShakeCamera(0.1f, 0.1f);
+            
+            bullet.Shoot(bulletDirection,0.5f);
+        }        
         ammo -= 9;
     }
 
     private void Shotgun_Ult()
     {
-        //스크립트 제어
+        //총알 부채꼴각 / 탄수 스크립트 제어
         {
             shotgunSpreadAngle = 60.0f;
             shotgunBulletCount = 18;
@@ -489,27 +476,16 @@ public partial class Player
                 bulletBox
             );
             WeaponBounceVer2();
-
-            bullet.durationTime = 0.5f;
-            bullet.Shoot(bulletDirection);
+            
+            bullet.Shoot(bulletDirection,0.5f);
         }
-
         ammo -= 18;
     }
 
     private void Arrow_Shoot()
     {
         Arrow arrow =
-            Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);
-
-        //if(isInUltState)
-        //{
-        //    arrow.transform.localScale = arrow.transform.localScale * 3 * arrow_ChargeRation;
-        //    if (arrow.transform.localScale.x <= 1.0f)
-        //    {
-        //        arrow.transform.localScale = new Vector2(1.0f, 1.0f);
-        //    }
-        //}        
+            Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);        
 
         arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation);
 
