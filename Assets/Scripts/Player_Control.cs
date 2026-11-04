@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -346,18 +347,22 @@ public partial class Player
 
     private void SpawnBullet()
     {
+        FireBullet();
+        WeaponBounceVer1();
+        ammo -= 1;
+    }
+
+    private void FireBullet(Vector2? direction = null, float lifeTime = -1.0f)
+    {
+        Vector2 dir = direction ?? PlayerOriginalFacingDir;
+
         PoolObject pool = poolManager.Get(3);
 
         pool.transform.SetParent(bulletBox);
         pool.transform.position = firepoint.position;
         pool.transform.rotation = Quaternion.identity;
 
-        BulletForPlayer bullet = pool.GetComponent<BulletForPlayer>();
-
-        bullet.Shoot(PlayerOriginalFacingDir);
-        
-        WeaponBounceVer1();
-        ammo -= 1;
+        pool.GetComponent<BulletForPlayer>().Shoot(dir, lifeTime);
     }
     
     private IEnumerator CoBurstFire_Ult()
@@ -431,15 +436,8 @@ public partial class Player
                     Vector3.forward
                 ) * baseDirection;
 
-            BulletForPlayer bullet = Instantiate(
-                bulletPrefab,
-                firepoint.position,
-                Quaternion.identity,
-                bulletBox
-            );
-            WeaponBounceVer2();
-            
-            bullet.Shoot(bulletDirection,0.5f);
+            FireBullet(bulletDirection,0.5f);
+            WeaponBounceVer2();            
         }        
         ammo -= 9;
     }
@@ -469,15 +467,8 @@ public partial class Player
                     Vector3.forward
                 ) * baseDirection;
 
-            BulletForPlayer bullet = Instantiate(
-                bulletPrefab,
-                firepoint.position,
-                Quaternion.identity,
-                bulletBox
-            );
-            WeaponBounceVer2();
-            
-            bullet.Shoot(bulletDirection,0.5f);
+            FireBullet(bulletDirection,0.5f);
+            WeaponBounceVer2();            
         }
         ammo -= 18;
     }
