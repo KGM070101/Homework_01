@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BulletForBoss0 : MonoBehaviour
+public class BulletForBoss0 : PoolObject
 {
     [SerializeField]
     private float speed = 5.0f;
@@ -10,6 +10,8 @@ public class BulletForBoss0 : MonoBehaviour
 
     private new Rigidbody2D rigidbody2D;
     private Boss_0 boss;
+    private PoolManager poolManager;
+    private PoolObject poolObject;
 
     private float angle;
 
@@ -17,6 +19,8 @@ public class BulletForBoss0 : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         boss = FindFirstObjectByType<Boss_0>();
+        poolObject = GetComponent<PoolObject>();
+        poolManager = FindAnyObjectByType<PoolManager>();
     }
 
     public void Shoot(Vector2 direction)
@@ -43,7 +47,7 @@ public class BulletForBoss0 : MonoBehaviour
                 player.TakeDamage(boss.Power);
             }
 
-            Destroy(gameObject);
+            Destroy(gameObject);           
         }
     }
 }

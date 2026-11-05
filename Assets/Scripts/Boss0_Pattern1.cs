@@ -99,6 +99,28 @@ public class Boss0_Pattern1 : Boss0_States
         }
     }
 
+    private void GetBullet()
+    {
+        float step = 360.0f / bulletCount;
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            float angle = spinAngle + step * i;
+            float radian = angle * Mathf.Deg2Rad;
+
+            Vector2 dir = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));
+            Vector2 spawnPos = (Vector2)boss.transform.position + dir * spawnRadius;
+
+            PoolObject pool = poolManager.Get(4);
+
+            pool.transform.SetParent(boss.bulletBox);
+            pool.transform.position = spawnPos;
+            pool.transform.rotation = Quaternion.identity;
+
+            pool.GetComponent<BulletForBoss0>()?.Shoot(dir);
+        }
+    }
+
     private void Tick_Shoot(float deltaTIme)
     {
         float delta = spinSpeed * deltaTIme;
@@ -111,7 +133,8 @@ public class Boss0_Pattern1 : Boss0_States
         if(fireTImer>=fireInterval)
         {
             fireTImer = 0.0f;
-            Fire();
+            //Fire();
+            GetBullet();
         }
 
         if(totalSpin>=spinCycleCount*360f)

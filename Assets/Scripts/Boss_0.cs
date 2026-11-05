@@ -12,6 +12,9 @@ public class Boss_0 : Character
 
     [SerializeField]
     private Image dashRange;
+
+    [SerializeField]
+    public Transform bulletBox;
     public GameObject BulletPrefab => bulletPrefab;
 
     private Player player;

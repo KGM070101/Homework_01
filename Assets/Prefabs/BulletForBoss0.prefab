@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3387517839235590747}
   - component: {fileID: 2930905982667805013}
   - component: {fileID: 889909883733668472}
+  - component: {fileID: -3735644237673734818}
   m_Layer: 0
   m_Name: BulletForBoss0
   m_TagString: Untagged
@@ -167,3 +168,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   durationTime: 10
+--- !u!114 &-3735644237673734818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6900711837329325564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31acbcb8a048f94286709bb1c04d664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 4
+  PushTime: 0
