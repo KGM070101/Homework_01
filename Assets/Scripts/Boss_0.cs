@@ -103,19 +103,19 @@ public class Boss_0 : Character,IDamageable
 
             player.Heal(1f);
         }
-        else if(collision.gameObject.CompareTag("Arrow"))
-        {
-            if(!player.isInArrowUltState)
-            {
-                Damage(player.power*10*player.arrow_ChargeRation);
-                player.UltStack+=(10*player.arrow_ChargeRation);
-                Destroy(collision.gameObject);
-            }
-            else
-            {
-                Damage((player.power*10*player.arrow_ChargeRation)*1.2f);
-            }
-        }
+        //else if(collision.gameObject.CompareTag("Arrow"))
+        //{
+        //    if(!player.isInArrowUltState)
+        //    {
+        //        Damage(player.power*10*player.arrow_ChargeRation);
+        //        player.UltStack+=(10*player.arrow_ChargeRation);
+        //        Destroy(collision.gameObject);
+        //    }
+        //    else
+        //    {
+        //        Damage((player.power*10*player.arrow_ChargeRation)*1.2f);
+        //    }
+        //}
     }
 
     protected override void FixedUpdate()

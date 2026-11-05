@@ -31,7 +31,7 @@ public class Arrow : PoolObject
     private float arrowSpeed;
     private float damage;
     private float ultGain;
-    private bool isinUlt;
+    private bool isUltArrow;
     private int hitCount;
     public Transform firstEnemy;
     private List<Transform> hittedEnemy = new List<Transform>();
@@ -77,7 +77,7 @@ public class Arrow : PoolObject
 
         damage = player.power * 10 * chargeRatio;
         ultGain = 10 * chargeRatio;
-        isinUlt = player.isInUltState;
+        isUltArrow = player.isInUltState == true ? true : false;
 
         poolManager.PushDelay(poolObject, durationTime);
     }
@@ -90,47 +90,73 @@ public class Arrow : PoolObject
         if (target is null)
             return;
 
+        Transform root = ((Component)target).transform;
+        if (hittedEnemy.Contains(root))
+            return;
 
+        hittedEnemy.Add(root);
 
-        if (!player.isInUltState) //�÷��̾� �ñر� �����϶��� �ߵ�
+        if(!isUltArrow)
         {
+            target.Damage(damage);
+            player.UltStack += ultGain;
+            poolManager.PushNow(poolObject);
             return;
         }
 
-        if (collision.gameObject.CompareTag("Enemy")||
-            collision.gameObject.CompareTag("Enemy2")||
-            collision.gameObject.CompareTag("Boss0"))
+        target.Damage(damage * 1.2f);
+        hitCount++;
+        
+        Transform nextTarget = 
+            hitCount >= homingMaxCount ? null : FindNearestEnemy();
+
+        if (nextTarget is null)
         {
-            //Debug.Log("�浹");
-
-            firstEnemy = collision.transform;
-                        
-            hittedEnemy.Add(collision.transform);
-                     
-            hitCount++;
-            
-            if(hitCount>=homingMaxCount)
-            {
-                poolManager.PushNow(poolObject);
-                return;
-            }
-
-            Transform nextTarget = FindNearestEnemy(firstEnemy);
-
-            //Debug.Log(nextTarget);
-
-            if(nextTarget==null)
-            {
-                poolManager.PushNow(poolObject);
-                return;
-            }
-
-            Retarget(nextTarget);
-            //hittedEnemy.Clear();
+            poolManager.PushNow(poolObject);
+            return;
         }
+
+        Retarget(nextTarget);
+
+        //if (!player.isInUltState) //�÷��̾� �ñر� �����϶��� �ߵ�
+        //{
+        //    return;
+        //}
+
+        //if (collision.gameObject.CompareTag("Enemy")||
+        //    collision.gameObject.CompareTag("Enemy2")||
+        //    collision.gameObject.CompareTag("Boss0"))
+        //{
+        //    Debug.Log("�浹");
+
+        //    firstEnemy = collision.transform;
+                        
+        //    hittedEnemy.Add(collision.transform);
+                     
+        //    hitCount++;
+            
+        //    if(hitCount>=homingMaxCount)
+        //    {
+        //        poolManager.PushNow(poolObject);
+        //        return;
+        //    }
+
+        //    Transform nextTarget = FindNearestEnemy(firstEnemy);
+
+        //    Debug.Log(nextTarget);
+
+        //    if(nextTarget==null)
+        //    {
+        //        poolManager.PushNow(poolObject);
+        //        return;
+        //    }
+
+        //    Retarget(nextTarget);
+        //    hittedEnemy.Clear();
+        //}
     }
 
-    private Transform FindNearestEnemy(Transform firstEnemy)
+    private Transform FindNearestEnemy()
     {
         Collider2D[] enemyColliders = 
             Physics2D.OverlapCircleAll(transform.position, homingSearchRange);
@@ -149,10 +175,10 @@ public class Arrow : PoolObject
 
             Transform enemyTransform = enemyCollider.transform;
 
-            if(enemyTransform==firstEnemy) //ù �浹 �� ���ܴ��
-            {
-                continue;
-            }
+            //if(enemyTransform==firstEnemy) //ù �浹 �� ���ܴ��
+            //{
+            //    continue;
+            //}
 
             if(hittedEnemy.Contains(enemyTransform))
             {

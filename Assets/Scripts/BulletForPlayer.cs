@@ -50,8 +50,14 @@ public class BulletForPlayer : PoolObject
             target.Damage(player.power * 1.2f);
             return;
         }
+        else if(player.isInShotgunUltState)
+        {
+            target.Damage(player.power * 1.2f);
+            player.Heal(1);
+            return;
+        }
 
-        hitted = true;
+            hitted = true;
         target.Damage(player.power);
         player.UltStack += 1;
         poolManager.PushNow(poolObject);        

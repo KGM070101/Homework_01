@@ -105,8 +105,8 @@ public partial class Enemy : Character,IDamageable
                 Vector2 direction =
                 (transform.position - player.transform.position).normalized;
 
-                Damage(player.power * 1.2f);
-                player.Heal(1f);
+                //Damage(player.power * 1.2f);
+                //player.Heal(1f);
 
                 knockbackDuration = 0.2f;
                 isKnockbacking = true;
@@ -128,20 +128,20 @@ public partial class Enemy : Character,IDamageable
                 }
             }            
         }
-        else if(collision.gameObject.CompareTag("Arrow"))
-        {
-            if(player.isInArrowUltState==false)
-            {
-                Damage(player.power * 10 * player.arrow_ChargeRation);
-                player.UltStack += (10*player.arrow_ChargeRation);
-                Destroy(collision.gameObject);
-            }
-            if(player.isInArrowUltState==true)
-            {
-                Damage((player.power * 10 * player.arrow_ChargeRation)*1.2f);
-                //Destroy(collision.gameObject);
-            }
-        }
+        //else if(collision.gameObject.CompareTag("Arrow"))
+        //{
+        //    if(player.isInArrowUltState==false)
+        //    {
+        //        Damage(player.power * 10 * player.arrow_ChargeRation);
+        //        player.UltStack += (10*player.arrow_ChargeRation);
+        //        Destroy(collision.gameObject);
+        //    }
+        //    if(player.isInArrowUltState==true)
+        //    {
+        //        Damage((player.power * 10 * player.arrow_ChargeRation)*1.2f);
+        //        //Destroy(collision.gameObject);
+        //    }
+        //}
     }
 
     private IEnumerator Co_Knockback()
