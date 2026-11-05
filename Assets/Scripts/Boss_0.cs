@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Boss_0 : Character
+public class Boss_0 : Character,IDamageable
 {
     [SerializeField]
     private GameObject bulletPrefab;
@@ -121,20 +121,20 @@ public class Boss_0 : Character
     protected override void FixedUpdate()
     {
         base.FixedUpdate();        
-    }    
+    }
 
     public void Damage(float damage)
     {
         hp -= damage;
         float currentHpRation = hp / maxHp;
 
-        if (hp<=0)
+        if (hp <= 0)
         {
             Die();
         }
 
         enemyHpBar.SetCurrentHp(currentHpRation);
-    }
+    }    
 
     private void Die()
     {
@@ -156,4 +156,6 @@ public class Boss_0 : Character
     {
         dashRange.fillAmount = 0.0f;
     }
+
+    
 }

@@ -36,66 +36,25 @@ public class BulletForPlayer : PoolObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (hitted)
+            return;
+
+        IDamageable target = 
+            collision.GetComponentInParent<IDamageable>();
+        
+        if (target is null)
+            return;
+
+        if(player.isInBurstFireUltState)
         {
-            if (hitted)
-                return;
-
-            hitted = true;
-
-            if (player.isInBurstFireUltState == false)
-            {
-                Enemy enemy = collision.GetComponentInParent<Enemy>();
-                enemy.Damage(player.power);
-                player.UltStack += 1;
-                poolManager.PushNow(poolObject);
-            }
-            else
-            {
-                Enemy enemy = collision.GetComponentInParent<Enemy>();
-                enemy.Damage(player.power * 1.2f);
-            }
+            target.Damage(player.power * 1.2f);
+            return;
         }
-        else if (collision.gameObject.CompareTag("Enemy2"))
-        {
-            if (hitted)
-                return;
 
-            hitted = true;
-
-            if (player.isInBurstFireUltState == false)
-            {
-                Enemy2 enemy2 = collision.GetComponentInParent<Enemy2>();
-                enemy2.Damage(player.power);
-                player.UltStack += 1;
-                poolManager.PushNow(poolObject);
-            }
-            else
-            {
-                Enemy2 enemy2 = collision.GetComponentInParent<Enemy2>();
-                enemy2.Damage(player.power * 1.2f);
-            }
-        }
-        else if (collision.gameObject.gameObject.CompareTag("Boss0"))
-        {
-            if (hitted)
-                return;
-
-            hitted = true;
-
-            if (player.isInBurstFireUltState == false)
-            {
-                Boss_0 boss = collision.gameObject.GetComponentInParent<Boss_0>();
-                boss.Damage(player.power);
-                player.UltStack += 1;
-                poolManager.PushNow(poolObject);
-            }
-            else
-            {
-                Boss_0 boss = collision.gameObject.GetComponentInParent<Boss_0>();
-                boss.Damage(player.power * 1.2f);
-            }
-        }        
+        hitted = true;
+        target.Damage(player.power);
+        player.UltStack += 1;
+        poolManager.PushNow(poolObject);        
     }
 
     public override void Init()

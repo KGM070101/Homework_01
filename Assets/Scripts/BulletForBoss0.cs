@@ -6,7 +6,7 @@ public class BulletForBoss0 : PoolObject
     private float speed = 5.0f;
 
     [SerializeField]
-    private float durationTime = 10.0f;
+    private float durationTime = 2.5f;
 
     private new Rigidbody2D rigidbody2D;
     private Boss_0 boss;
@@ -14,6 +14,8 @@ public class BulletForBoss0 : PoolObject
     private PoolObject poolObject;
 
     private float angle;
+
+    private bool hitted = false;
 
     private void Awake()
     {
@@ -23,7 +25,14 @@ public class BulletForBoss0 : PoolObject
         poolManager = FindAnyObjectByType<PoolManager>();
     }
 
-    public void Shoot(Vector2 direction)
+    public override void Init()
+    {
+        hitted = false;
+        rigidbody2D.linearVelocity = Vector2.zero;
+        poolManager.PushDelay(poolObject, durationTime);
+    }
+
+    public void Shoot(Vector2 direction,float lifeTime= -1.0f)
     {
         Vector2 normalizedDirection = direction.normalized;
 
@@ -33,13 +42,18 @@ public class BulletForBoss0 : PoolObject
 
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
 
-        Destroy(gameObject, durationTime);
+        float life = lifeTime > 0.0f ? lifeTime : durationTime;
+
+        poolManager.PushDelay(poolObject, life);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
         {
+            if (hitted)
+                return;            
+
             Player player = collision.GetComponentInParent<Player>();
 
             if(player!=null)
@@ -47,7 +61,8 @@ public class BulletForBoss0 : PoolObject
                 player.TakeDamage(boss.Power);
             }
 
-            Destroy(gameObject);           
+            hitted = true;
+            poolManager.PushNow(poolObject);           
         }
     }
 }

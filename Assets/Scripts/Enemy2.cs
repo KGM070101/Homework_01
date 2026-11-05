@@ -2,7 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public partial class Enemy2 : Character
+public partial class Enemy2 : Character,IDamageable
 {
     [Header("- Enemy2")]
     [SerializeField]
@@ -204,7 +204,7 @@ public partial class Enemy2 : Character
 
         enemyHpBar.SetCurrentHp(currentHpRation);
 
-        if(hp<=0)
+        if (hp <= 0)
         {
             StartCoroutine(Co_Dead());
             return;
@@ -212,7 +212,7 @@ public partial class Enemy2 : Character
 
         coroutine = StartCoroutine(Co_DamageColor());
     }
-
+    
     private IEnumerator Co_DamageColor()
     {
         spriteRenderer.color = damageColor;
@@ -276,4 +276,6 @@ public partial class Enemy2 : Character
         WeaponColor.a = 1f;
         enemy2_Weapon.spriteRenderer.color = WeaponColor;       
     }
+
+    
 }

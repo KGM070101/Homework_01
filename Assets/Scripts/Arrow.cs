@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour
+public class Arrow : PoolObject
 {
     [SerializeField]
     private float durationTime = 3.0f;
@@ -24,9 +24,14 @@ public class Arrow : MonoBehaviour
     private Enemy enemy;
     private Enemy2 enemy2;
     private Player player;
+    private PoolManager poolManager;
+    private PoolObject poolObject;
 
     private float angle;
     private float arrowSpeed;
+    private float damage;
+    private float ultGain;
+    private bool isinUlt;
     private int hitCount;
     public Transform firstEnemy;
     private List<Transform> hittedEnemy = new List<Transform>();
@@ -39,6 +44,8 @@ public class Arrow : MonoBehaviour
         enemy = FindAnyObjectByType<Enemy>(FindObjectsInactive.Include);
         enemy2 = FindAnyObjectByType<Enemy2>(FindObjectsInactive.Include);
         player = FindAnyObjectByType<Player>();
+        poolObject = GetComponent<PoolObject>();
+        poolManager = FindAnyObjectByType<PoolManager>();
     }
 
     private void Update()
@@ -46,7 +53,12 @@ public class Arrow : MonoBehaviour
         //Debug.Log()
     }
 
-    public void Shoot(Vector2 direction,float speed)
+    public override void Init()
+    {
+        
+    }
+
+    public void Shoot(Vector2 direction,float speed,float chargeRatio)
     {
         hitCount = 0;
         firstEnemy = null;
@@ -63,12 +75,22 @@ public class Arrow : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle-90);
 
-        Destroy(gameObject, durationTime);
+        damage = player.power * 10 * chargeRatio;
+        ultGain = 10 * chargeRatio;
+        isinUlt = player.isInUltState;
+
+        poolManager.PushDelay(poolObject, durationTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("�浹");
+        IDamageable target =
+            collision.GetComponentInParent<IDamageable>();
+
+        if (target is null)
+            return;
+
+
 
         if (!player.isInUltState) //�÷��̾� �ñر� �����϶��� �ߵ�
         {
@@ -89,7 +111,7 @@ public class Arrow : MonoBehaviour
             
             if(hitCount>=homingMaxCount)
             {
-                Destroy(gameObject);
+                poolManager.PushNow(poolObject);
                 return;
             }
 
@@ -99,7 +121,7 @@ public class Arrow : MonoBehaviour
 
             if(nextTarget==null)
             {
-                Destroy(gameObject);
+                poolManager.PushNow(poolObject);
                 return;
             }
 

@@ -340,10 +340,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                         arrow_ChargeTime += Time.deltaTime;
                         arrow_ChargeRation = Mathf.Clamp01(arrow_ChargeTime / arrow_MaxChargeTime);
 
-                        if (arrow_ChargeRation < 0.05f)
-                        {
-                            arrow_ChargeRation = 0.1f;
-                        }
+                        arrow_ChargeRation = Mathf.Max(arrow_ChargeRation, 0.1f);
                     }
                 }
                 else

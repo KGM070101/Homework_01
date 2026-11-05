@@ -477,7 +477,7 @@ public partial class Player
         Arrow arrow =
             Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);        
 
-        arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation);
+        arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation,arrow_ChargeRation);
 
         arrows--;
     }
@@ -487,6 +487,6 @@ public partial class Player
         Arrow arrow =
             Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);
 
-        arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation);
+        arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation,arrow_ChargeRation);
     }
 }
