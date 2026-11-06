@@ -7,6 +7,9 @@ public class PoolManager : MonoBehaviour
 {
     [SerializeField] private PoolObject[] poolables;
     [SerializeField] private Transform enemyBox;
+    [SerializeField] 
+    private Transform bulletBox;
+    public Transform BulletBox => bulletBox;
 
     private List<Stack<PoolObject>> poolStack = new();
     private readonly List<PoolObject> delayed = new();

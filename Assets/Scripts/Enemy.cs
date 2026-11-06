@@ -2,7 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public partial class Enemy : Character,IDamageable
+public partial class Enemy : Character, IDamageable, IKnockbackable
 {
     [Header("- Enemy")]
     [SerializeField]
@@ -27,6 +27,7 @@ public partial class Enemy : Character,IDamageable
     private Vector2 originalLeftArmPos;
     private Vector2 originalRightArmPos;
     private Vector2 randomXpAmount = new Vector2(1.0f, 2.0f);
+    private Vector2 knockbackVelocity;
 
     private Color damageColor = new Color(0.7f, 0.3f, 0.3f);
     private Color originalColor;
@@ -44,6 +45,9 @@ public partial class Enemy : Character,IDamageable
     private DOTween doTween;
 
     private Coroutine coroutine;
+
+    public bool IsKnockbacking => isKnockbacking;
+
     protected override void Awake()
     {
         base.Awake();
@@ -60,11 +64,7 @@ public partial class Enemy : Character,IDamageable
         enemyHpBar = GetComponentInChildren<EnemyHpBarRotation>();
 
         Physics2D.IgnoreLayerCollision
-            (LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"),true);
-        //Physics2D.IgnoreLayerCollision
-        //    (LayerMask.NameToLayer("Enemy2"), LayerMask.NameToLayer("Enemy"),true);        
-        Physics2D.IgnoreLayerCollision
-            (LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("RedLine"),true);        
+            (LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"),true);                    
     }
 
     protected override void Start()
@@ -78,6 +78,36 @@ public partial class Enemy : Character,IDamageable
             enemy_LeftArm.spriteRenderer.color;
     }
 
+    public override void Init()
+    {
+        isDying = false;
+        isKnockbacking = false;
+        maxHp = data[1].MaxHp;
+        hp = maxHp;
+
+        enemyHpBar.SetCurrentHp(1);
+
+        deadTrigger = 0;
+
+        boxCollider2D.enabled = true;
+
+        spriteRenderer.DOKill();
+        enemy_LeftArm.spriteRenderer.DOKill();
+        enemy_RightArm.spriteRenderer.DOKill();
+
+        Color color = spriteRenderer.color;
+        color.a = 1f;
+        spriteRenderer.color = color;
+
+        Color leftColor = enemy_LeftArm.spriteRenderer.color;
+        leftColor.a = 1f;
+        enemy_LeftArm.spriteRenderer.color = leftColor;
+
+        Color rightColor = enemy_RightArm.spriteRenderer.color;
+        rightColor.a = 1f;
+        enemy_RightArm.spriteRenderer.color = rightColor;
+    }
+
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);       
@@ -85,63 +115,7 @@ public partial class Enemy : Character,IDamageable
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        base.OnTriggerEnter2D(collision);
-
-        if (collision.gameObject.CompareTag("BulletForPlayer"))
-        {
-            if(player.isInBurstFireUltState==false&&
-                player.isInShotgunUltState==false)                
-            {
-                //Damage(player.power);
-                //player.UltStack += 1;
-                //Destroy(collision.gameObject);
-            }
-            if(player.isInBurstFireUltState==true)
-            {
-                //Damage(player.power*1.2f);
-            }
-            if(player.isInShotgunUltState==true)
-            {
-                Vector2 direction =
-                (transform.position - player.transform.position).normalized;
-
-                //Damage(player.power * 1.2f);
-                //player.Heal(1f);
-
-                knockbackDuration = 0.2f;
-                isKnockbacking = true;
-
-                rigidbody2D.linearVelocity = Vector2.zero;
-
-                rigidbody2D.AddForce(direction * 10.0f, ForceMode2D.Impulse);
-
-                coroutine = StartCoroutine(Co_Knockback());
-
-                PoolObject bullet = collision.GetComponent<PoolObject>();
-                if (bullet!=null)
-                {
-                    poolManager.PushNow(bullet);
-                }
-                else
-                {
-                    Destroy(collision.gameObject);
-                }
-            }            
-        }
-        //else if(collision.gameObject.CompareTag("Arrow"))
-        //{
-        //    if(player.isInArrowUltState==false)
-        //    {
-        //        Damage(player.power * 10 * player.arrow_ChargeRation);
-        //        player.UltStack += (10*player.arrow_ChargeRation);
-        //        Destroy(collision.gameObject);
-        //    }
-        //    if(player.isInArrowUltState==true)
-        //    {
-        //        Damage((player.power * 10 * player.arrow_ChargeRation)*1.2f);
-        //        //Destroy(collision.gameObject);
-        //    }
-        //}
+        base.OnTriggerEnter2D(collision);       
     }
 
     private IEnumerator Co_Knockback()
@@ -249,34 +223,15 @@ public partial class Enemy : Character,IDamageable
         poolManager.PushNow(poolObject);                            
     }
 
-    public void ResetEnemy()
+    public void Knockback(Vector2 direction, float duration, float force)
     {
-        isDying = false;
-        maxHp = data[1].MaxHp;
-        hp = maxHp;
+        if (isDying)
+            return;
 
-        enemyHpBar.SetCurrentHp(1);
+        isKnockbacking = true;
 
-        deadTrigger = 0;
+        knockbackDuration = duration;
 
-        boxCollider2D.enabled = true;
-
-        spriteRenderer.DOKill();
-        enemy_LeftArm.spriteRenderer.DOKill();
-        enemy_RightArm.spriteRenderer.DOKill();
-
-        Color color = spriteRenderer.color;
-        color.a = 1f;
-        spriteRenderer.color = color;
-
-        Color leftColor = enemy_LeftArm.spriteRenderer.color;
-        leftColor.a = 1f;
-        enemy_LeftArm.spriteRenderer.color = leftColor;
-
-        Color rightColor = enemy_RightArm.spriteRenderer.color;
-        rightColor.a = 1f;
-        enemy_RightArm.spriteRenderer.color = rightColor;        
+        rigidbody2D.linearVelocity = direction.normalized * force;
     }
-
-    
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Character : MonoBehaviour
+public class Character : PoolObject
 {
     [Header("- 캐릭터 데이터들")]
     [SerializeField]   

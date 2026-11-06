@@ -52,6 +52,17 @@ public partial class Enemy2
         }
     }
 
+    private void GetBullet()
+    {
+        PoolObject pool = poolManager.Get(6);
+
+        pool.transform.SetParent(poolManager.BulletBox);
+        pool.transform.position = firePoint.position;
+        pool.transform.rotation = Quaternion.identity;
+
+        pool.GetComponent<BulletForEnemy2>()?.Shoot(facingDir, power);
+    }
+
     private void TryAttack()
     {
         if (Time.time < EnemyTimer)
@@ -61,12 +72,8 @@ public partial class Enemy2
 
         EnemyTimer = Time.time + data[2].AttackSpeed;
 
-        BulletForEnemy2 bullet =
-            Instantiate(bulletPrefab, firePoint.position, Quaternion.identity, bulletBox);
-        bullet.Shoot(facingDir);
+        GetBullet();
 
-        WeaponBounce();
-            
-        //player.TakeDamage(power);        
+        WeaponBounce();                          
     }
 }

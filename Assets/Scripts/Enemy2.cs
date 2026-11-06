@@ -2,7 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public partial class Enemy2 : Character,IDamageable
+public partial class Enemy2 : Character,IDamageable,IKnockbackable
 {
     [Header("- Enemy2")]
     [SerializeField]
@@ -15,10 +15,7 @@ public partial class Enemy2 : Character,IDamageable
     private Transform firePoint;
 
     [SerializeField]
-    private BulletForEnemy2 bulletPrefab;
-
-    [SerializeField]
-    private Transform bulletBox;
+    private BulletForEnemy2 bulletPrefab;   
     
     private Player player;
     private Enemy_Spawner enemy_Spawner;
@@ -47,6 +44,8 @@ public partial class Enemy2 : Character,IDamageable
     private DOTween doTween;
 
     private Coroutine coroutine;
+
+    public bool IsKnockbacking => isKnockbacking;
 
     protected override void Awake()
     {
@@ -83,75 +82,38 @@ public partial class Enemy2 : Character,IDamageable
         originalWeaponColor = enemy2_Weapon.spriteRenderer.color;
     }
 
+    public override void Init()
+    {
+        isDying = false;
+        isKnockbacking = false;
+        maxHp = data[2].MaxHp;
+        hp = maxHp;
+
+        enemyHpBar.SetCurrentHp(1);
+
+        deadTrigger = 0;
+
+        boxCollider2D.enabled = true;
+
+        spriteRenderer.DOKill();
+        enemy2_Weapon.spriteRenderer.DOKill();
+
+        Color color = spriteRenderer.color;
+        color.a = 1f;
+        spriteRenderer.color = color;
+
+        Color WeaponColor = enemy2_Weapon.spriteRenderer.color;
+        WeaponColor.a = 1f;
+        enemy2_Weapon.spriteRenderer.color = WeaponColor;
+    }
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
-
-
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        base.OnTriggerEnter2D(collision);
-
-        if (collision.gameObject.CompareTag("BulletForPlayer"))
-        {
-            if (collision.gameObject.CompareTag("BulletForPlayer"))
-            {
-                if (player.isInBurstFireUltState == false &&
-                    player.isInShotgunUltState == false)
-                {
-                    //Damage(player.power);
-                    //player.UltStack += 1;
-                    //Destroy(collision.gameObject);
-                }
-                if (player.isInBurstFireUltState == true)
-                {
-                    //Damage(player.power * 1.2f);
-                }
-                if (player.isInShotgunUltState == true)
-                {
-                    Vector2 direction =
-                    (transform.position - player.transform.position).normalized;
-
-                    //Damage(player.power * 1.2f);
-                    //player.Heal(1f);
-
-                    knockbackDuration = 0.2f;
-                    isKnockbacking = true;
-
-                    rigidbody2D.linearVelocity = Vector2.zero;
-
-                    rigidbody2D.AddForce(direction * 10.0f, ForceMode2D.Impulse);
-
-                    coroutine = StartCoroutine(Co_Knockback());
-
-                    PoolObject bullet = collision.GetComponent<PoolObject>();
-                    if (bullet != null)
-                    {
-                        poolManager.PushNow(bullet);
-                    }
-                    else
-                    {
-                        Destroy(collision.gameObject);
-                    }
-                }
-
-            }
-        }
-        //else if (collision.gameObject.CompareTag("Arrow"))
-        //{
-        //    if (player.isInArrowUltState == false)
-        //    {
-        //        Damage(player.power * 10 * player.arrow_ChargeRation);
-        //        player.UltStack += (10 * player.arrow_ChargeRation);
-        //        Destroy(collision.gameObject);
-        //    }
-        //    if (player.isInArrowUltState == true)
-        //    {
-        //        Damage((player.power * 10 * player.arrow_ChargeRation) * 1.2f);                
-        //    }
-        //}
+        base.OnTriggerEnter2D(collision);      
     }
 
     private IEnumerator Co_Knockback()
@@ -253,29 +215,15 @@ public partial class Enemy2 : Character,IDamageable
         poolManager.PushNow(poolObject);        
     }
 
-    public void ResetEnemy()
+    public void Knockback(Vector2 direction, float duration, float force)
     {
-        isDying = false;
-        maxHp = data[2].MaxHp;
-        hp = maxHp;
+        if (isDying)
+            return;
 
-        enemyHpBar.SetCurrentHp(1);
+        isKnockbacking = true;
 
-        deadTrigger = 0;
+        knockbackDuration = duration;
 
-        boxCollider2D.enabled = true;
-
-        spriteRenderer.DOKill();
-        enemy2_Weapon.spriteRenderer.DOKill();
-
-        Color color = spriteRenderer.color;
-        color.a = 1f;
-        spriteRenderer.color = color;
-
-        Color WeaponColor = enemy2_Weapon.spriteRenderer.color;
-        WeaponColor.a = 1f;
-        enemy2_Weapon.spriteRenderer.color = WeaponColor;       
+        rigidbody2D.linearVelocity = direction.normalized * force;
     }
-
-    
 }

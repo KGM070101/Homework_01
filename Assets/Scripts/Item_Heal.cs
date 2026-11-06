@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Item_Heal : MonoBehaviour
+public class Item_Heal : PoolObject
 {
     private PoolManager poolManager;
     private PoolObject poolObject;
@@ -13,6 +13,11 @@ public class Item_Heal : MonoBehaviour
         poolObject = GetComponent<PoolObject>();
     }
 
+    public override void Init()
+    {
+        
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
@@ -20,10 +25,5 @@ public class Item_Heal : MonoBehaviour
             player.Heal(10);
             poolManager.PushNow(poolObject);
         }
-    }
-
-    public void Reset_Item_Heal()
-    {
-
-    }
+    }    
 }

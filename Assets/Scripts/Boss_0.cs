@@ -20,10 +20,8 @@ public class Boss_0 : Character,IDamageable
     private Player player;
     public Player Player => player;
 
-    private Boss0_FSM fsm;
-    private Boss0_Normal normalState;
-    private EnemyHpBarRotation enemyHpBar;
-    private Sequence sequence;
+    private Boss0_FSM fsm;    
+    private EnemyHpBarRotation enemyHpBar;    
    
     private float hp;
     public float Hp => hp;
@@ -40,9 +38,7 @@ public class Boss_0 : Character,IDamageable
     public float StopDistance => stopDistance;
 
     public Rigidbody2D Rigidbody2D => rigidbody2D;
-
-    private Vector2 originalScale;
-
+   
     protected override void Awake()
     {
         base.Awake();
@@ -56,8 +52,7 @@ public class Boss_0 : Character,IDamageable
         maxHp = data[1].MaxHp;
         speed = data[1].MoveSpeed;
         power = data[1].Power;
-        stopDistance = data[1].StopDistance;
-        originalScale = sprite.transform.localScale;
+        stopDistance = data[1].StopDistance;        
 
         Physics2D.IgnoreLayerCollision
             (LayerMask.NameToLayer("Boss_0"), LayerMask.NameToLayer("Enemy"), true);           
@@ -94,28 +89,7 @@ public class Boss_0 : Character,IDamageable
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        base.OnTriggerEnter2D(collision);
-
-        if(collision.gameObject.CompareTag("BulletForPlayer"))
-        {
-            if(!player.isInShotgunUltState)
-            return;
-
-            player.Heal(1f);
-        }
-        //else if(collision.gameObject.CompareTag("Arrow"))
-        //{
-        //    if(!player.isInArrowUltState)
-        //    {
-        //        Damage(player.power*10*player.arrow_ChargeRation);
-        //        player.UltStack+=(10*player.arrow_ChargeRation);
-        //        Destroy(collision.gameObject);
-        //    }
-        //    else
-        //    {
-        //        Damage((player.power*10*player.arrow_ChargeRation)*1.2f);
-        //    }
-        //}
+        base.OnTriggerEnter2D(collision);        
     }
 
     protected override void FixedUpdate()

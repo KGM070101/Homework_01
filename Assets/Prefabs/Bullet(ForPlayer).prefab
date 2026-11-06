@@ -168,7 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  speed: 25
+  PushTime: 0
+  speed: 35
   durationTime: 3
 --- !u!114 &4281833068972459755
 MonoBehaviour:
@@ -183,3 +184,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 3
+  PushTime: 0

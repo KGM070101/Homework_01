@@ -9,18 +9,17 @@ public class BulletForBoss0 : PoolObject
     private float durationTime = 2.5f;
 
     private new Rigidbody2D rigidbody2D;
-    private Boss_0 boss;
     private PoolManager poolManager;
     private PoolObject poolObject;
 
     private float angle;
+    private float damage;
 
     private bool hitted = false;
 
     private void Awake()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
-        boss = FindFirstObjectByType<Boss_0>();
+        rigidbody2D = GetComponent<Rigidbody2D>();        
         poolObject = GetComponent<PoolObject>();
         poolManager = FindAnyObjectByType<PoolManager>();
     }
@@ -32,19 +31,19 @@ public class BulletForBoss0 : PoolObject
         poolManager.PushDelay(poolObject, durationTime);
     }
 
-    public void Shoot(Vector2 direction,float lifeTime= -1.0f)
+    public void Shoot(Vector2 direction,float damage)
     {
+        this.damage = damage;
+
         Vector2 normalizedDirection = direction.normalized;
 
         rigidbody2D.linearVelocity = normalizedDirection * speed;
 
         angle = Mathf.Atan2(normalizedDirection.y, normalizedDirection.x) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);        
 
-        float life = lifeTime > 0.0f ? lifeTime : durationTime;
-
-        poolManager.PushDelay(poolObject, life);
+        poolManager.PushDelay(poolObject, durationTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -58,7 +57,7 @@ public class BulletForBoss0 : PoolObject
 
             if(player!=null)
             {
-                player.TakeDamage(boss.Power);
+                player.TakeDamage(damage);
             }
 
             hitted = true;

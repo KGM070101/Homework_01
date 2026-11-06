@@ -21,8 +21,6 @@ public class Arrow : PoolObject
     private float homingMaxCount = 5.0f;
 
     private new Rigidbody2D rigidbody2D;
-    private Enemy enemy;
-    private Enemy2 enemy2;
     private Player player;
     private PoolManager poolManager;
     private PoolObject poolObject;
@@ -41,8 +39,6 @@ public class Arrow : PoolObject
     private void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
-        enemy = FindAnyObjectByType<Enemy>(FindObjectsInactive.Include);
-        enemy2 = FindAnyObjectByType<Enemy2>(FindObjectsInactive.Include);
         player = FindAnyObjectByType<Player>();
         poolObject = GetComponent<PoolObject>();
         poolManager = FindAnyObjectByType<PoolManager>();
@@ -55,7 +51,8 @@ public class Arrow : PoolObject
 
     public override void Init()
     {
-        
+        rigidbody2D.linearVelocity = Vector2.zero;
+        poolManager.PushDelay(poolObject, durationTime);
     }
 
     public void Shoot(Vector2 direction,float speed,float chargeRatio)
@@ -116,44 +113,7 @@ public class Arrow : PoolObject
             return;
         }
 
-        Retarget(nextTarget);
-
-        //if (!player.isInUltState) //�÷��̾� �ñر� �����϶��� �ߵ�
-        //{
-        //    return;
-        //}
-
-        //if (collision.gameObject.CompareTag("Enemy")||
-        //    collision.gameObject.CompareTag("Enemy2")||
-        //    collision.gameObject.CompareTag("Boss0"))
-        //{
-        //    Debug.Log("�浹");
-
-        //    firstEnemy = collision.transform;
-                        
-        //    hittedEnemy.Add(collision.transform);
-                     
-        //    hitCount++;
-            
-        //    if(hitCount>=homingMaxCount)
-        //    {
-        //        poolManager.PushNow(poolObject);
-        //        return;
-        //    }
-
-        //    Transform nextTarget = FindNearestEnemy(firstEnemy);
-
-        //    Debug.Log(nextTarget);
-
-        //    if(nextTarget==null)
-        //    {
-        //        poolManager.PushNow(poolObject);
-        //        return;
-        //    }
-
-        //    Retarget(nextTarget);
-        //    hittedEnemy.Clear();
-        //}
+        Retarget(nextTarget);        
     }
 
     private Transform FindNearestEnemy()
@@ -166,26 +126,21 @@ public class Arrow : PoolObject
 
         foreach(Collider2D enemyCollider in enemyColliders)
         {
-            if(!enemyCollider.CompareTag("Enemy")&&
-                !enemyCollider.CompareTag("Enemy2")&&
-                !enemyCollider.CompareTag("Boss0"))
-            {
+            IDamageable target = 
+                enemyCollider.GetComponentInParent<IDamageable>();
+
+            if (target is null)
                 continue;
-            }
 
-            Transform enemyTransform = enemyCollider.transform;
-
-            //if(enemyTransform==firstEnemy) //ù �浹 �� ���ܴ��
-            //{
-            //    continue;
-            //}
+            Transform enemyTransform = ((Component)target).transform;        
 
             if(hittedEnemy.Contains(enemyTransform))
             {
                 continue;
             }
 
-            float distance = (enemyTransform.position - transform.position).sqrMagnitude;
+            float distance = 
+                (enemyTransform.position - transform.position).sqrMagnitude;
 
             if(distance<nearestEnemyDistance)
             {
@@ -203,11 +158,8 @@ public class Arrow : PoolObject
             ((Vector2)target.position - rigidbody2D.position).normalized;
 
         Dir = nextdirection;
-
-        //rigidbody2D.position += Dir * 0.2f;
-
+        
         rigidbody2D.linearVelocity = Dir * arrowSpeed;
-
         angle = Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle - 90f);       
     }

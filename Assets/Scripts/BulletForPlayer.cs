@@ -11,11 +11,15 @@ public class BulletForPlayer : PoolObject
     public float durationTime = 3.0f;
     public float DurationTIme => durationTime;
 
+    private float damage;
+
     private new Rigidbody2D rigidbody2D;
 
     private PoolManager poolManager;
     private PoolObject poolObject;
     private Player player;
+
+    private Vector2 knockbackDir;
 
     //private Enemy enemy;
     //private Enemy2 enemy2;
@@ -41,24 +45,33 @@ public class BulletForPlayer : PoolObject
 
         IDamageable target = 
             collision.GetComponentInParent<IDamageable>();
+        IKnockbackable targetToKnockback =
+            collision.GetComponentInParent<IKnockbackable>();
         
         if (target is null)
             return;
 
         if(player.isInBurstFireUltState)
         {
-            target.Damage(player.power * 1.2f);
+            target.Damage(damage*1.2f);
             return;
         }
         else if(player.isInShotgunUltState)
         {
-            target.Damage(player.power * 1.2f);
+            if(targetToKnockback!=null)
+            {                
+                targetToKnockback.Knockback(knockbackDir, 0.2f, 10.0f);
+            }
+
+            hitted = true;
+            target.Damage(damage*1.2f);                        
             player.Heal(1);
+            poolManager.PushNow(poolObject);
             return;
         }
 
-            hitted = true;
-        target.Damage(player.power);
+        hitted = true;
+        target.Damage(damage);
         player.UltStack += 1;
         poolManager.PushNow(poolObject);        
     }
@@ -70,9 +83,13 @@ public class BulletForPlayer : PoolObject
         poolManager.PushDelay(poolObject, durationTime);
     }
 
-    public void Shoot(Vector2 direction, float lifeTime = -1.0f)
+    public void Shoot(Vector2 direction, float damage, float lifeTime = -1.0f)
     {
+        this.damage = damage;
+
         Vector2 normalizedDirection = direction.normalized;
+
+        knockbackDir = direction.normalized;
 
         rigidbody2D.linearVelocity = normalizedDirection * speed;
 

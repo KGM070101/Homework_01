@@ -87,14 +87,7 @@ public partial class Player
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        base.OnTriggerEnter2D(collision);
-
-        if(collision.gameObject.CompareTag("BulletForEnemy2"))
-        {
-            enemy2 = FindFirstObjectByType<Enemy2>();
-            TakeDamage(enemy2.power);
-            Destroy(collision.gameObject);
-        }
+        base.OnTriggerEnter2D(collision);        
     }
 
     public void TakeDamage(float damage)
@@ -361,7 +354,7 @@ public partial class Player
         pool.transform.position = firepoint.position;
         pool.transform.rotation = Quaternion.identity;
 
-        pool.GetComponent<BulletForPlayer>().Shoot(dir, lifeTime);
+        pool.GetComponent<BulletForPlayer>().Shoot(dir, power, lifeTime);
     }
     
     private IEnumerator CoBurstFire_Ult()
@@ -405,8 +398,8 @@ public partial class Player
         BulletForPlayer bullet_0 = pool_0.GetComponent<BulletForPlayer>();
         BulletForPlayer bullet_1 = pool_1.GetComponent<BulletForPlayer>();
 
-        bullet_0.Shoot(PlayerOriginalFacingDir);
-        bullet_1.Shoot(PlayerOriginalFacingDir);
+        bullet_0.Shoot(PlayerOriginalFacingDir,power);
+        bullet_1.Shoot(PlayerOriginalFacingDir,power);
         WeaponBounceVer1();
     }
 
@@ -435,7 +428,7 @@ public partial class Player
                     Vector3.forward
                 ) * baseDirection;
 
-            FireBullet(bulletDirection,0.5f);
+            FireBullet(bulletDirection,0.25f);
             WeaponBounceVer2();            
         }        
         ammo -= 9;
@@ -466,7 +459,7 @@ public partial class Player
                     Vector3.forward
                 ) * baseDirection;
 
-            FireBullet(bulletDirection,0.5f);
+            FireBullet(bulletDirection,0.25f);
             WeaponBounceVer2();            
         }
         ammo -= 18;
@@ -474,19 +467,15 @@ public partial class Player
 
     private void Arrow_Shoot()
     {
-        Arrow arrow =
-            Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);        
+        PoolObject pool = poolManager.Get(5);
 
-        arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation,arrow_ChargeRation);
+        pool.transform.SetParent(bulletBox);
+        pool.transform.position = firepoint.position;
+        pool.transform.rotation = Quaternion.identity;
 
-        arrows--;
-    }
+        pool.GetComponent<Arrow>()?.
+            Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation, arrow_ChargeRation);
 
-    private void Arrow_Shoot_Ult()
-    {
-        Arrow arrow =
-            Instantiate(arrowPrefab, firepoint.position, Quaternion.identity, bulletBox);
-
-        arrow.Shoot(PlayerOriginalFacingDir, 60 * arrow_ChargeRation,arrow_ChargeRation);
-    }
+        arrows--;        
+    }   
 }
