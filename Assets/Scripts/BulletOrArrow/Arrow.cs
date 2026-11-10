@@ -7,23 +7,22 @@ public class Arrow : PoolObject
 {
     [SerializeField]
     private float durationTime = 3.0f;
-
-    [SerializeField]
-    private Arrow arrowPrefab;
-
-    [SerializeField]
-    private Transform bulletBox;
-
+   
     [SerializeField]
     private float homingSearchRange = 20.0f;
 
     [SerializeField]
     private float homingMaxCount = 5.0f;
 
+    [SerializeField]
+    private float turnSpeed = 1080.0f;
+
+    private Transform target;
+    private bool consumed;
+
     private new Rigidbody2D rigidbody2D;
     private Player player;
     private PoolManager poolManager;
-    private PoolObject poolObject;
 
     private float angle;
     private float arrowSpeed;
@@ -31,7 +30,6 @@ public class Arrow : PoolObject
     private float ultGain;
     private bool isUltArrow;
     private int hitCount;
-    public Transform firstEnemy;
     private List<Transform> hittedEnemy = new List<Transform>();
     
     public Vector2 Dir;
@@ -40,28 +38,27 @@ public class Arrow : PoolObject
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         player = FindAnyObjectByType<Player>();
-        poolObject = GetComponent<PoolObject>();
         poolManager = FindAnyObjectByType<PoolManager>();
     }
 
     private void Update()
     {
-        //Debug.Log()
+
     }
 
     public override void Init()
     {
         rigidbody2D.linearVelocity = Vector2.zero;
-        poolManager.PushDelay(poolObject, durationTime);
+        poolManager.PushDelay(this, durationTime);
+        hitCount = 0;
+        hittedEnemy.Clear();
+        target = null;
+        consumed = false;
+        isUltArrow = false;      
     }
 
     public void Shoot(Vector2 direction,float speed,float chargeRatio)
     {
-        hitCount = 0;
-        firstEnemy = null;
-
-        hittedEnemy.Clear();
-
         Dir = direction.normalized;
         arrowSpeed = speed;
               
@@ -76,18 +73,49 @@ public class Arrow : PoolObject
         ultGain = 10 * chargeRatio;
         isUltArrow = player.isInUltState == true ? true : false;
 
-        poolManager.PushDelay(poolObject, durationTime);
+        poolManager.PushDelay(this, durationTime);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isUltArrow || target is null)
+            return;
+
+        if(!target.gameObject.activeInHierarchy)
+        {
+            target = FindNearestEnemy();
+            if (target is null)
+                return;
+        }
+
+        Vector2 to = (Vector2)target.position - rigidbody2D.position;
+        if (to.sqrMagnitude < 0.0001f)
+            return;
+
+        float current = Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
+        float wanted = Mathf.Atan2(to.y, to.x) * Mathf.Rad2Deg;
+
+        float next = Mathf.MoveTowardsAngle(current, wanted, turnSpeed * Time.fixedDeltaTime);
+
+        float rad = next * Mathf.Deg2Rad;
+        Dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+
+        rigidbody2D.linearVelocity = Dir * arrowSpeed;
+        transform.rotation = Quaternion.Euler(0f, 0f, next - 90f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        IDamageable target =
-            collision.GetComponentInParent<IDamageable>();
-
-        if (target is null)
+        if (consumed)
             return;
 
-        Transform root = ((Component)target).transform;
+        IDamageable damageable =
+            collision.GetComponentInParent<IDamageable>();
+
+        if (damageable is null)
+            return;
+
+        Transform root = ((Component)damageable).transform;
         if (hittedEnemy.Contains(root))
             return;
 
@@ -95,25 +123,23 @@ public class Arrow : PoolObject
 
         if(!isUltArrow)
         {
-            target.Damage(damage);
+            consumed = true;
+            damageable.Damage(damage);
             player.UltStack += ultGain;
-            poolManager.PushNow(poolObject);
+            poolManager.PushNow(this);
             return;
         }
 
-        target.Damage(damage * 1.2f);
+        damageable.Damage(damage * 1.2f);
         hitCount++;
-        
-        Transform nextTarget = 
-            hitCount >= homingMaxCount ? null : FindNearestEnemy();
 
-        if (nextTarget is null)
+        target = hitCount >= homingMaxCount ? null : FindNearestEnemy();
+       
+        if (target is null)
         {
-            poolManager.PushNow(poolObject);
-            return;
-        }
-
-        Retarget(nextTarget);        
+            consumed = true;
+            poolManager.PushNow(this);            
+        }             
     }
 
     private Transform FindNearestEnemy()
@@ -152,17 +178,17 @@ public class Arrow : PoolObject
         return nearestEnemy;
     }
 
-    private void Retarget(Transform target)
-    {
-        Vector2 nextdirection = 
-            ((Vector2)target.position - rigidbody2D.position).normalized;
+    //private void Retarget(Transform target)
+    //{
+    //    Vector2 nextdirection = 
+    //        ((Vector2)target.position - rigidbody2D.position).normalized;
 
-        Dir = nextdirection;
+    //    Dir = nextdirection;
         
-        rigidbody2D.linearVelocity = Dir * arrowSpeed;
-        angle = Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle - 90f);       
-    }
+    //    rigidbody2D.linearVelocity = Dir * arrowSpeed;
+    //    angle = Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
+    //    transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle - 90f);       
+    //}
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()

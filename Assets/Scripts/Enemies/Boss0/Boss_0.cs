@@ -73,7 +73,7 @@ public class Boss_0 : Character,IDamageable
 
         //Debug
         {
-            Debug.Log(fsm.currentState);
+            //Debug.Log(fsm.currentState);
         }        
     }
 

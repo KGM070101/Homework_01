@@ -56,7 +56,7 @@ public partial class Player
     private float ammo = 99;
     private int arrows = 10;
     public float UltStack = 0;
-    private float ultMaxDuration=15.0f;
+    private float ultMaxDuration=1000.0f;
     private float ultTimer;
     private float maxHP;
     private float hp;

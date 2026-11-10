@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class PoolObject : MonoBehaviour
 {
     public int index;

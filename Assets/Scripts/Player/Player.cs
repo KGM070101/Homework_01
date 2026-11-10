@@ -363,7 +363,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             //Debug.Log(power);
             //Debug.Log(arrow_ChargeRation);
             //Debug.Log(Co_IndicateArrowBarReloading());
-            Debug.Log(isReloading_Arrow);
+            //Debug.Log(isReloading_Arrow);
         }
     }
 
