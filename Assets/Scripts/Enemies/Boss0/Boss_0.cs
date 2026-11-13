@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,8 @@ public class Boss_0 : Character,IDamageable
     public Player Player => player;
 
     private Boss0_FSM fsm;    
-    private EnemyHpBarRotation enemyHpBar;    
+    private EnemyHpBarRotation enemyHpBar;
+    private Color color;
    
     private float hp;
     public float Hp => hp;
@@ -46,6 +48,7 @@ public class Boss_0 : Character,IDamageable
         player = FindFirstObjectByType<Player>();        
         fsm = new Boss0_FSM(this);
         enemyHpBar = GetComponentInChildren<EnemyHpBarRotation>();
+        color = spriteRenderer.color;
         //dashRange = GetComponentInChildren<Image>();
 
         hp = data[1].MaxHp;
@@ -54,10 +57,10 @@ public class Boss_0 : Character,IDamageable
         power = data[1].Power;
         stopDistance = data[1].StopDistance;        
 
-        Physics2D.IgnoreLayerCollision
-            (LayerMask.NameToLayer("Boss_0"), LayerMask.NameToLayer("Enemy"), true);           
-        Physics2D.IgnoreLayerCollision
-            (LayerMask.NameToLayer("Boss_0"), LayerMask.NameToLayer("Enemy2"), true);
+        //Physics2D.IgnoreLayerCollision
+        //    (LayerMask.NameToLayer("Boss_0"), LayerMask.NameToLayer("Enemy"), true);           
+        //Physics2D.IgnoreLayerCollision
+        //    (LayerMask.NameToLayer("Boss_0"), LayerMask.NameToLayer("Enemy2"), true);
     }
 
     protected override void Start()
@@ -100,6 +103,7 @@ public class Boss_0 : Character,IDamageable
     public void Damage(float damage)
     {
         hp -= damage;
+        StartCoroutine(Co_DamageColor());
         float currentHpRation = hp / maxHp;
 
         if (hp <= 0)
@@ -110,6 +114,15 @@ public class Boss_0 : Character,IDamageable
         enemyHpBar.SetCurrentHp(currentHpRation);
     }    
 
+    private IEnumerator Co_DamageColor()
+    {        
+        spriteRenderer.color = new Color(0.7f, 0.3f, 0.3f);
+
+        yield return new WaitForSeconds(0.05f);
+
+        spriteRenderer.color = color;
+    }
+
     private void Die()
     {
         Destroy(gameObject);
@@ -118,7 +131,8 @@ public class Boss_0 : Character,IDamageable
     public void ShakeBody(float duration)
     {
         sprite.DOKill();
-        sprite.transform.DOShakePosition(duration, 0.1f, 50, 180, snapping: false, fadeOut: false);
+        sprite.transform.
+            DOShakePosition(duration, 0.1f, 50, 180, snapping: false, fadeOut: false);
     }
    
     public void OnDashRange(float timer,float duration)

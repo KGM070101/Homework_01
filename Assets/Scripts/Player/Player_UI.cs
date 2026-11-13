@@ -35,6 +35,9 @@ public partial class Player
     private Image playerHpBar;
 
     [SerializeField]
+    private Image playerHpDelayBar;
+
+    [SerializeField]
     private TextMeshProUGUI playerHpText;
 
     [SerializeField]
@@ -48,10 +51,7 @@ public partial class Player
 
     [SerializeField]
     private TextMeshProUGUI levelText;
-
-    [SerializeField]
-    private TextMeshProUGUI enemyCountText;
-
+   
     private float maxAmmo = 99;
     private float currentAmmo;
     private float reloadTime;    
@@ -65,13 +65,9 @@ public partial class Player
     private void IndicateAmmo()
     {
         ammoText.text = "Ammo :" + ammo;
+        ammoBar.DOFillAmount((ammo / maxAmmo), 0.3f);
     }
-
-    private void IndicateAmmoBar()
-    {
-        ammoBar.fillAmount = ammo / maxAmmo;
-    }
-
+   
     private void IndicateReloadingAmmoBar()
     {
         ammoBar.fillAmount = 0;
@@ -94,24 +90,30 @@ public partial class Player
 
     private void IndicatePlayerHp()
     {
-        playerHpText.text = "HP :" + hp;
-    }
+        float ratio = Mathf.Clamp01(hp / maxHP);
 
-    private void IndicatePlayerHpBar()
-    {
-        playerHpBar.fillAmount = hp / maxHP;
-    }
+        playerHpBar.DOKill();
+        playerHpDelayBar.DOKill();
+
+        playerHpBar.DOFillAmount(ratio,0.3f);
+        playerHpText.text = "HP :" + hp;        
+
+        if (ratio >= playerHpDelayBar.fillAmount)
+            playerHpDelayBar.DOFillAmount(ratio, 0.5f);
+        else
+            playerHpDelayBar.DOFillAmount(ratio, 0.5f).SetDelay(1.0f);
+    }        
 
     private IEnumerator Co_WaitIndicateAnnouncement()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
 
         IndicateFireModeAnnoucement();        
     }    
 
     private void IndicateUltBar()
     {
-        ultBar.fillAmount = UltStack / maxUltStack;
+        ultBar.DOFillAmount((UltStack / maxUltStack), 0.3f);
     }
 
     private void IndicateUltAnnouncement()
@@ -149,19 +151,14 @@ public partial class Player
 
     private void IndicateXpBar()
     {
-        xpBar.fillAmount = xp / requireXp;
+        xpBar.DOFillAmount((xp / requireXp), 0.3f);
     }
 
     private void IndicateLevel()
     {
         levelText.text = "" + level;
     }
-
-    private void IndicateEnemyCount()
-    {
-        enemyCountText.text = "" + enemy_Spawner.enemyCount;
-    }
-
+    
     private void IndicateArrowBar()
     {
         for(int i=0; i<arrowBars.Length; i++)

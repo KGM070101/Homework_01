@@ -12,6 +12,9 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
     private BulletForPlayer bulletPrefab;
 
     [SerializeField]
+    private Transform bulletBox;
+
+    [SerializeField]
     private Arrow arrowPrefab;
 
     [SerializeField]
@@ -23,11 +26,12 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
     [SerializeField]
     private Transform firepoint_BurstUlt_2;
 
+    [Header("Player_Body")]
     [SerializeField]
-    private GameObject Weapon;
+    private GameObject body;
 
     [SerializeField]
-    private Transform bulletBox;
+    private GameObject Weapon;
 
     [SerializeField]
     private GameObject LeftWheel;
@@ -36,7 +40,6 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
     private GameObject RightWheel;
 
     private Enemy2 enemy2;
-    private Enemy_Spawner enemy_Spawner;
     private CameraShaking cameraShaking;
     private PoolManager poolManager;
 
@@ -51,7 +54,6 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
         //dataFile = "Assets / CharactersDatas / Player";
         base.Awake();
 
-        enemy_Spawner = FindFirstObjectByType<Enemy_Spawner>();
         cameraShaking = FindFirstObjectByType<CameraShaking>();
         poolManager = FindAnyObjectByType<PoolManager>();
 
@@ -96,15 +98,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                     coroutine = StartCoroutine(Co_WheelAnimationStart());
                 }
             }            
-
-            //플레이어 최대체력 상한선 유지
-            {
-                if (hp >= maxHP)
-                {
-                    hp = maxHP;
-                }
-            }
-
+           
             //플레이어 최대레벨 상한선 유지
             {
                 if(level>=10)
@@ -156,6 +150,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                     {
                         isReloading = false;
                         ammo += 99;
+                        IndicateAmmo();
                         reloadTimer = data[0].ReloadTIme;
                     }
                 }
@@ -171,14 +166,9 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
 
             //화면 UI 표시
             {
-                IndicateAmmo();
-                IndicateAmmoBar();
                 IndicateFireMode();
-                IndicatePlayerHp();
-                IndicatePlayerHpBar();
                 IndicateXpBar();
                 IndicateLevel();
-                IndicateEnemyCount();
                 IndicateArrowBar();
                 IndicateArrowOrBullet();
                 IndicateArrowChargingBar();
@@ -350,11 +340,6 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 }
             }
         }        
-
-        //플레이어 사망
-        {
-            Dead();
-        }
 
         //디버깅
         {

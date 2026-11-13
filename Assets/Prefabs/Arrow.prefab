@@ -376,8 +376,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   PushTime: 0
-  durationTime: 30
-  homingSearchRange: 100
-  homingMaxCount: 100
+  durationTime: 3
+  homingSearchRange: 30
+  homingMaxCount: 5
   turnSpeed: 1080
   Dir: {x: 0, y: 0}

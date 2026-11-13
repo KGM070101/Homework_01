@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Enemy_Spawner : MonoBehaviour
@@ -22,7 +23,12 @@ public class Enemy_Spawner : MonoBehaviour
     private Transform enemyBox;
 
     [SerializeField]
+    private TextMeshProUGUI enemyCountText;
+
+    [SerializeField]
     private PoolManager poolManager;
+
+    private Player player;
    
     public int enemyCount;
 
@@ -30,9 +36,14 @@ public class Enemy_Spawner : MonoBehaviour
 
     private Coroutine coroutine;
 
+    private void Awake()
+    {
+        player = FindFirstObjectByType<Player>();   
+    }
+
     private void Start()
     {
-        coroutine = StartCoroutine(Co_SpawnEnemy());
+        enemyCountText.text = "" + enemyCount;
     }
 
     private void Update()
@@ -40,28 +51,44 @@ public class Enemy_Spawner : MonoBehaviour
         //Debug.Log(enemyCount);
     }
 
-    [ContextMenu("적1 스폰")]
-    private void SpawnEnemy()
-    {
-        PoolObject enemy = poolManager.Get(0);
+    //[ContextMenu("적1 스폰")]
+    //public void SpawnEnemy()
+    //{
+    //    PoolObject enemy = poolManager.Get(0);
 
-        enemy.transform.SetParent(enemyBox);
-        enemy.transform.position = GetRandomPos();
-        enemy.transform.rotation = Quaternion.identity;
+    //    enemy.transform.SetParent(enemyBox);
+    //    enemy.transform.position = GetRandomPos();
+    //    enemy.transform.rotation = Quaternion.identity;
+    //}
+
+    //[ContextMenu("적2 스폰")]
+    //public void SpawnEnemy2()
+    //{
+    //    PoolObject enemy2 = poolManager.Get(1);
+
+    //    enemy2.transform.SetParent(enemyBox);
+    //    enemy2.transform.position = GetRandomPos();
+    //    enemy2.transform.rotation = Quaternion.identity;
+    //}
+
+    public void SpawnEnemies(float statMultiplier)
+    {
+        float randomTrigger = Random.Range(0, 99);
+        int index = randomTrigger < 30 ? 1 : 0;
+
+        PoolObject pool = poolManager.Get(index);
+
+        pool.transform.SetParent(enemyBox);
+        pool.transform.position = GetRandomPos();
+        pool.transform.rotation = Quaternion.identity;
+
+        pool.GetComponent<IWaveScalable>().ApplyWaveScale(statMultiplier);
+
+        AddEnemyCount();
     }
 
-    [ContextMenu("적2 스폰")]
-    private void SpawnEnemy2()
-    {
-        PoolObject enemy2 = poolManager.Get(1);
 
-        enemy2.transform.SetParent(enemyBox);
-        enemy2.transform.position = GetRandomPos();
-        enemy2.transform.rotation = Quaternion.identity;
-    }
-
-
-    private Vector3 GetRandomPos() //두 원의 반지름 차에서 적 생성
+    public Vector3 GetRandomPos() //두 원의 반지름 차에서 적 생성
     {
         // 랜덤 방향 계산
         Vector3 randomDir = Random.insideUnitCircle.normalized;
@@ -74,27 +101,38 @@ public class Enemy_Spawner : MonoBehaviour
         return randomPoint;        
     }
 
-    private IEnumerator Co_SpawnEnemy()
-    {        
-        while(true)
-        {
-            float randomTrigger = Random.Range(randomSpawnTrigger.x, randomSpawnTrigger.y);
+    //private IEnumerator Co_SpawnEnemy()
+    //{        
+    //    while(true)
+    //    {
+    //        float randomTrigger = Random.Range(randomSpawnTrigger.x, randomSpawnTrigger.y);
 
-            yield return new WaitForSeconds(spawnInterval);
+    //        yield return new WaitForSeconds(spawnInterval);
             
-            if (randomTrigger<20)
-            {
-                SpawnEnemy2();
-                enemyCount++;
-            }
-            else
-            {
-                SpawnEnemy();
-                enemyCount++;
-            }                       
-        }
+    //        if (randomTrigger<20)
+    //        {
+    //            SpawnEnemy2();
+    //            AddEnemyCount();
+    //        }
+    //        else
+    //        {
+    //            SpawnEnemy();
+    //            AddEnemyCount();
+    //        }
+    //    }
        
+    //}
+
+    private void AddEnemyCount()
+    {
+        enemyCount++;
+        enemyCountText.text = "" + enemyCount;
+
+        if (enemyCount >= 200)
+            player.Dead();
+            
     }
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {

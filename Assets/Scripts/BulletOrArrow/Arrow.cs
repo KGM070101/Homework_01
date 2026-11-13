@@ -95,7 +95,8 @@ public class Arrow : PoolObject
         float current = Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
         float wanted = Mathf.Atan2(to.y, to.x) * Mathf.Rad2Deg;
 
-        float next = Mathf.MoveTowardsAngle(current, wanted, turnSpeed * Time.fixedDeltaTime);
+        float next = 
+            Mathf.MoveTowardsAngle(current, wanted, turnSpeed * Time.fixedDeltaTime);
 
         float rad = next * Mathf.Deg2Rad;
         Dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));

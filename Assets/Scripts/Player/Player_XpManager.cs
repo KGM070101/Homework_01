@@ -16,6 +16,9 @@ public partial class Player
 
     private void LevelUp()
     {
+        if (level >= 10)
+            return;
+
         level += 1;
         requireXp *= 1.4f;
         xp = 0;

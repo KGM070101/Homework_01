@@ -126,6 +126,7 @@ public class Boss0_Pattern1 : Boss0_States
         float delta = spinSpeed * deltaTIme;
         spinAngle += delta;
         totalSpin += Mathf.Abs(delta);
+        boss.Rigidbody2D.linearVelocity = Vector2.zero;
         boss.Rigidbody2D.SetRotation(spinAngle);
 
         fireTImer += deltaTIme;

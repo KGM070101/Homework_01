@@ -2,7 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public partial class Enemy : Character, IDamageable, IKnockbackable
+public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalable
 {
     [Header("- Enemy")]
     [SerializeField]
@@ -20,7 +20,6 @@ public partial class Enemy : Character, IDamageable, IKnockbackable
     private Player player;
     private Enemy_Spawner enemy_Spawner;
     private PoolManager poolManager;
-    private PoolObject poolObject;
     private EnemyHpBarRotation enemyHpBar;
 
     private Vector3 originalPos;
@@ -60,11 +59,10 @@ public partial class Enemy : Character, IDamageable, IKnockbackable
         player = FindFirstObjectByType<Player>();
         enemy_Spawner = FindFirstObjectByType<Enemy_Spawner>();
         poolManager = FindAnyObjectByType<PoolManager>();
-        poolObject = GetComponent<PoolObject>();
         enemyHpBar = GetComponentInChildren<EnemyHpBarRotation>();
 
-        Physics2D.IgnoreLayerCollision
-            (LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"),true);                    
+        //Physics2D.IgnoreLayerCollision
+        //    (LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"),true);                    
     }
 
     protected override void Start()
@@ -220,7 +218,7 @@ public partial class Enemy : Character, IDamageable, IKnockbackable
         {
             enemy_Spawner.enemyCount--;
         }
-        poolManager.PushNow(poolObject);                            
+        poolManager.PushNow(this);                            
     }
 
     public void Knockback(Vector2 direction, float duration, float force)
@@ -233,5 +231,13 @@ public partial class Enemy : Character, IDamageable, IKnockbackable
         knockbackDuration = duration;
 
         rigidbody2D.linearVelocity = direction.normalized * force;
+    }
+
+    public void ApplyWaveScale(float multifly)
+    {
+        maxHp = data[1].MaxHp * multifly;
+        hp = maxHp;
+        power = data[1].Power * multifly;
+        speed = data[1].MoveSpeed * multifly;
     }
 }

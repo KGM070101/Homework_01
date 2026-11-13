@@ -15,8 +15,7 @@ public class BulletForPlayer : PoolObject
 
     private new Rigidbody2D rigidbody2D;
 
-    private PoolManager poolManager;
-    private PoolObject poolObject;
+    private PoolManager poolManager;    
     private Player player;
 
     private Vector2 knockbackDir;
@@ -32,7 +31,6 @@ public class BulletForPlayer : PoolObject
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         poolManager = FindAnyObjectByType<PoolManager>();
-        poolObject = GetComponent<PoolObject>();
         player = FindAnyObjectByType<Player>();
         //enemy = FindAnyObjectByType<Enemy>();
         //enemy2 = FindAnyObjectByType<Enemy2>();
@@ -66,21 +64,21 @@ public class BulletForPlayer : PoolObject
             hitted = true;
             target.Damage(damage*1.2f);                        
             player.Heal(1);
-            poolManager.PushNow(poolObject);
+            poolManager.PushNow(this);
             return;
         }
 
         hitted = true;
         target.Damage(damage);
         player.UltStack += 1;
-        poolManager.PushNow(poolObject);        
+        poolManager.PushNow(this);        
     }
 
     public override void Init()
     {
         hitted = false;
         rigidbody2D.linearVelocity = Vector2.zero;
-        poolManager.PushDelay(poolObject, durationTime);
+        poolManager.PushDelay(this, durationTime);
     }
 
     public void Shoot(Vector2 direction, float damage, float lifeTime = -1.0f)
@@ -100,6 +98,6 @@ public class BulletForPlayer : PoolObject
 
         //Destroy(gameObject, durationTime);
         float life = lifeTime > 0.0f ? lifeTime : durationTime;
-        poolManager.PushDelay(poolObject, life);               
+        poolManager.PushDelay(this, life);               
     }    
 }

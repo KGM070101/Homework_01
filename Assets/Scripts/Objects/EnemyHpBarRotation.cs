@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,7 @@ public class EnemyHpBarRotation : MonoBehaviour
 
     public void SetCurrentHp(float currentHp)
     {
-        hpBar.fillAmount = Mathf.Clamp01(currentHp);
+        //hpBar.fillAmount = Mathf.Clamp01(currentHp);
+        hpBar.DOFillAmount(Mathf.Clamp01(currentHp), 0.3f);
     }
 }

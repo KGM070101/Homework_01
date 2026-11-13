@@ -32,7 +32,7 @@ public class Boss0_Pattern0 : Boss0_States
         phase = Phase.Aim;                
         timer = 0.0f;
         spinAngle = 0.0f;
-        
+                
         boss.ShakeBody(aimDuration);
         
         boss.Rigidbody2D.linearVelocity = Vector2.zero;

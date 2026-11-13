@@ -56,7 +56,7 @@ public partial class Player
     private float ammo = 99;
     private int arrows = 10;
     public float UltStack = 0;
-    private float ultMaxDuration=1000.0f;
+    private float ultMaxDuration=20.0f;
     private float ultTimer;
     private float maxHP;
     private float hp;
@@ -76,11 +76,13 @@ public partial class Player
 
     protected override void FixedUpdate()
     {
-        if(isDead==false)
+        if (!isDead)
         {
-            rigidbody2D.linearVelocity = 
+            rigidbody2D.linearVelocity =
                 new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
         }
+        else
+            rigidbody2D.linearVelocity = Vector2.zero;
         
         //transform.Rotate(facingDir);                       
     }
@@ -93,26 +95,34 @@ public partial class Player
     public void TakeDamage(float damage)
     {
         hp -= damage;
+        IndicatePlayerHp();
+
+        if (hp <= 0)
+            Dead();
     }
 
     public void Heal(float healAmount)
     {
         hp += healAmount;
+        IndicatePlayerHp();
+
+        if (hp >= maxHP)
+            hp = maxHP;
     }
     
     public void Dead()
-    {
-        if(hp<=0||enemy_Spawner.enemyCount>=50)
-        {
-            hp = 0;
-            isDead=true;
-            gameObject.SetActive(false);
-            Time.timeScale = 0;
-        }
+    {                
+        isDead=true;
+        boxCollider2D.enabled = false;
+
+        Destroy(body);
     }
 
     private void LookPointer()
     {
+        if (isDead)
+            return;
+
         Vector3 mouseWorldPosition = 
             mainCamera.ScreenToWorldPoint
             (new Vector3(mousePosition.x, mousePosition.y, -mainCamera.transform.position.z));
@@ -132,7 +142,10 @@ public partial class Player
     }
 
     public void OnAttack(InputAction.CallbackContext context)
-    {       
+    {
+        if (isDead)
+            return;
+
         if(canFire==true)
         {
             if(isReloading_Arrow==false)
@@ -228,6 +241,9 @@ public partial class Player
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (isDead)
+            return;
+
         if(context.performed)
         {
             moveDir = context.ReadValue<Vector2>();
@@ -242,6 +258,9 @@ public partial class Player
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        if (isDead)
+            return;
+
         if(canDash==true)
         {
             isDashing = true;
@@ -342,6 +361,7 @@ public partial class Player
         FireBullet();
         WeaponBounceVer1();
         ammo -= 1;
+        IndicateAmmo();
     }
 
     private void FireBullet(Vector2? direction = null, float lifeTime = -1.0f)
@@ -432,6 +452,7 @@ public partial class Player
             WeaponBounceVer2();            
         }        
         ammo -= 9;
+        IndicateAmmo();
     }
 
     private void Shotgun_Ult()
@@ -463,6 +484,7 @@ public partial class Player
             WeaponBounceVer2();            
         }
         ammo -= 18;
+        IndicateAmmo();
     }
 
     private void Arrow_Shoot()
