@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Bonus Power
   m_EditorClassIdentifier: 
   cardName: Bonus Power
-  description: Increase Power
+  description: Gain 5% of current power
   icon: {fileID: 0}
   type: 1
   statKind: 0
-  statValue: 0.1
+  statValue: 0.05
   skillPrefab: {fileID: 0}

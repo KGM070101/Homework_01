@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: BonusHp
   m_EditorClassIdentifier: 
   cardName: Bonus Hp
-  description: Increase Max Hp
+  description: Gain 5% of current Max hp
   icon: {fileID: 0}
   type: 1
   statKind: 2
-  statValue: 0.1
+  statValue: 0.05
   skillPrefab: {fileID: 0}
