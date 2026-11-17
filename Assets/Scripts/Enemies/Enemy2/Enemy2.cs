@@ -79,7 +79,7 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
         originalColor = spriteRenderer.color;
         originalWeaponColor = enemy2_Weapon.spriteRenderer.color;
     }
-
+   
     public override void Init()
     {
         isDying = false;
@@ -104,6 +104,7 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
         WeaponColor.a = 1f;
         enemy2_Weapon.spriteRenderer.color = WeaponColor;
     }
+
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
@@ -113,14 +114,7 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
     {
         base.OnTriggerEnter2D(collision);      
     }
-
-    private IEnumerator Co_Knockback()
-    {
-        yield return new WaitForSeconds(knockbackDuration);
-
-        isKnockbacking = false;
-    }
-
+    
     protected override void Update()
     {
         base.Update();
@@ -182,13 +176,7 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
 
         spriteRenderer.color = originalColor;
         enemy2_Weapon.spriteRenderer.color = originalWeaponColor;
-    }
-
-    private void GiveXp()
-    {
-        float randomXp = Random.Range(randomXpAmount.x, randomXpAmount.y);
-        player.GetXp(randomXp);
-    }
+    }    
 
     private IEnumerator Co_Dead()
     {
@@ -204,12 +192,11 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
 
         spriteRenderer.DOKill();
         enemy2_Weapon.spriteRenderer.DOKill();
-        GiveXp();
-        deadTrigger++;
-        if(deadTrigger==1)
-        {
-            Enemy_Spawner.Instance.RemoveEnemyCount();
-        }            
+
+        float randomXp = Random.Range(randomXpAmount.x, randomXpAmount.y);
+
+        GameManager.EnemyDied(randomXp);
+
         poolManager.PushNow(this);        
     }
 

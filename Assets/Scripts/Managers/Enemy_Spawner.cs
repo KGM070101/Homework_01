@@ -59,30 +59,25 @@ public class Enemy_Spawner : MonoBehaviour
         enemyCountText.text = "" + enemyCount;
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnEnemyDied += HandleEnemyDied;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnEnemyDied -= HandleEnemyDied;
+    }
+
     private void Update()
     {
         //Debug.Log(enemyCount);
+    }    
+
+    private void HandleEnemyDied(float xp)
+    {
+        RemoveEnemyCount();
     }
-
-    //[ContextMenu("적1 스폰")]
-    //public void SpawnEnemy()
-    //{
-    //    PoolObject enemy = poolManager.Get(0);
-
-    //    enemy.transform.SetParent(enemyBox);
-    //    enemy.transform.position = GetRandomPos();
-    //    enemy.transform.rotation = Quaternion.identity;
-    //}
-
-    //[ContextMenu("적2 스폰")]
-    //public void SpawnEnemy2()
-    //{
-    //    PoolObject enemy2 = poolManager.Get(1);
-
-    //    enemy2.transform.SetParent(enemyBox);
-    //    enemy2.transform.position = GetRandomPos();
-    //    enemy2.transform.rotation = Quaternion.identity;
-    //}
 
     public void SpawnEnemies(float statMultiplier)
     {
@@ -119,29 +114,7 @@ public class Enemy_Spawner : MonoBehaviour
         Vector3 randomPoint = transform.position + randomDir * dist;
 
         return randomPoint;        
-    }
-
-    //private IEnumerator Co_SpawnEnemy()
-    //{        
-    //    while(true)
-    //    {
-    //        float randomTrigger = Random.Range(randomSpawnTrigger.x, randomSpawnTrigger.y);
-
-    //        yield return new WaitForSeconds(spawnInterval);
-            
-    //        if (randomTrigger<20)
-    //        {
-    //            SpawnEnemy2();
-    //            AddEnemyCount();
-    //        }
-    //        else
-    //        {
-    //            SpawnEnemy();
-    //            AddEnemyCount();
-    //        }
-    //    }
-       
-    //}
+    }    
 
     private void AddEnemyCount()
     {
@@ -166,11 +139,7 @@ public class Enemy_Spawner : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _minRadius);
-        Gizmos.DrawWireSphere(transform.position, _maxRadius);
-
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube(transform.position, new Vector3(30, 30));
-        //Gizmos.DrawWireCube(transform.position, new Vector3(35, 35));
+        Gizmos.DrawWireSphere(transform.position, _maxRadius);        
     }
 #endif
 }

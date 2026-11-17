@@ -188,13 +188,7 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
         spriteRenderer.color = originalColor;
         enemy_LeftArm.spriteRenderer.color = originalArmColor;
         enemy_RightArm.spriteRenderer.color = originalArmColor;
-    }
-
-    private void GiveXp()
-    {
-        float randomXp = Random.Range(randomXpAmount.x, randomXpAmount.y);
-        player.GetXp(randomXp);
-    }
+    }    
 
     private IEnumerator Co_Dead()
     {
@@ -212,12 +206,11 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
         spriteRenderer.DOKill();
         enemy_LeftArm.spriteRenderer.DOKill();
         enemy_RightArm.spriteRenderer.DOKill();
-        GiveXp();
-        deadTrigger++;
-        if(deadTrigger==1)
-        {
-            Enemy_Spawner.Instance.RemoveEnemyCount();
-        }
+
+        float randomXp = Random.Range(randomXpAmount.x, randomXpAmount.y);
+
+        GameManager.EnemyDied(randomXp);
+
         poolManager.PushNow(this);                            
     }
 

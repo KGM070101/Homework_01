@@ -80,6 +80,21 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
         base.Start();       
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnEnemyDied += HandleEnemyDied;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnEnemyDied -= HandleEnemyDied;
+    }
+
+    private void HandleEnemyDied(float xp)
+    {
+        GetXp(xp);
+    }
+
     protected override void Update()
     {
         base.Update();

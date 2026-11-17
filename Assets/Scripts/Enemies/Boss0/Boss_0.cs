@@ -15,6 +15,9 @@ public class Boss_0 : Character,IDamageable
     private Image dashRange;
 
     [SerializeField]
+    private float xpAmount = 30.0f;
+
+    [SerializeField]
     public Transform bulletBox;
     public GameObject BulletPrefab => bulletPrefab;
 
@@ -24,6 +27,8 @@ public class Boss_0 : Character,IDamageable
     private Boss0_FSM fsm;    
     private EnemyHpBarRotation enemyHpBar;
     private Color color;
+
+    
    
     private float hp;
     public float Hp => hp;
@@ -127,7 +132,7 @@ public class Boss_0 : Character,IDamageable
     {
         Destroy(gameObject);
 
-        Enemy_Spawner.Instance.RemoveEnemyCount();
+        GameManager.EnemyDied(xpAmount);
     }
 
     public void ShakeBody(float duration)
