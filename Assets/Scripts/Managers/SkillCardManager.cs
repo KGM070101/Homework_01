@@ -9,6 +9,7 @@ public class SkillCardManager : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private Button[] buttons;
     [SerializeField] private TextMeshProUGUI[] nameTexts;
+    [SerializeField] private TextMeshProUGUI[] descriptionTexts;
     [SerializeField] private List<SkillCardData> statCards;
 
     private Player player;
@@ -23,12 +24,12 @@ public class SkillCardManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //player.OnLevelUp+=
+        player.OnLevelUp += HandleLevelUp;
     }
 
     private void OnDisable()
     {
-        //player.OnLevelUp-=
+        player.OnLevelUp -= HandleLevelUp;
     }
 
     private void HandleLevelUp(int level)
@@ -55,6 +56,7 @@ public class SkillCardManager : MonoBehaviour
             pool.RemoveAt(index);
 
             nameTexts[i].text = skillCard.cardName;
+            descriptionTexts[i].text = skillCard.description;
             buttons[i].onClick.RemoveAllListeners();
             buttons[i].onClick.AddListener(() => Select(skillCard));
         }

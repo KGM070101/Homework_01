@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4c0f3cd4e6bb6408633753cd3ad85d, type: 3}
   m_Name: BonusHp
   m_EditorClassIdentifier: 
-  cardName: Bonus HP
-  description: Increase Max HP
+  cardName: Bonus Hp
+  description: Increase Max Hp
   icon: {fileID: 0}
   type: 1
   statKind: 2

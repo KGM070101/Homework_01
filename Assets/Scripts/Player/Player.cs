@@ -105,6 +105,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             case StatKind.MaxHp:
                 maxHP *= (1 + value);
                 hp *= (1 + value);
+                IndicatePlayerHp();
                 break;
             case StatKind.MoveSpeed:
                 moveSpeed *= (1 + value);

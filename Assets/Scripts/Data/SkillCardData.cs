@@ -10,7 +10,7 @@ public enum StatKind
 {
     Power,
     MoveSpeed,
-    MaxHp
+    MaxHp,   
 }
 
 [CreateAssetMenu(menuName ="Card/CardData")]

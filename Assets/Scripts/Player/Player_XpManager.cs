@@ -23,6 +23,8 @@ public partial class Player
             return;
 
         level += 1;
+
+        OnLevelUp?.Invoke((int)level);
         requireXp *= 1.4f;
         xp = 0;
         hp += 10;
