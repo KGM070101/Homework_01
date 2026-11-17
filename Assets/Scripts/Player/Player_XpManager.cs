@@ -30,5 +30,7 @@ public partial class Player
         hp += 10;
         maxHP += 10;
         power *= 1.1f;
+
+        IndicatePlayerHp();
     }
 }

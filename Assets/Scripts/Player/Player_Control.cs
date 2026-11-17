@@ -103,6 +103,9 @@ public partial class Player
 
     public void Heal(float healAmount)
     {
+        if (hp == maxHP)
+            return;
+
         hp += healAmount;
         IndicatePlayerHp();
 

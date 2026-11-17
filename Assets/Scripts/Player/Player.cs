@@ -77,7 +77,9 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
 
     protected override void Start()
     {
-        base.Start();       
+        base.Start();
+
+        IndicatePlayerHp();
     }
 
     private void OnEnable()
