@@ -30,6 +30,7 @@ public class WaveManager : MonoBehaviour
     private Player player;
 
     public event Action<int> OnWaveStart;
+    public event Action<int> OnWaveClear;
 
     private void Awake()
     {

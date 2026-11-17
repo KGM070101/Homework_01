@@ -34,6 +34,7 @@ public class Boss0_Pattern0 : Boss0_States
         spinAngle = 0.0f;
                 
         boss.ShakeBody(aimDuration);
+        boss.SetDashRangeLength(boss.Speed * 6.0f * dashDuration);
         
         boss.Rigidbody2D.linearVelocity = Vector2.zero;
     }

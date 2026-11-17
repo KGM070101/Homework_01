@@ -96,7 +96,7 @@ public partial class Player
         playerHpDelayBar.DOKill();
 
         playerHpBar.DOFillAmount(ratio,0.3f);
-        playerHpText.text = "HP :" + hp;        
+        playerHpText.text = "HP :" + Mathf.RoundToInt(hp);        
 
         if (ratio >= playerHpDelayBar.fillAmount)
             playerHpDelayBar.DOFillAmount(ratio, 0.5f);

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public partial class Player
@@ -5,6 +6,8 @@ public partial class Player
     [Header("- Xp/Level")]
     [SerializeField]
     private float level = 1;
+
+    public event Action<int> OnLevelUp;
 
     private float xp;
     private float requireXp = 20;       

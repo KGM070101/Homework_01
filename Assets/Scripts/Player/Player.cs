@@ -95,6 +95,23 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
         GetXp(xp);
     }
 
+    public void AddStatBonus(StatKind kind,float value)
+    {
+        switch(kind)
+        {
+            case StatKind.Power:
+                power *= (1 + value);
+                break;
+            case StatKind.MaxHp:
+                maxHP *= (1 + value);
+                hp *= (1 + value);
+                break;
+            case StatKind.MoveSpeed:
+                moveSpeed *= (1 + value);
+                break;
+        }
+    }
+
     protected override void Update()
     {
         base.Update();

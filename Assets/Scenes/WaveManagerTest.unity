@@ -2148,10 +2148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92cc814569672144a920feb1c7253b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wave: 0
+  wave: 100
   baseEnemyCount: 5
   enemyAddPerWave: 3
-  enemyStatAddPerWave: 0.05
+  enemyStatAddPerWave: 0.02
   restTime: 5
   spawnInterval: 1
   waveText: {fileID: 785948747}

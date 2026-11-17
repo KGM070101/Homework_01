@@ -143,8 +143,15 @@ public class Boss_0 : Character,IDamageable
     }
    
     public void OnDashRange(float timer,float duration)
-    {
+    {       
         dashRange.fillAmount = timer / duration;
+    }
+
+    public void SetDashRangeLength(float distance)
+    {
+        RectTransform rect = dashRange.rectTransform;
+        float width = distance / rect.lossyScale.x;
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
     }
 
     public void CancelDashRange()
