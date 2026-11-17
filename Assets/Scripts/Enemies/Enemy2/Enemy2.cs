@@ -208,7 +208,7 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
         deadTrigger++;
         if(deadTrigger==1)
         {
-            enemy_Spawner.enemyCount--;
+            Enemy_Spawner.Instance.RemoveEnemyCount();
         }            
         poolManager.PushNow(this);        
     }

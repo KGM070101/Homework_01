@@ -126,6 +126,8 @@ public class Boss_0 : Character,IDamageable
     private void Die()
     {
         Destroy(gameObject);
+
+        Enemy_Spawner.Instance.RemoveEnemyCount();
     }
 
     public void ShakeBody(float duration)

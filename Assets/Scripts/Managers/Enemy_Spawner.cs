@@ -1,9 +1,12 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy_Spawner : MonoBehaviour
 {
+    public static Enemy_Spawner Instance;
+
     [SerializeField]
     private float _minRadius;
 
@@ -28,8 +31,11 @@ public class Enemy_Spawner : MonoBehaviour
     [SerializeField]
     private PoolManager poolManager;
 
+    [SerializeField]
+    private Boss_0 boss0;
+
     private Player player;
-   
+
     public int enemyCount;
 
     private Vector2 randomSpawnTrigger = new Vector2(0f, 99f);
@@ -38,6 +44,13 @@ public class Enemy_Spawner : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance!=null)
+        {
+            DestroyImmediate(gameObject);
+        }
+
+        Instance = this;
+
         player = FindFirstObjectByType<Player>();   
     }
 
@@ -87,6 +100,13 @@ public class Enemy_Spawner : MonoBehaviour
         AddEnemyCount();
     }
 
+    public void SpawnBoss0()
+    {
+        Boss_0 boss = Instantiate(boss0, GetRandomPos(), Quaternion.identity, enemyBox);
+
+        AddEnemyCount();
+    }
+
 
     public Vector3 GetRandomPos() //두 원의 반지름 차에서 적 생성
     {
@@ -129,8 +149,16 @@ public class Enemy_Spawner : MonoBehaviour
         enemyCountText.text = "" + enemyCount;
 
         if (enemyCount >= 200)
-            player.Dead();
-            
+            player.Dead();            
+    }
+
+    public void RemoveEnemyCount()
+    {
+        enemyCount--;
+        enemyCountText.text = "" + enemyCount;
+
+        if (enemyCount <= 0)
+            enemyCount = 0;
     }
 
 #if UNITY_EDITOR
