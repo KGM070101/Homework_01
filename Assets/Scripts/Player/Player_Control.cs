@@ -35,15 +35,15 @@ public partial class Player
     private bool isReloading_Arrow = false;
     private bool isDashing = false;
     private bool canDash;
-    private bool canFire;
-    public bool isDead=false;
-    private bool canUlt;
+    private bool canFire;    
+    private bool canUlt;    
+    private bool isCharging;
+
+    public bool isDead = false;
     public bool isInUltState = false;
     public bool isInBurstFireUltState = false;
     public bool isInShotgunUltState = false;
     public bool isInArrowUltState = false;
-    private bool isCharging;
-    
 
     private Vector2 moveDir;
     private Vector2 mousePosition;
@@ -51,23 +51,28 @@ public partial class Player
 
     private float moveSpeed;
     private float fireCoolTimer = 0.5f;
+    private float fireCoolTime = 0.5f;
+    private float fireCoolTImeReduction;
     private float reloadTimer;
     private float arrowReloadTImer;
-    private float ammo = 99;
-    private int arrows = 10;
-    public float UltStack = 0;
-    private float ultMaxDuration=20.0f;
+    private float ammo = 99;   
+    private float ultMaxDuration = 20.0f;
     private float ultTimer;
+    private float arrow_MaxChargeTime = 3f;
+    private float arrow_ChargeStartTime;   
+    private float arrow_ChargeTime;
+    private float defensiveBonus = 0;
+
+    public float UltStack = 0;
+    public float arrow_ChargeRation;
     public float maxHP;
     public float hp;
     public float power;
-    private float arrow_MaxChargeTime = 3f;
-    private float arrow_ChargeStartTime;
-    public float arrow_ChargeRation;
-    private float arrow_ChargeTime;
-    private float defensiveBonus = 0;
+
     private int trigger = 1;
     private int arrowReloadTrigger = 0;
+    private int arrows = 10;
+    private int bonusBulletCount;
 
     private Coroutine coroutine;
     private void Awake_BindInput()
@@ -360,6 +365,13 @@ public partial class Player
         yield return new WaitForSeconds(0.1f);
         
         SpawnBullet();    
+
+        //for(int i=0; i<3+bonusBulletCount;i++)
+        //{
+        //    SpawnBullet();
+
+        //    yield return new WaitForSeconds(0.1f);
+        //}
     }
 
     private void SpawnBullet()

@@ -121,6 +121,11 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             case StatKind.DefensivePower:
                 defensiveBonus += value;
                 break;
+            case StatKind.FireCoolTime:
+                fireCoolTImeReduction += value;
+                break;
+            case StatKind.BulletCount:
+                break;
         }
     }
 
@@ -157,9 +162,12 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
 
                 if(isInBurstFireUltState==false)
                 {
-                    if (fireCoolTimer >= 0.5f)
+                    float maxCoolTime = 
+                        Mathf.Max(fireCoolTime * (1 - fireCoolTImeReduction), 0.5f);
+
+                    if (fireCoolTimer >= maxCoolTime)
                     {
-                        fireCoolTimer = 0.5f;
+                        fireCoolTimer = maxCoolTime;
                         canFire = true;
                     }
                     else
@@ -169,10 +177,13 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 }
                 else
                 {
-                    if (fireCoolTimer >= 1.0f) // ==>버스트모드 궁극기 상태에서 총알수가 두배가 돼서,
-                                               // 타이밍 맞추려고 쿨타임도 2배
+                    float doubleMaxCoolTiem = 
+                        Mathf.Max(fireCoolTime * (1 - fireCoolTImeReduction), 0.5f) * 2.0f;
+
+                    if (fireCoolTimer >= doubleMaxCoolTiem) // ==>버스트모드 궁극기 상태에서 총알수가 두배가 돼서,
+                                                                                                      // 타이밍 맞추려고 쿨타임도 2배
                     {
-                        fireCoolTimer = 1.0f;
+                        fireCoolTimer = doubleMaxCoolTiem;
                         canFire = true;
                     }
                     else
