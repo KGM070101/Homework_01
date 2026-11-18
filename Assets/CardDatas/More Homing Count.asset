@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da4c0f3cd4e6bb6408633753cd3ad85d, type: 3}
-  m_Name: BonusHp
+  m_Name: More Homing Count
   m_EditorClassIdentifier: 
-  cardName: Bonus Hp
-  description: Gain 5% of current Max hp
+  cardName: More Homing Count
+  description: Arrow tracks one more enemy while in ult state
   icon: {fileID: 0}
   type: 1
-  statKind: 2
-  statValue: 0.05
+  statKind: 7
+  statValue: 1
   skillPrefab: {fileID: 0}

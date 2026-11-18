@@ -11,6 +11,11 @@ public enum StatKind
     Power,
     MoveSpeed,
     MaxHp,   
+    Reload,
+    DefensivePower,
+    FireCoolTime,
+    BulletCount,
+    HomingCount
 }
 
 [CreateAssetMenu(menuName ="Card/CardData")]

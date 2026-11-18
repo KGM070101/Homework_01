@@ -30,6 +30,14 @@ public class Arrow : PoolObject
     private float ultGain;
     private bool isUltArrow;
     private int hitCount;
+
+    public static int BonusHomingCount;
+
+    public static void AddHomingBonus(int value)
+    {
+        BonusHomingCount += value;
+    }
+
     private List<Transform> hittedEnemy = new List<Transform>();
     
     public Vector2 Dir;

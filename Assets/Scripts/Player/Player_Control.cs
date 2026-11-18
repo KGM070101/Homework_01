@@ -58,13 +58,14 @@ public partial class Player
     public float UltStack = 0;
     private float ultMaxDuration=20.0f;
     private float ultTimer;
-    private float maxHP;
-    private float hp;
+    public float maxHP;
+    public float hp;
     public float power;
     private float arrow_MaxChargeTime = 3f;
     private float arrow_ChargeStartTime;
     public float arrow_ChargeRation;
     private float arrow_ChargeTime;
+    private float defensiveBonus = 0;
     private int trigger = 1;
     private int arrowReloadTrigger = 0;
 
@@ -94,7 +95,9 @@ public partial class Player
 
     public void TakeDamage(float damage)
     {
-        hp -= damage;
+        float reduction = Mathf.Min(defensiveBonus, 0.5f);
+
+        hp -= (damage*(1.0f-reduction));
         IndicatePlayerHp();
 
         if (hp <= 0)
@@ -103,10 +106,10 @@ public partial class Player
 
     public void Heal(float healAmount)
     {
-        if (hp == maxHP)
+        if (hp >= maxHP)
             return;
 
-        hp += healAmount;
+        hp = Mathf.Min(hp + healAmount, maxHP);
         IndicatePlayerHp();
 
         if (hp >= maxHP)

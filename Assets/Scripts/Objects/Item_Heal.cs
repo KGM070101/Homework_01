@@ -20,9 +20,10 @@ public class Item_Heal : PoolObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
-        {            
+        if(collision.gameObject.CompareTag("Player"))        {
+            
             player.Heal(10);
+
             poolManager.PushNow(poolObject);
         }
     }    

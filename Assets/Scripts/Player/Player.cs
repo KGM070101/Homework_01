@@ -112,6 +112,15 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             case StatKind.MoveSpeed:
                 moveSpeed *= (1 + value);
                 break;
+            case StatKind.Reload:
+                reloadTime = 
+                    Mathf.Max(reloadTime * (1f - value), 1.5f);
+                if (!isReloading)
+                    reloadTimer = reloadTime;
+                break;
+            case StatKind.DefensivePower:
+                defensiveBonus += value;
+                break;
         }
     }
 
@@ -186,7 +195,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                         isReloading = false;
                         ammo += 99;
                         IndicateAmmo();
-                        reloadTimer = data[0].ReloadTIme;
+                        reloadTimer = reloadTime;
                     }
                 }
             }

@@ -64,7 +64,10 @@ public class SkillCardManager : MonoBehaviour
 
     private void Select(SkillCardData skillCard)
     {
-        player.AddStatBonus(skillCard.statKind, skillCard.statValue);
+        if (skillCard.statKind == StatKind.HomingCount)        
+            Arrow.AddHomingBonus((int)skillCard.statValue);        
+        else        
+            player.AddStatBonus(skillCard.statKind, skillCard.statValue);
 
         isOpen = false;
         panel.SetActive(false);

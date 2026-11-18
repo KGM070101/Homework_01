@@ -71,7 +71,8 @@ public partial class Player
     private void IndicateReloadingAmmoBar()
     {
         ammoBar.fillAmount = 0;
-        ammoBar.fillAmount = 1.0f-(reloadTimer / reloadTime);
+        ammoBar.fillAmount = 
+            Mathf.Clamp01(1.0f - (reloadTimer / reloadTime));
         ammoText.text = "Reloading...";
     }
 
