@@ -284,7 +284,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             {                
                 if(!isDashing)
                 {
-                    float levelMultiply = 1.0f + 0.05f * (level - 1);
+                    float levelMultiply = 1.0f + 0.01f * (level - 1);
                     moveSpeed = data[0].MoveSpeed * levelMultiply;
                 }
                 else

@@ -19,18 +19,15 @@ public partial class Player
     }
 
     private void LevelUp()
-    {
-        //if (level >= 10)
-        //    return;
-
+    {        
         level += 1;
 
         OnLevelUp?.Invoke((int)level);
-        requireXp *= 1.2f;
+        requireXp += 5;
         xp = 0;
-        hp += 10;
-        maxHP += 10;
-        power *= 1.1f;
+        hp += data[0].MaxHp * 0.05f;
+        maxHP += data[0].MaxHp * 0.05f;
+        power += data[0].Power*0.05f;
 
         IndicatePlayerHp();
     }

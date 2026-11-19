@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Bonus Defensive Power
   m_EditorClassIdentifier: 
   cardName: Bonus Defensive Power
-  description: Increase Defensive Power by 5%
+  description: Increase Defensive Power by 10%
   icon: {fileID: 0}
   type: 1
   statKind: 4
-  statValue: 0.05
+  statValue: 0.1
+  maxLevel: 5
   skillPrefab: {fileID: 0}

@@ -18,4 +18,5 @@ MonoBehaviour:
   type: 1
   statKind: 1
   statValue: 0.05
+  maxLevel: 10
   skillPrefab: {fileID: 0}

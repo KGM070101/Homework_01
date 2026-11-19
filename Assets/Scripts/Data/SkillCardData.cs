@@ -30,6 +30,7 @@ public class SkillCardData : ScriptableObject
     [Header("스탯 카드")]
     public StatKind statKind;
     public float statValue;
+    public int maxLevel;
 
     [Header("스킬 카드")]
     public GameObject skillPrefab;
