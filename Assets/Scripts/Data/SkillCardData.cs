@@ -15,7 +15,8 @@ public enum StatKind
     DefensivePower,
     FireCoolTime,
     BulletCount,
-    HomingCount
+    HomingCount,
+    Xp
 }
 
 [CreateAssetMenu(menuName ="Card/CardData")]

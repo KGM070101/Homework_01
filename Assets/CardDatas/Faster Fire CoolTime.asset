@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Faster Fire CoolTime
   m_EditorClassIdentifier: 
   cardName: Faster Fire CoolTime
-  description: Increase the speed of Fire CoolTime by 5%
+  description: 'Reduce Fire CoolTime by 10% of base CoolTime '
   icon: {fileID: 0}
   type: 1
   statKind: 5
-  statValue: 0.05
+  statValue: 0.1
   skillPrefab: {fileID: 0}

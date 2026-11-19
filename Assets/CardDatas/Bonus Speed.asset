@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bonus Speed
   m_EditorClassIdentifier: 
   cardName: Bonus Speed
-  description: Gain 5% of current speed
+  description: Gain 5% more current speed
   icon: {fileID: 0}
   type: 1
   statKind: 1

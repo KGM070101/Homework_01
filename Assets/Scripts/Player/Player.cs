@@ -110,7 +110,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 IndicatePlayerHp();
                 break;
             case StatKind.MoveSpeed:
-                moveSpeed *= (1 + value);
+                moveSpeedMultiply *= (1 + value);
                 break;
             case StatKind.Reload:
                 reloadTime = 
@@ -125,6 +125,11 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 fireCoolTImeReduction += value;
                 break;
             case StatKind.BulletCount:
+                bonusBulletCount=
+                    Mathf.Min(bonusBulletCount+(int)value, maxBonusBulletCount);
+                break;
+            case StatKind.Xp:
+                xpMultiply = Mathf.Min(xpMultiply + value, 2.0f);
                 break;
         }
     }
@@ -147,15 +152,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                     coroutine = StartCoroutine(Co_WheelAnimationStart());
                 }
             }            
-           
-            //플레이어 최대레벨 상한선 유지
-            {
-                if(level>=10)
-                {
-                    level = 10;
-                }
-            }
-
+                       
             //총알발사 간격 타이머
             {
                 fireCoolTimer += Time.deltaTime;
@@ -163,7 +160,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 if(isInBurstFireUltState==false)
                 {
                     float maxCoolTime = 
-                        Mathf.Max(fireCoolTime * (1 - fireCoolTImeReduction), 0.5f);
+                        Mathf.Max(fireCoolTime * (1 - fireCoolTImeReduction), 0.25f);
 
                     if (fireCoolTimer >= maxCoolTime)
                     {
@@ -178,7 +175,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                 else
                 {
                     float doubleMaxCoolTiem = 
-                        Mathf.Max(fireCoolTime * (1 - fireCoolTImeReduction), 0.5f) * 2.0f;
+                        Mathf.Max(fireCoolTime * (1 - fireCoolTImeReduction), 0.25f) * 2.0f;
 
                     if (fireCoolTimer >= doubleMaxCoolTiem) // ==>버스트모드 궁극기 상태에서 총알수가 두배가 돼서,
                                                                                                       // 타이밍 맞추려고 쿨타임도 2배
@@ -284,54 +281,18 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             }
 
             //플레이어 속도 제어
-            {
-                if (isDashing == false)
+            {                
+                if(!isDashing)
                 {
-                    if(level==1)
-                    {
-                        moveSpeed = data[0].MoveSpeed;
-                    }
-                    else if(level==2)
-                    {
-                        moveSpeed = data[0].MoveSpeed*1.05f;
-                    }
-                    else if(level==3)
-                    {
-                        moveSpeed = data[0].MoveSpeed * 1.1f;
-                    }
-                    else if(level==4)
-                    {
-                        moveSpeed = data[0].MoveSpeed * 1.15f;
-                    }
-                    else if(level==5)
-                    {
-                        moveSpeed = data[0].MoveSpeed * 1.2f;
-                    }
-                    else if (level == 6)
-                    {
-                        moveSpeed = data[0].MoveSpeed * 1.25f;
-                    }
-                    else if (level == 7)
-                    {
-                        moveSpeed = data[0].MoveSpeed * 1.3f;
-                    }
-                    else if (level == 8)
-                    {
-                        moveSpeed = data[0].MoveSpeed * 1.35f;
-                    }
-                    else if (level == 9)
-                    {
-                        moveSpeed = data[0].MoveSpeed * 1.4f;
-                    }
-                    else if (level == 10)
-                    {
-                        moveSpeed = data[0].MoveSpeed * 1.45f;
-                    }
-                }                
+                    float levelMultiply = 1.0f + 0.05f * (level - 1);
+                    moveSpeed = data[0].MoveSpeed * levelMultiply;
+                }
                 else
                 {
                     moveSpeed = data[0].DashSpeed;
                 }
+
+                moveSpeed *= moveSpeedMultiply;
             }
 
             //플레이어 궁극기 사용 가능 여부 판단
@@ -368,11 +329,8 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
             //플레이어 레벨업
             {
                 if(xp>=requireXp)
-                {
-                    if(level<=9)
-                    {
-                        LevelUp();
-                    }                  
+                {                                        
+                    LevelUp();                                      
                 }
             }
 

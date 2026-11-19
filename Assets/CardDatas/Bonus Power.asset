@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bonus Power
   m_EditorClassIdentifier: 
   cardName: Bonus Power
-  description: Gain 5% of current power
+  description: Gain 5% more current power
   icon: {fileID: 0}
   type: 1
   statKind: 0

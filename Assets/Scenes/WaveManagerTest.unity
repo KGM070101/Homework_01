@@ -2172,6 +2172,7 @@ GameObject:
   - component: {fileID: 167371724}
   - component: {fileID: 167371725}
   - component: {fileID: 167371726}
+  - component: {fileID: 167371727}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2264,8 +2265,10 @@ MonoBehaviour:
   isInShotgunUltState: 0
   isInArrowUltState: 0
   UltStack: 0
-  power: 0
   arrow_ChargeRation: 0
+  maxHP: 0
+  hp: 0
+  power: 0
   ammoUI: {fileID: 1242029132}
   ammoText: {fileID: 1014696270}
   ammoBar: {fileID: 428827044}
@@ -2292,6 +2295,18 @@ MonoBehaviour:
   xpBar: {fileID: 2058281158}
   levelText: {fileID: 2022953539}
   level: 1
+--- !u!114 &167371727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167371722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38ab878a848adb4e90b251835610ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &171206779
 GameObject:
   m_ObjectHideFlags: 0
@@ -9989,8 +10004,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10212,8 +10227,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -14021,6 +14036,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8ed46249fe9fc974b87d704b3120c028, type: 2}
   - {fileID: 11400000, guid: cf02de38417b9b140be2b5fda1945146, type: 2}
   - {fileID: 11400000, guid: d203aae780ac9e040b5a3020bf051c04, type: 2}
+  - {fileID: 11400000, guid: cdc81cf2bc9ea934a95d2a3c3cf54c0c, type: 2}
+  - {fileID: 11400000, guid: fc9f49e92778ca64da4efdf46de1957c, type: 2}
+  - {fileID: 11400000, guid: 42291336fcdda9440a9059a9e94e0add, type: 2}
+  - {fileID: 11400000, guid: 3fe89d7274b77344fb7a782e1f84e1e4, type: 2}
+  - {fileID: 11400000, guid: 6191c405f5ab5db4f8222f922b4a86be, type: 2}
+  - {fileID: 11400000, guid: 22a9abd5ebe38e24bb5f5088a84c82ad, type: 2}
 --- !u!1 &1242029132
 GameObject:
   m_ObjectHideFlags: 0
@@ -18710,8 +18731,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Faster Reload
   m_EditorClassIdentifier: 
   cardName: Faster Reload
-  description: Increase the speed of Reloading by 5%
+  description: Reduce Reload TIme by 10%
   icon: {fileID: 0}
   type: 1
   statKind: 3
-  statValue: 0.05
+  statValue: 0.1
   skillPrefab: {fileID: 0}

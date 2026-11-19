@@ -62,6 +62,7 @@ public partial class Player
     private float arrow_ChargeStartTime;   
     private float arrow_ChargeTime;
     private float defensiveBonus = 0;
+    private float moveSpeedMultiply = 1.0f;
 
     public float UltStack = 0;
     public float arrow_ChargeRation;
@@ -73,6 +74,7 @@ public partial class Player
     private int arrowReloadTrigger = 0;
     private int arrows = 10;
     private int bonusBulletCount;
+    private int maxBonusBulletCount = 5;
 
     private Coroutine coroutine;
     private void Awake_BindInput()
@@ -203,7 +205,7 @@ public partial class Player
                         isInBurstFireUltState = true;
                         isInArrowUltState = false;
                         isInShotgunUltState = false;
-                        coroutine = StartCoroutine(CoBurstFire_Ult());
+                        coroutine = StartCoroutine(Co_BurstFire_Ult());
                     }
                 }
                 else if(fireMode==FireMode.Shotgun)
@@ -354,70 +356,12 @@ public partial class Player
         arrowChargingBar.fillAmount = 0;        
     }
 
-    private IEnumerator Co_BurstFire()
-    {        
-        SpawnBullet();
-        
-        yield return new WaitForSeconds(0.1f);
-        
-        SpawnBullet();
-       
-        yield return new WaitForSeconds(0.1f);
-        
-        SpawnBullet();    
-
-        //for(int i=0; i<3+bonusBulletCount;i++)
-        //{
-        //    SpawnBullet();
-
-        //    yield return new WaitForSeconds(0.1f);
-        //}
-    }
-
     private void SpawnBullet()
     {
         FireBullet();
         WeaponBounceVer1();
         ammo -= 1;
         IndicateAmmo();
-    }
-
-    private void FireBullet(Vector2? direction = null, float lifeTime = -1.0f)
-    {
-        Vector2 dir = direction ?? PlayerOriginalFacingDir;
-
-        PoolObject pool = poolManager.Get(3);
-
-        pool.transform.SetParent(bulletBox);
-        pool.transform.position = firepoint.position;
-        pool.transform.rotation = Quaternion.identity;
-
-        pool.GetComponent<BulletForPlayer>().Shoot(dir, power, lifeTime);
-    }
-    
-    private IEnumerator CoBurstFire_Ult()
-    {      
-        SpawnBullet_Ult();
-
-        yield return new WaitForSeconds(0.1f);
-      
-        SpawnBullet_Ult();
-
-        yield return new WaitForSeconds(0.1f);
-        
-        SpawnBullet_Ult();
-
-        yield return new WaitForSeconds(0.1f);
-        
-        SpawnBullet_Ult();
-
-        yield return new WaitForSeconds(0.1f);
-        
-        SpawnBullet_Ult();
-
-        yield return new WaitForSeconds(0.1f);
-        
-        SpawnBullet_Ult();
     }
 
     private void SpawnBullet_Ult()
@@ -436,26 +380,71 @@ public partial class Player
         BulletForPlayer bullet_0 = pool_0.GetComponent<BulletForPlayer>();
         BulletForPlayer bullet_1 = pool_1.GetComponent<BulletForPlayer>();
 
-        bullet_0.Shoot(PlayerOriginalFacingDir,power);
-        bullet_1.Shoot(PlayerOriginalFacingDir,power);
+        bullet_0.Shoot(PlayerOriginalFacingDir, power);
+        bullet_1.Shoot(PlayerOriginalFacingDir, power);
         WeaponBounceVer1();
     }
+
+    private void FireBullet(Vector2? direction = null, float lifeTime = -1.0f)
+    {
+        Vector2 dir = direction ?? PlayerOriginalFacingDir;
+
+        PoolObject pool = poolManager.Get(3);
+
+        pool.transform.SetParent(bulletBox);
+        pool.transform.position = firepoint.position;
+        pool.transform.rotation = Quaternion.identity;
+
+        pool.GetComponent<BulletForPlayer>().Shoot(dir, power, lifeTime);
+    }
+
+    private IEnumerator Co_BurstFire()
+    {        
+        for (int i = 0; i < 3 + bonusBulletCount; i++)
+        {
+            if (ammo <= 0)
+                yield break;
+
+            SpawnBullet();
+
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    private IEnumerator Co_BurstFire_Ult()
+    {
+        for (int i = 0; i < 6 + bonusBulletCount; i++)
+        {
+            SpawnBullet_Ult();
+
+            yield return new WaitForSeconds(0.05f);
+        }
+    }                    
 
     private void Shotgun()
     {
         //총알 부채꼴각 / 탄수 스크립트 제어
         {
             shotgunSpreadAngle = 60.0f;
-            shotgunBulletCount = 9;
+            shotgunBulletCount = 9 + bonusBulletCount;
         }        
 
         Vector2 baseDirection = PlayerOriginalFacingDir.normalized;
 
-        float startAngle = -shotgunSpreadAngle * 0.5f;
-        float angleStep =
-            shotgunSpreadAngle / (shotgunBulletCount - 1);
+        float startAngle = -shotgunSpreadAngle * 0.5f;        
 
-        for (int i = 0; i < shotgunBulletCount; i++)
+        int ammoCount = Mathf.Min(shotgunBulletCount, (int)ammo);
+
+        float angleStep = 
+            shotgunSpreadAngle / Mathf.Max(ammoCount - 1.0f, 1.0f);
+
+        if (ammoCount <= 0)
+            return;
+
+        if (ammoCount == 1)
+            startAngle = 0;
+        
+        for (int i = 0; i < ammoCount; i++)
         {
             float currentAngle =
                 startAngle + (angleStep * i);
@@ -466,28 +455,38 @@ public partial class Player
                     Vector3.forward
                 ) * baseDirection;
 
-            FireBullet(bulletDirection,0.25f);
-            WeaponBounceVer2();            
-        }        
-        ammo -= 9;
+            FireBullet(bulletDirection, 0.25f);               
+        }
+
+        ammo -= ammoCount;
+        WeaponBounceVer2();
         IndicateAmmo();
     }
 
     private void Shotgun_Ult()
     {
-        //총알 부채꼴각 / 탄수 스크립트 제어
+        //총알 부채꼴 / 탄수 스크립트 제어
         {
             shotgunSpreadAngle = 60.0f;
-            shotgunBulletCount = 18;
+            shotgunBulletCount = 18 + bonusBulletCount;
         }
 
         Vector2 baseDirection = PlayerOriginalFacingDir.normalized;
 
         float startAngle = -shotgunSpreadAngle * 0.5f;
-        float angleStep =
-            shotgunSpreadAngle / (shotgunBulletCount - 1);
 
-        for (int i = 0; i < shotgunBulletCount; i++)
+        int ammoCount = Mathf.Min(shotgunBulletCount, (int)ammo);
+
+        float angleStep =
+            shotgunSpreadAngle / Mathf.Max(ammoCount - 1.0f, 1.0f);
+
+        if (ammoCount <= 0)
+            return;
+
+        if (ammoCount == 1)
+            startAngle = 0;
+
+        for (int i = 0; i < ammoCount; i++)
         {
             float currentAngle =
                 startAngle + (angleStep * i);
@@ -498,10 +497,11 @@ public partial class Player
                     Vector3.forward
                 ) * baseDirection;
 
-            FireBullet(bulletDirection,0.25f);
-            WeaponBounceVer2();            
+            FireBullet(bulletDirection, 0.25f);
         }
-        ammo -= 18;
+
+        ammo -= ammoCount;
+        WeaponBounceVer2();
         IndicateAmmo();
     }
 

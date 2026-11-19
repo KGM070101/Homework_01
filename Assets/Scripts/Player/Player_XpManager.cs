@@ -10,22 +10,23 @@ public partial class Player
     public event Action<int> OnLevelUp;
 
     private float xp;
-    private float requireXp = 20;       
+    private float requireXp = 20;
+    private float xpMultiply = 1.0f;
 
     public void GetXp(float xpAmount)
     {
-        xp += xpAmount;
+        xp += xpAmount*xpMultiply;
     }
 
     private void LevelUp()
     {
-        if (level >= 10)
-            return;
+        //if (level >= 10)
+        //    return;
 
         level += 1;
 
         OnLevelUp?.Invoke((int)level);
-        requireXp *= 1.4f;
+        requireXp *= 1.2f;
         xp = 0;
         hp += 10;
         maxHP += 10;

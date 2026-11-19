@@ -35,7 +35,7 @@ public class Arrow : PoolObject
 
     public static void AddHomingBonus(int value)
     {
-        BonusHomingCount += value;
+        BonusHomingCount =Mathf.Min(BonusHomingCount+value,5);
     }
 
     private List<Transform> hittedEnemy = new List<Transform>();
@@ -142,7 +142,8 @@ public class Arrow : PoolObject
         damageable.Damage(damage * 1.2f);
         hitCount++;
 
-        target = hitCount >= homingMaxCount ? null : FindNearestEnemy();
+        target = 
+            hitCount >= homingMaxCount + BonusHomingCount ? null : FindNearestEnemy();
        
         if (target is null)
         {
