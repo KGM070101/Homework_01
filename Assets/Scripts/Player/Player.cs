@@ -85,16 +85,25 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
     private void OnEnable()
     {
         GameManager.OnEnemyDied += HandleEnemyDied;
+        GameManager.OnCardOpenChanged += CheckCardOpen;
     }
 
     private void OnDisable()
     {
         GameManager.OnEnemyDied -= HandleEnemyDied;
+        GameManager.OnCardOpenChanged -= CheckCardOpen;
     }
 
     private void HandleEnemyDied(float xp)
     {
         GetXp(xp);
+    }
+
+    private void CheckCardOpen(bool open)
+    {
+        inputLocked = open;
+        moveDir=Vector2.zero;
+        rigidbody2D.linearVelocity = Vector2.zero;
     }
 
     public void AddStatBonus(StatKind kind,float value)

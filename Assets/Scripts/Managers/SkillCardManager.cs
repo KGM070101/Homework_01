@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -13,12 +15,14 @@ public class SkillCardManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] descriptionTexts;
     [SerializeField] private TextMeshProUGUI[] levelTexts;
     [SerializeField] private List<SkillCardData> statCards;
+    [SerializeField] private float cardWaitTime = 0.5f;
+
+    private Dictionary<SkillCardData, int> cardLevel = new();
 
     private Player player;
     private int pending;
     private bool isOpen;
-
-    private Dictionary<SkillCardData, int> cardLevel=new();
+    public bool IsOpen => isOpen;
 
     private void Awake()
     {
@@ -47,7 +51,6 @@ public class SkillCardManager : MonoBehaviour
         if (isOpen || pending <= 0)
             return;
 
-
         List<SkillCardData> pool = new List<SkillCardData>();
         foreach (SkillCardData card in statCards)
         {
@@ -60,6 +63,7 @@ public class SkillCardManager : MonoBehaviour
 
         pending--;
         isOpen = true;
+        GameManager.CardOpenChanged(isOpen);
         Time.timeScale = 0.0f;
         panel.SetActive(true);
 
@@ -70,7 +74,7 @@ public class SkillCardManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            int index = Random.Range(0, pool.Count);
+            int index = UnityEngine.Random.Range(0, pool.Count);
             SkillCardData skillCard = pool[index];
             pool.RemoveAt(index);
 
@@ -104,10 +108,20 @@ public class SkillCardManager : MonoBehaviour
         cardLevel[skillCard] = GetLevel(skillCard) + 1;
 
         isOpen = false;
+        GameManager.CardOpenChanged(isOpen);
         panel.SetActive(false);
-        Time.timeScale = 1.0f;
+        StartCoroutine(Co_WaitOpenTime());
+    }
+
+    private IEnumerator Co_WaitOpenTime()
+    {
+        if (pending > 0)
+            yield return new WaitForSecondsRealtime(cardWaitTime);
 
         TryOpen();
+
+        if (!isOpen)
+            Time.timeScale = 1.0f;
     }
 
     private int GetLevel(SkillCardData skillCard)

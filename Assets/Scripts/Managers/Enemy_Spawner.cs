@@ -38,8 +38,6 @@ public class Enemy_Spawner : MonoBehaviour
 
     public int enemyCount;
 
-    private Vector2 randomSpawnTrigger = new Vector2(0f, 99f);
-
     private Coroutine coroutine;
 
     private void Awake()
@@ -83,6 +81,22 @@ public class Enemy_Spawner : MonoBehaviour
     {
         float randomTrigger = Random.Range(0, 99);
         int index = randomTrigger < 30 ? 1 : 0;
+
+        PoolObject pool = poolManager.Get(index);
+
+        pool.transform.SetParent(enemyBox);
+        pool.transform.position = GetRandomPos();
+        pool.transform.rotation = Quaternion.identity;
+
+        pool.GetComponent<IWaveScalable>().ApplyWaveScale(statMultiplier);
+
+        AddEnemyCount();
+    }
+
+    public void SpawnEnemiesVer2(float statMultiplier)
+    {
+        float randomTrigger = Random.Range(0, 99);
+        int index = randomTrigger < 99 ? 7 : 0;
 
         PoolObject pool = poolManager.Get(index);
 

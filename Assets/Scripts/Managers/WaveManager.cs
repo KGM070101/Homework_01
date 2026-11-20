@@ -61,6 +61,7 @@ public class WaveManager : MonoBehaviour
                 for (int i = 0; i < enemyCount; i++)
                 {
                     enemy_Spawner.SpawnEnemies(multiplier);
+                    enemy_Spawner.SpawnEnemiesVer2(multiplier);
                     yield return new WaitForSeconds(spawnInterval);
                 }
             }

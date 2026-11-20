@@ -23,7 +23,7 @@ public partial class Player
         level += 1;
 
         OnLevelUp?.Invoke((int)level);
-        requireXp += 5;
+        requireXp += 10;
         xp = 0;
         hp += data[0].MaxHp * 0.05f;
         maxHP += data[0].MaxHp * 0.05f;

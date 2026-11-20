@@ -18,7 +18,6 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
     private Transform playerPos;
     
     private Player player;
-    private Enemy_Spawner enemy_Spawner;
     private PoolManager poolManager;
     private EnemyHpBarRotation enemyHpBar;
 
@@ -35,7 +34,6 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
     private float knockbackDuration=0.2f;
     private float power;
     private float speed;
-    private int deadTrigger = 0;
     private float maxHp;
 
     private bool isKnockbacking = false;
@@ -47,6 +45,8 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
 
     public bool IsKnockbacking => isKnockbacking;
 
+    //public bool IsAlive => hp > 0;
+
     protected override void Awake()
     {
         base.Awake();
@@ -57,7 +57,6 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
         speed = data[1].MoveSpeed;
 
         player = FindFirstObjectByType<Player>();
-        enemy_Spawner = FindFirstObjectByType<Enemy_Spawner>();
         poolManager = FindAnyObjectByType<PoolManager>();
         enemyHpBar = GetComponentInChildren<EnemyHpBarRotation>();
 
@@ -84,8 +83,6 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
         hp = maxHp;
 
         enemyHpBar.SetCurrentHp(1);
-
-        deadTrigger = 0;
 
         boxCollider2D.enabled = true;
 
@@ -115,14 +112,7 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
     {
         base.OnTriggerEnter2D(collision);       
     }
-
-    private IEnumerator Co_Knockback()
-    {
-        yield return new WaitForSeconds(knockbackDuration);
-
-        isKnockbacking = false;
-    }
-
+    
     protected override void Update()
     {
         base.Update();

@@ -14,7 +14,6 @@ public class ItemSpawner : MonoBehaviour
 
     private PoolManager poolManager;
 
-    private Vector2 randomSpawnTrigger;
     private Vector2 randomSpawnInterval = new Vector2(10, 15);
 
     private Coroutine coroutine;

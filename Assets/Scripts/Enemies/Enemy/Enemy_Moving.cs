@@ -4,12 +4,7 @@ public partial class Enemy
 {
     private float EnemyTimer;
     private void TracePlayer()
-    {
-        //if (playerPos == null|| hp <= 0)
-        //{
-        //    return;
-        //}        
-
+    {        
         Vector2 direction =
             (player.transform.position - transform.position).normalized;
 

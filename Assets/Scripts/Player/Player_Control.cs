@@ -38,6 +38,7 @@ public partial class Player
     private bool canFire;    
     private bool canUlt;    
     private bool isCharging;
+    private bool inputLocked = false;
 
     public bool isDead = false;
     public bool isInUltState = false;
@@ -76,12 +77,8 @@ public partial class Player
     private int bonusBulletCount;
     private int maxBonusBulletCount = 5;
 
-    private Coroutine coroutine;
-    private void Awake_BindInput()
-    {
-        
-    }
-
+    private Coroutine coroutine;   
+   
     protected override void FixedUpdate()
     {
         if (!isDead)
@@ -136,6 +133,9 @@ public partial class Player
         if (isDead)
             return;
 
+        if (inputLocked)
+            return;
+
         Vector3 mouseWorldPosition = 
             mainCamera.ScreenToWorldPoint
             (new Vector3(mousePosition.x, mousePosition.y, -mainCamera.transform.position.z));
@@ -157,6 +157,9 @@ public partial class Player
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (isDead)
+            return;
+
+        if (inputLocked)
             return;
 
         if(canFire==true)
@@ -257,6 +260,9 @@ public partial class Player
         if (isDead)
             return;
 
+        if (inputLocked)
+            return;
+
         if(context.performed)
         {
             moveDir = context.ReadValue<Vector2>();
@@ -272,6 +278,9 @@ public partial class Player
     public void OnDash(InputAction.CallbackContext context)
     {
         if (isDead)
+            return;
+
+        if (inputLocked)
             return;
 
         if(canDash==true)
