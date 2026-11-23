@@ -75,7 +75,7 @@ public class SkillCardManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             int index = UnityEngine.Random.Range(0, pool.Count);
-            SkillCardData skillCard = pool[index];
+            SkillCardData skillCard = pool[index];            
             pool.RemoveAt(index);
 
             nameTexts[i].text = skillCard.cardName;
@@ -100,12 +100,20 @@ public class SkillCardManager : MonoBehaviour
 
     private void Select(SkillCardData skillCard)
     {
-        if (skillCard.statKind == StatKind.HomingCount)        
-            Arrow.AddHomingBonus((int)skillCard.statValue);        
-        else        
-            player.AddStatBonus(skillCard.statKind, skillCard.statValue);
+        if(skillCard.type==CardType.Stat)
+        {
+            if (skillCard.statKind == StatKind.HomingCount)
+                Arrow.AddHomingBonus((int)skillCard.statValue);
+            else
+                player.AddStatBonus(skillCard.statKind, skillCard.statValue);
 
-        cardLevel[skillCard] = GetLevel(skillCard) + 1;
+            cardLevel[skillCard] = GetLevel(skillCard) + 1;            
+        }
+        else
+        {
+            SkillRunTIme skill = Instantiate(skillCard.skillPrefab);
+            skill.Configure(player);
+        }
 
         isOpen = false;
         GameManager.CardOpenChanged(isOpen);

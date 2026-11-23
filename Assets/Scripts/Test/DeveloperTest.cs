@@ -11,7 +11,7 @@ public class DeveloperTest : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKey(KeyCode.Alpha1))
+        if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             player.GetXp(100);
         }

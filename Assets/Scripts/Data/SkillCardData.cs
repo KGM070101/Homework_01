@@ -33,5 +33,5 @@ public class SkillCardData : ScriptableObject
     public int maxLevel;
 
     [Header("스킬 카드")]
-    public GameObject skillPrefab;
+    public SkillRunTIme skillPrefab;
 }

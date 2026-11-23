@@ -14558,6 +14558,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3fe89d7274b77344fb7a782e1f84e1e4, type: 2}
   - {fileID: 11400000, guid: 6191c405f5ab5db4f8222f922b4a86be, type: 2}
   - {fileID: 11400000, guid: 22a9abd5ebe38e24bb5f5088a84c82ad, type: 2}
+  - {fileID: 11400000, guid: 155f0a1905260fd42a9ed18cad3e65e0, type: 2}
   cardWaitTime: 0.25
 --- !u!1 &1242029132
 GameObject:

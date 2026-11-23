@@ -88,7 +88,7 @@ public class FastEnemy : Character,IDamageable,IKnockbackable,IWaveScalable
 
         if(hp<=0)
         {
-            Co_Dead();
+            StartCoroutine(Co_Dead());
         }
 
         StartCoroutine(Co_DamageColor());
