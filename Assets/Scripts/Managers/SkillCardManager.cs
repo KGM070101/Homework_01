@@ -18,6 +18,7 @@ public class SkillCardManager : MonoBehaviour
     [SerializeField] private float cardWaitTime = 0.5f;
 
     private Dictionary<SkillCardData, int> cardLevel = new();
+    private Dictionary<SkillCardData, SkillRunTIme> ownedSkills = new();
 
     private Player player;
     private int pending;
@@ -111,8 +112,17 @@ public class SkillCardManager : MonoBehaviour
         }
         else
         {
-            SkillRunTIme skill = Instantiate(skillCard.skillPrefab);
-            skill.Configure(player);
+            if(ownedSkills.TryGetValue(skillCard,out SkillRunTIme owned))
+            {
+                owned.LevelUp();
+            }
+            else
+            {
+                SkillRunTIme skill = Instantiate(skillCard.skillPrefab);
+                skill.Configure(player);
+                ownedSkills[skillCard] = skill;
+            }
+                
         }
 
         isOpen = false;

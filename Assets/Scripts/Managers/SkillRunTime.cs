@@ -8,4 +8,9 @@ public class SkillRunTIme : MonoBehaviour
     {
         this.player = player;
     }
+
+    public virtual void LevelUp()
+    {
+
+    }
 }
