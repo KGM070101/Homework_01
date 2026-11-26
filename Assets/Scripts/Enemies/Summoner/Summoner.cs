@@ -15,6 +15,8 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
     private PoolManager poolManager;
     public PoolManager PoolManager => poolManager;
     public Rigidbody2D Rigidbody2D => rigidbody2D;
+
+    private Summoner_FSM fsm;
   
     private Vector2 randomXpAmount = new Vector2(5.0f, 8.0f);
 
@@ -51,6 +53,7 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
         player = FindFirstObjectByType<Player>();
         enemyHpBar = GetComponentInChildren<EnemyHpBarRotation>();
         poolManager = FindAnyObjectByType<PoolManager>();
+        fsm = new Summoner_FSM(this);
 
         maxHp = data[0].MaxHp;
         hp = data[0].MaxHp;
@@ -83,6 +86,8 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
     protected override void Update()
     {
         base.Update();
+
+        fsm.Tick(Time.deltaTime);
 
         // 적 넉백 타이머
         {

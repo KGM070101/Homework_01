@@ -14,8 +14,8 @@ public class Summoner_Summon : Summoner_States
     private float maxRadius = 6;
     private int SummonCount = 3;       
 
-    private float aimDuration = 0.5f;
-    private float endDelay = 0.5f;
+    private float aimDuration = 1.0f;
+    private float endDelay = 1.0f;
     private float timer;
     
     public Summoner_Summon(Summoner summoner, Summoner_FSM fsm) : base(summoner, fsm)
@@ -60,7 +60,7 @@ public class Summoner_Summon : Summoner_States
     private void Tick_Aim()
     {
         Vector2 dir =
-            (summoner.Player.transform.position = summoner.transform.position);
+            (summoner.Player.transform.position - summoner.transform.position);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         summoner.Rigidbody2D.SetRotation(angle);
 
@@ -106,7 +106,7 @@ public class Summoner_Summon : Summoner_States
             skeleton.transform.SetParent(summoner.EnemyBox);
             skeleton.transform.position = GetRandomPos();
             skeleton.transform.rotation = Quaternion.identity;
-
+           
             skeleton.GetComponent<IWaveScalable>().ApplyWaveScale(summoner.WaveMultiplier);
         }        
     }
