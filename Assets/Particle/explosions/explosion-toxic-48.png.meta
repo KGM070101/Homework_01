@@ -141,6 +141,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -509,7 +522,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      explosion-toxic-48_0: 6479657251178732032
+      explosion-toxic-48_1: 3787296742385945317
+      explosion-toxic-48_10: 4976905137162276457
+      explosion-toxic-48_11: -1005251589350539391
+      explosion-toxic-48_12: -5815043039693430223
+      explosion-toxic-48_13: 7840779092296848067
+      explosion-toxic-48_14: -549698589395707312
+      explosion-toxic-48_15: -3659871052164908660
+      explosion-toxic-48_2: -5989493614744839850
+      explosion-toxic-48_3: 6709501157257030072
+      explosion-toxic-48_4: -3899816463245664415
+      explosion-toxic-48_5: 5326406107935137804
+      explosion-toxic-48_6: 6982645628380882865
+      explosion-toxic-48_7: 7294069583599244116
+      explosion-toxic-48_8: 3784285284166120140
+      explosion-toxic-48_9: 5848109094133559103
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

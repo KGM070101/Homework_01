@@ -47,3 +47,4 @@ MonoBehaviour:
   shield: {fileID: 7653584150049705433, guid: a9197662330e66e4a8d85278d3481e56, type: 3}
   turnSpeed: 360
   turnRadius: 3
+  startAngle: 0

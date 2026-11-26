@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
 {
+    [SerializeField] private Transform enemyBox;
+    public Transform EnemyBox => enemyBox;
+
     private Player player;
     public Player Player => player;
 
     private EnemyHpBarRotation enemyHpBar;
 
     private PoolManager poolManager;
+    public PoolManager PoolManager => poolManager;
     public Rigidbody2D Rigidbody2D => rigidbody2D;
-
+  
     private Vector2 randomXpAmount = new Vector2(5.0f, 8.0f);
 
     private float hp;
@@ -30,6 +34,7 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
     public float StopDistance => stopDistance;
 
     private float knockbackDuration;
+    public float WaveMultiplier { get; private set; } = 1f;
 
     private bool isKnockbacking = false;
     public bool IsKnockbacking => isKnockbacking;
@@ -91,6 +96,8 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
 
     public void ApplyWaveScale(float multifly)
     {
+        WaveMultiplier = multifly;
+
         maxHp = data[0].MaxHp * multifly;
         hp = maxHp;
         power = data[0].Power * multifly;

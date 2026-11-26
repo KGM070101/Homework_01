@@ -141,6 +141,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -509,7 +522,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      magic-holy-48_0: -4891318549994555522
+      magic-holy-48_1: 6553574559636545587
+      magic-holy-48_10: -5102091209897012731
+      magic-holy-48_11: 5751760659255729429
+      magic-holy-48_12: -7065677515577874603
+      magic-holy-48_13: -438760411374646300
+      magic-holy-48_14: -138635949014695387
+      magic-holy-48_15: -3386037133223862678
+      magic-holy-48_2: -4841720653484864127
+      magic-holy-48_3: -20092748248718097
+      magic-holy-48_4: 2866629224857601248
+      magic-holy-48_5: -7176138565330184945
+      magic-holy-48_6: -5137698268682250301
+      magic-holy-48_7: 3434802793005691442
+      magic-holy-48_8: 6076493385409065006
+      magic-holy-48_9: -7929648046268297832
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

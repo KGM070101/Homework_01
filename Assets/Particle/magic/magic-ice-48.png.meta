@@ -144,6 +144,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -534,7 +547,24 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      magic-ice-48_0: -1006992344818021481
+      magic-ice-48_1: -1384433997107845795
+      magic-ice-48_10: -8941976303017111816
+      magic-ice-48_11: 5370347220002676454
+      magic-ice-48_12: 5668793347590590445
+      magic-ice-48_13: -5764031208484371676
+      magic-ice-48_14: 6273794328932339636
+      magic-ice-48_15: -8816699550549243709
+      magic-ice-48_16: 1586106776562479581
+      magic-ice-48_2: 8983627561304404001
+      magic-ice-48_3: 3307802053971748845
+      magic-ice-48_4: 3745418916052359529
+      magic-ice-48_5: 6097725290094751988
+      magic-ice-48_6: 8631705414920998754
+      magic-ice-48_7: 7834135577412320458
+      magic-ice-48_8: 2045141879438906862
+      magic-ice-48_9: 725835024708791657
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

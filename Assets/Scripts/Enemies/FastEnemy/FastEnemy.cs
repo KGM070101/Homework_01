@@ -122,16 +122,20 @@ public class FastEnemy : Character,IDamageable,IKnockbackable,IWaveScalable
         isDying = true;
         hp = 0;
 
-        spriteRenderer.DOFade(0.0f, 0.5f);
+        spriteRenderer.DOFade(0.0f, 0.1f);
         boxCollider2D.enabled = false;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         spriteRenderer.DOKill();
 
         float randomXp = Random.Range(randomXpAmount.x, randomXpAmount.y);
 
         GameManager.EnemyDied(randomXp);
+
+        PoolObject dieEffect = poolManager.Get(10);
+
+        dieEffect.transform.position = transform.position;
 
         poolManager.PushNow(this);
     }

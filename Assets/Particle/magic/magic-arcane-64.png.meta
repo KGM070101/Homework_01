@@ -129,6 +129,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -409,7 +422,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      magic-arcane-64_0: 1285861775130255571
+      magic-arcane-64_1: -7353833342695164398
+      magic-arcane-64_10: -7569059986475170525
+      magic-arcane-64_11: 154815251651361124
+      magic-arcane-64_2: -3809473368466017965
+      magic-arcane-64_3: -5720568897158071579
+      magic-arcane-64_4: 8358262519251120787
+      magic-arcane-64_5: -1014617872343909764
+      magic-arcane-64_6: -5641109053742101874
+      magic-arcane-64_7: 3174164769942796126
+      magic-arcane-64_8: -4408347201408210817
+      magic-arcane-64_9: 3639652998999389023
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

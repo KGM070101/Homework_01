@@ -141,6 +141,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -509,7 +522,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      magic-fire-48_0: -7025886439587053170
+      magic-fire-48_1: 2397402118960620131
+      magic-fire-48_10: -9190142821236947242
+      magic-fire-48_11: 4382861982483995758
+      magic-fire-48_12: -557209057327762557
+      magic-fire-48_13: -1142441451261061613
+      magic-fire-48_14: -5402843920795158162
+      magic-fire-48_15: 1219235782608191629
+      magic-fire-48_2: 6372160648183833141
+      magic-fire-48_3: -5946375022457754732
+      magic-fire-48_4: -7917880606379008280
+      magic-fire-48_5: 3007176677448147549
+      magic-fire-48_6: 3464159055304793521
+      magic-fire-48_7: -983265974641918952
+      magic-fire-48_8: 569541438335460029
+      magic-fire-48_9: 2034254345718550723
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

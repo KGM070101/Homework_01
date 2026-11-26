@@ -68,8 +68,10 @@ public class Summoner_Normal : Summoner_States
 
                     if (Random.value <= patternChance)
                     {
+                        //fsm.ChangeState
+                        //    (Random.value < 0.3f ? SummonerStateEnum.patternSummon : SummonerStateEnum.patternShoot);
                         fsm.ChangeState
-                            (Random.value < 0.3f ? SummonerStateEnum.patternSummon : SummonerStateEnum.patternShoot);
+                            (Random.value < 0.9f ? SummonerStateEnum.patternSummon : SummonerStateEnum.normal);
                     }
                 }
             }

@@ -141,6 +141,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -509,7 +522,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      explosion-frost-48_0: 122393903803368612
+      explosion-frost-48_1: 617079477242569907
+      explosion-frost-48_10: 629362310852075572
+      explosion-frost-48_11: 6559379319873119705
+      explosion-frost-48_12: 5311170059158778566
+      explosion-frost-48_13: -1704007127821011789
+      explosion-frost-48_14: 6293747065094134394
+      explosion-frost-48_15: -9210152046027765893
+      explosion-frost-48_2: 3767738090418327411
+      explosion-frost-48_3: -6390433344546783407
+      explosion-frost-48_4: -7822930870183610362
+      explosion-frost-48_5: -8029219712869993666
+      explosion-frost-48_6: -5606863358376956440
+      explosion-frost-48_7: 1999815422232494798
+      explosion-frost-48_8: -3212128335951881124
+      explosion-frost-48_9: -1593288720662883893
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

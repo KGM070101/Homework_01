@@ -144,6 +144,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -534,7 +547,24 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      magic-arcane-48_0: -503846333014245079
+      magic-arcane-48_1: -3747938515257508474
+      magic-arcane-48_10: 6860769517454025891
+      magic-arcane-48_11: -846661210941620199
+      magic-arcane-48_12: 6361817820831911159
+      magic-arcane-48_13: -1922253488735299591
+      magic-arcane-48_14: -6498996347024847824
+      magic-arcane-48_15: -3111139502380339190
+      magic-arcane-48_16: -6845849190334600228
+      magic-arcane-48_2: 1358406950521451179
+      magic-arcane-48_3: 2973481835990922614
+      magic-arcane-48_4: 6651686505561069409
+      magic-arcane-48_5: 9130270267923524035
+      magic-arcane-48_6: -4194588950865453479
+      magic-arcane-48_7: 9182844728515097445
+      magic-arcane-48_8: 3108471883226463010
+      magic-arcane-48_9: -7164450136015602440
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

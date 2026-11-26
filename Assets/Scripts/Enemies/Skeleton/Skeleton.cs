@@ -22,6 +22,7 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
 
     private bool isDying;
     private bool isKnockbacking = false;
+    private bool explodingCharging = false;
 
     protected override void Awake()
     {
@@ -49,6 +50,7 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
         isDying = false;
         maxHp = data[0].MaxHp;
         hp = maxHp;
+        explodingCharging = false;
 
         enemyHpBar.SetCurrentHp(1);
 
@@ -110,6 +112,9 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
 
     private IEnumerator Co_DamageColor()
     {
+        if (explodingCharging)
+            yield break;
+
         spriteRenderer.color = damageColor;
 
         yield return new WaitForSeconds(0.05f);
@@ -122,16 +127,18 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
         isDying = true;
         hp = 0;
 
-        spriteRenderer.DOFade(0.0f, 0.5f);
+        spriteRenderer.DOFade(0.0f, 0.1f);
         boxCollider2D.enabled = false;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         spriteRenderer.DOKill();
 
         float randomXp = Random.Range(randomXpAmount.x, randomXpAmount.y);
 
         GameManager.EnemyDied(randomXp);
+
+        Explosion();
 
         poolManager.PushNow(this);
     }
@@ -179,18 +186,27 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
         }
         else
         {
-            rigidbody2D.linearVelocity = Vector2.zero;
-            StartCoroutine(Co_TryAttack());
+            if(!explodingCharging)
+            {
+                rigidbody2D.linearVelocity = Vector2.zero;
+                StartCoroutine(Co_TryAttack());           }
+            
         }
     }
 
     private IEnumerator Co_TryAttack()
     {
+        explodingCharging = true;
         spriteRenderer.DOKill();
         spriteRenderer.DOColor(damageColor, 1.0f);
 
         yield return new WaitForSeconds(1.0f);
 
+        Explosion();
+    }
+
+    private void Explosion()
+    {       
         Collider2D[] colliders =
             Physics2D.OverlapCircleAll(transform.position, explosionRadius);
 
@@ -203,10 +219,11 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
                 target.TakeDamage(power);
                 break;
             }
-        }       
-       
+        }
+
         PoolObject fx = poolManager.Get(8);
         fx.transform.position = transform.position;
+        GameManager.EnemyDied(0);
         poolManager.PushNow(this);
     }
 

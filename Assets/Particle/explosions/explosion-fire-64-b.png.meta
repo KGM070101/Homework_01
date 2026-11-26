@@ -144,6 +144,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -534,7 +547,24 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      explosion-fire-64-b_0: 4083640629549364293
+      explosion-fire-64-b_1: -3013925601123305136
+      explosion-fire-64-b_10: -5339037746240348065
+      explosion-fire-64-b_11: 6593274302113450214
+      explosion-fire-64-b_12: 4314863299970719041
+      explosion-fire-64-b_13: 7214722051153219268
+      explosion-fire-64-b_14: -3532236895921301124
+      explosion-fire-64-b_15: -3404276950057448293
+      explosion-fire-64-b_16: 3879605787400835755
+      explosion-fire-64-b_2: 3379641593993606424
+      explosion-fire-64-b_3: -2495513235500928322
+      explosion-fire-64-b_4: -4563281017447725174
+      explosion-fire-64-b_5: -3224907693664125626
+      explosion-fire-64-b_6: -3688797424656472346
+      explosion-fire-64-b_7: 6017927753225339339
+      explosion-fire-64-b_8: 3208062793092835964
+      explosion-fire-64-b_9: -3550381892136048683
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

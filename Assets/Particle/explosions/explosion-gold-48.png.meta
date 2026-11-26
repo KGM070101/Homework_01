@@ -138,6 +138,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -484,7 +497,22 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      explosion-gold-48_0: 8989772255456055116
+      explosion-gold-48_1: -4609080906502549979
+      explosion-gold-48_10: 4936212337471276494
+      explosion-gold-48_11: 4347307679132463068
+      explosion-gold-48_12: 8423277218879672620
+      explosion-gold-48_13: -7523801529239168696
+      explosion-gold-48_14: 5759104254642837766
+      explosion-gold-48_2: 5212445356781245074
+      explosion-gold-48_3: -1660586153066801699
+      explosion-gold-48_4: 1662030694402675071
+      explosion-gold-48_5: -5770862760214177564
+      explosion-gold-48_6: -5807244674779380553
+      explosion-gold-48_7: -254323184984962911
+      explosion-gold-48_8: -5686990949242554017
+      explosion-gold-48_9: 6688851813005744874
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

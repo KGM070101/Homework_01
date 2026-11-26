@@ -150,6 +150,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -584,7 +597,26 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      magic-poison-48_0: -7983308884198918548
+      magic-poison-48_1: -4786315582261056816
+      magic-poison-48_10: -3520673393660953160
+      magic-poison-48_11: 251444035571147388
+      magic-poison-48_12: 8891774241438921906
+      magic-poison-48_13: 6440561986635099639
+      magic-poison-48_14: -6372982533154937277
+      magic-poison-48_15: 4820956402178337989
+      magic-poison-48_16: -1431339997643359669
+      magic-poison-48_17: 7199547040772855032
+      magic-poison-48_18: 3544524658282095603
+      magic-poison-48_2: -3489561284420370346
+      magic-poison-48_3: 5040988661748830370
+      magic-poison-48_4: 8322913456501034847
+      magic-poison-48_5: -4283277744129732888
+      magic-poison-48_6: 2192489955746310122
+      magic-poison-48_7: -819240764756242335
+      magic-poison-48_8: -4112062964597528683
+      magic-poison-48_9: 5416490811230521506
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
