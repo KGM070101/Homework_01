@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class BulletForEnemy2 : PoolObject
+public class BulletForEnemy2 : PoolObject, IEnemyBullet
 {
     [SerializeField]
     private float speed = 12.0f;
@@ -61,5 +61,9 @@ public class BulletForEnemy2 : PoolObject
             hitted = true;
             poolManager.PushNow(this);
         }
+    }
+    public void Push()
+    {
+        poolManager.PushNow(this);
     }
 }

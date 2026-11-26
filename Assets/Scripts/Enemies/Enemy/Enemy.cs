@@ -31,7 +31,7 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
     private Color originalColor;
     private Color originalArmColor;
 
-    private float knockbackDuration=0.2f;
+    private float knockbackDuration;
     private float power;
     private float speed;
     private float maxHp;

@@ -18,7 +18,7 @@ public class FastEnemy : Character,IDamageable,IKnockbackable,IWaveScalable
     private float speed;
     private float power;
     private float EnemyTimer;
-    private float knockbackDuration = 0.2f;
+    private float knockbackDuration;
 
     private bool isDying;
     private bool isKnockbacking = false;
@@ -56,6 +56,20 @@ public class FastEnemy : Character,IDamageable,IKnockbackable,IWaveScalable
 
         spriteRenderer.DOKill();
         spriteRenderer.color = originalColor;      
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        // 적 넉백 타이머
+        {
+            knockbackDuration -= Time.deltaTime;
+            if (knockbackDuration <= 0)
+            {
+                isKnockbacking = false;
+            }
+        }
     }
 
     protected override void FixedUpdate()
@@ -167,7 +181,6 @@ public class FastEnemy : Character,IDamageable,IKnockbackable,IWaveScalable
         {
             rigidbody2D.linearVelocity = Vector2.zero;
             TryAttack();
-
         }
     }
 

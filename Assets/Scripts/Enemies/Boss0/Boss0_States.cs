@@ -72,7 +72,6 @@ public abstract class Boss0_States
     {        
         this.boss = boss;
         this.fsm = fsm;
-        this.player = boss.Player;
     }
 
     public virtual void Enter()

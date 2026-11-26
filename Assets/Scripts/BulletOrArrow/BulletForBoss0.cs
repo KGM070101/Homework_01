@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BulletForBoss0 : PoolObject
+public class BulletForBoss0 : PoolObject, IEnemyBullet
 {
     [SerializeField]
     private float speed = 5.0f;
@@ -61,5 +61,9 @@ public class BulletForBoss0 : PoolObject
             hitted = true;
             poolManager.PushNow(this);           
         }
+    }
+    public void Push()
+    {
+        poolManager.PushNow(this);
     }
 }

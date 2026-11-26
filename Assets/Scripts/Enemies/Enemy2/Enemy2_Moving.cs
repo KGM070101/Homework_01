@@ -30,14 +30,11 @@ public partial class Enemy2
         }
 
         if (distance > data[2].StopDistance)
-        {
-            if (isKnockbacking == false)
+        {            
+            rigidbody2D.linearVelocity = direction * speed;
+            if (distance > 25.0f)
             {
-                rigidbody2D.linearVelocity = direction * speed;
-                if (distance > 25.0f)
-                {
-                    rigidbody2D.linearVelocity = direction * speed * 3.0f;
-                }
+                rigidbody2D.linearVelocity = direction * speed * 3.0f;
             }
         }
         else if(distance<10 )

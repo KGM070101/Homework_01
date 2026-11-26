@@ -1,0 +1,83 @@
+{
+  "image": "hit-spark-fire-24.png",
+  "effect": "hit spark",
+  "frame_width": 24,
+  "frame_height": 24,
+  "frame_count": 8,
+  "fps": 15,
+  "columns": 8,
+  "rows": 1,
+  "godot": {
+    "hframes": 8,
+    "vframes": 1
+  },
+  "frames": [
+    {
+      "x": 0,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "duration_ms": 67
+    },
+    {
+      "x": 24,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "duration_ms": 67
+    },
+    {
+      "x": 48,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "duration_ms": 67
+    },
+    {
+      "x": 72,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "duration_ms": 67
+    },
+    {
+      "x": 96,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "duration_ms": 67
+    },
+    {
+      "x": 120,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "duration_ms": 67
+    },
+    {
+      "x": 144,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "duration_ms": 67
+    },
+    {
+      "x": 168,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "duration_ms": 67
+    }
+  ],
+  "palette": [
+    "#1b1a22",
+    "#3b3442",
+    "#6a4a4c",
+    "#a3392d",
+    "#de5a29",
+    "#f29a33",
+    "#f8d35b",
+    "#fff6d5"
+  ],
+  "made_with": "Puff, https://cs5475.itch.io/puff"
+}

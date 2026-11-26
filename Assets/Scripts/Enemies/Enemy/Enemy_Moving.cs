@@ -35,8 +35,7 @@ public partial class Enemy
         else
         {
             rigidbody2D.linearVelocity = Vector2.zero;
-            TryAttack();
-            
+            TryAttack();            
         }
     }
 

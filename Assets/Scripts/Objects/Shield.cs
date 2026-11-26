@@ -11,11 +11,19 @@ public class Shield : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        IEnemyBullet destroyable =
+            collision.GetComponentInParent<IEnemyBullet>();
+        if(destroyable is not null)
+        {
+            destroyable.Push();
+            return;
+        }
+
         IDamageable damageable =
-            collision.GetComponentInParent<IDamageable>();
+            collision.GetComponentInParent<IDamageable>();        
 
         if (damageable is null)
-            return;
+            return;        
 
         damageable.Damage(player.power);
     }

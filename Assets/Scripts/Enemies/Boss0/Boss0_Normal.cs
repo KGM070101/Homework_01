@@ -7,16 +7,9 @@ public class Boss0_Normal : Boss0_States
     private float patternCheckInterval = 1.0f;
     private float patternTImer;
     private float patternChance = 0.4f;
-
-    private bool canUsePattern;
-    public bool CanUsePattern => canUsePattern;
-
-    
-    private Vector2 direction;
-    public Vector2 Direction => direction;
-
     private float angle;
-    public float Angle => angle;    
+
+    private Vector2 direction;           
 
     public Boss0_Normal(Boss_0 boss, Boss0_FSM fsm) : base(boss, fsm)
     {
@@ -50,9 +43,7 @@ public class Boss0_Normal : Boss0_States
             boss.Rigidbody2D.SetRotation(angle);
 
             if (distance > boss.StopDistance)
-            {
-                //canUsePattern = false;
-
+            {               
                 boss.Rigidbody2D.linearVelocity = direction * boss.Speed;
 
                 if (distance > 25.0f)
@@ -61,9 +52,7 @@ public class Boss0_Normal : Boss0_States
                 }
             }
             else
-            {
-                //canUsePattern = true;
-
+            {               
                 boss.Rigidbody2D.linearVelocity = Vector2.zero;                
 
                 patternTImer += deltaTime;
@@ -74,9 +63,7 @@ public class Boss0_Normal : Boss0_States
                     if(Random.value<=patternChance)
                     {
                         fsm.ChangeState
-                            (Random.value < 0.5f ? StateEnum.pattern0 : StateEnum.pattern1);
-
-                        //fsm.ChangeState(StateEnum.pattern0);
+                            (Random.value < 0.5f ? StateEnum.pattern0 : StateEnum.pattern1);                        
                     }
                 }
             }

@@ -31,19 +31,14 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
     private Color originalColor;
     private Color originalWeaponColor;
 
-    private float knockbackDuration = 0.2f;
+    private float knockbackDuration;
     public float power;
     private float speed;
-    private int deadTrigger = 0;
     private float maxHp;
 
     private bool isKnockbacking = false;
     private bool isDying;
-
-    private DOTween doTween;
-
-    private Coroutine coroutine;
-
+    
     public bool IsKnockbacking => isKnockbacking;
 
     protected override void Awake()
@@ -88,8 +83,6 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
         hp = maxHp;
 
         enemyHpBar.SetCurrentHp(1);
-
-        deadTrigger = 0;
 
         boxCollider2D.enabled = true;
 
@@ -164,7 +157,7 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
             return;
         }
 
-        coroutine = StartCoroutine(Co_DamageColor());
+        StartCoroutine(Co_DamageColor());
     }
     
     private IEnumerator Co_DamageColor()
