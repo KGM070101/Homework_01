@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aac94d6f7d89b140b9d5d5409ee3e50, type: 3}
   m_Name: Summoner
   m_EditorClassIdentifier: 
-  maxHp: 200
+  maxHp: 500
   moveSpeed: 3
   dashSpeed: 20
-  power: 15
-  attackSpeed: 3
+  power: 10
+  attackSpeed: 2
   stopDistance: 15
   reloadTime: 3

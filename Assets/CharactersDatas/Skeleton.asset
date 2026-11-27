@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aac94d6f7d89b140b9d5d5409ee3e50, type: 3}
   m_Name: Skeleton
   m_EditorClassIdentifier: 
-  maxHp: 30
-  moveSpeed: 5
+  maxHp: 10
+  moveSpeed: 5.5
   dashSpeed: 20
   power: 25
   attackSpeed: 1

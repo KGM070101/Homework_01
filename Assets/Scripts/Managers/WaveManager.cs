@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -53,17 +54,31 @@ public class WaveManager : MonoBehaviour
             IndicateWaveText(wave);
             OnWaveStart?.Invoke(wave);
 
-            if(wave%10!=0)
+            if(wave%10!=0&&wave<=10)
             {
                 int enemyCount = baseEnemyCount + enemyAddPerWave * (wave - 1);
                 float multiplier = 1.0f + enemyStatAddPerWave * (wave - 1);
 
                 for (int i = 0; i < enemyCount; i++)
                 {
-                    enemy_Spawner.SpawnEnemies(multiplier);
-                    enemy_Spawner.SpawnEnemiesVer2(multiplier);
+                    enemy_Spawner.SpawnEnemies(multiplier);                    
                     yield return new WaitForSeconds(spawnInterval);
                 }
+            }
+            else if(wave%10!=0&&wave<=99)
+            {
+                int enemyCount = baseEnemyCount + enemyAddPerWave * (wave - 1);
+                float multiplier = 1.0f + enemyStatAddPerWave * (wave - 1);
+
+                for (int i = 0; i < enemyCount; i++)
+                {
+                    if (UnityEngine.Random.value < Mathf.Max(0.9f - 0.04f * (wave - 11), 0.5f))
+                        enemy_Spawner.SpawnEnemies(multiplier);
+                    else
+                        enemy_Spawner.SpawnEnemiesVer2(multiplier);                    
+                    
+                    yield return new WaitForSeconds(spawnInterval);
+                }                
             }
             else
             {

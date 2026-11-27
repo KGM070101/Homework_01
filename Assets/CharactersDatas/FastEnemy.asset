@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FastEnemy
   m_EditorClassIdentifier: 
   maxHp: 30
-  moveSpeed: 5.5
+  moveSpeed: 5
   dashSpeed: 20
   power: 5
   attackSpeed: 1

@@ -165,7 +165,18 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
         }
 
         coroutine = StartCoroutine(Co_DamageColor());
-    }    
+    }
+
+    public void Heal(float healAmount)
+    {
+        hp += healAmount;
+        float currentHpRation = hp / maxHp;
+
+        enemyHpBar.SetCurrentHp(currentHpRation);
+
+        if (hp >= maxHp)
+            hp = maxHp;
+    }
 
     private IEnumerator Co_DamageColor()
     {
@@ -226,5 +237,5 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
         hp = maxHp;
         power = data[1].Power * multifly;
         speed = data[1].MoveSpeed * multifly;
-    }
+    }   
 }

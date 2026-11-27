@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Summoner_Normal : Summoner_States
 {
-    private float patternCheckInterval = 0.5f;
+    private float patternCheckInterval = 0.2f;
     private float patternTimer;
     private float patternChance = 0.5f;
     private float angle;
@@ -42,7 +42,9 @@ public class Summoner_Normal : Summoner_States
             summoner.Rigidbody2D.SetRotation(angle);
 
             if (summoner.IsKnockbacking)
+            {
                 return;
+            }               
 
             if(distance>summoner.StopDistance)
             {
@@ -68,10 +70,8 @@ public class Summoner_Normal : Summoner_States
 
                     if (Random.value <= patternChance)
                     {
-                        //fsm.ChangeState
-                        //    (Random.value < 0.3f ? SummonerStateEnum.patternSummon : SummonerStateEnum.patternShoot);
                         fsm.ChangeState
-                            (Random.value < 0.9f ? SummonerStateEnum.patternSummon : SummonerStateEnum.normal);
+                            (Random.value < 0.4f ? SummonerStateEnum.patternSummon : SummonerStateEnum.patternShoot);                        
                     }
                 }
             }

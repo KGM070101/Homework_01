@@ -11,7 +11,7 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
     private Color damageColor = new Color(0.7f, 0.3f, 0.3f);
     private Color originalColor;
 
-    private Vector2 randomXpAmount = new Vector2(1.0f, 2.0f);
+    private Vector2 randomXpAmount = new Vector2(0.5f, 1.0f);
 
     private float hp;
     private float maxHp;
@@ -135,9 +135,7 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
         spriteRenderer.DOKill();
 
         float randomXp = Random.Range(randomXpAmount.x, randomXpAmount.y);
-
-        GameManager.EnemyDied(randomXp);
-
+        
         Explosion();
 
         poolManager.PushNow(this);
@@ -226,12 +224,22 @@ public class Skeleton : Character, IDamageable, IKnockbackable, IWaveScalable
         GameManager.EnemyDied(0);
         poolManager.PushNow(this);
     }
+    public void Heal(float healAmount)
+    {
+        hp += healAmount;
+        float currentHpRation = hp / maxHp;
+
+        enemyHpBar.SetCurrentHp(currentHpRation);
+
+        if (hp >= maxHp)
+            hp = maxHp;
+    }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, explosionRadius);
-    }
+    }   
 #endif
 }

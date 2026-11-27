@@ -159,5 +159,14 @@ public class Boss_0 : Character,IDamageable
         dashRange.fillAmount = 0.0f;
     }
 
-    
+    public void Heal(float healAmount)
+    {
+        hp += healAmount;
+        float currentHpRation = hp / maxHp;
+
+        enemyHpBar.SetCurrentHp(currentHpRation);
+
+        if (hp >= maxHp)
+            hp = maxHp;
+    }
 }

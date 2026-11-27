@@ -5,6 +5,8 @@ using UnityEngine;
 public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
 {
     [SerializeField] private Transform enemyBox;
+    [SerializeField] private Transform firePoint;
+    public Transform FirePoint => firePoint;
     public Transform EnemyBox => enemyBox;
 
     private Player player;
@@ -19,6 +21,8 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
     private Summoner_FSM fsm;
   
     private Vector2 randomXpAmount = new Vector2(5.0f, 8.0f);
+    private Vector2 facingDir;
+    public Vector2 FacingDir => facingDir;
 
     private float hp;
     public float Hp => hp;
@@ -34,6 +38,9 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
 
     private float stopDistance;
     public float StopDistance => stopDistance;
+
+    private float attackSpeed;
+    public float AttackSpeed => attackSpeed;
 
     private float knockbackDuration;
     public float WaveMultiplier { get; private set; } = 1f;
@@ -60,6 +67,7 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
         power = data[0].Power;
         speed = data[0].MoveSpeed;
         stopDistance = data[0].StopDistance;
+        attackSpeed = data[0].AttackSpeed;
 
         originalColor = spriteRenderer.color;
     }
@@ -74,6 +82,8 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
         isDying = false;
         maxHp = data[0].MaxHp;
         hp = maxHp;
+
+        rigidbody2D.linearVelocity = Vector2.zero;
 
         enemyHpBar.SetCurrentHp(1);
 
@@ -96,6 +106,11 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
             {
                 isKnockbacking = false;
             }
+        }
+
+        //시선 방향
+        {
+            facingDir = (player.transform.position - transform.position);
         }
     }
 
@@ -141,10 +156,10 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
         isDying = true;
         hp = 0;
 
-        spriteRenderer.DOFade(0.0f, 0.5f);
+        spriteRenderer.DOFade(0.0f, 0.1f);
         boxCollider2D.enabled = false;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         spriteRenderer.DOKill();
 
@@ -165,5 +180,16 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
         knockbackDuration = duration;
 
         rigidbody2D.linearVelocity = direction.normalized * force;
+    }
+
+    public void Heal(float healAmount)
+    {
+        hp += healAmount;
+        float currentHpRation = hp / maxHp;
+
+        enemyHpBar.SetCurrentHp(currentHpRation);
+
+        if (hp >= maxHp)
+            hp = maxHp;
     }
 }

@@ -199,4 +199,15 @@ public class FastEnemy : Character,IDamageable,IKnockbackable,IWaveScalable
 
         player.TakeDamage(power);        
     }
+
+    public void Heal(float healAmount)
+    {
+        hp += healAmount;
+        float currentHpRation = hp / maxHp;
+
+        enemyHpBar.SetCurrentHp(currentHpRation);
+
+        if (hp >= maxHp)
+            hp = maxHp;
+    }
 }

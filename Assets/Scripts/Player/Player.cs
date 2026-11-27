@@ -253,7 +253,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                     {
                         isUltBarBlinking = true;
 
-                        coroutine = StartCoroutine(Co_UltBarBlink());
+                        StartCoroutine(Co_UltBarBlink());
                     }
                     
                 }
@@ -263,7 +263,7 @@ public partial class Player : Character, InputSystem_Actions.IPlayerActions
                     {
                         isUltBarBlinking = false;
 
-                        StopCoroutine(coroutine);
+                        StartCoroutine(Co_UltBarBlink());
 
                         ultBar.DOKill();
                         ultBar.color = originalUltBarColor;

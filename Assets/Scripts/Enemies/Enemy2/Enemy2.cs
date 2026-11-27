@@ -216,4 +216,15 @@ public partial class Enemy2 : Character, IDamageable, IKnockbackable, IWaveScala
         power = data[2].Power * multifly;
         speed = data[2].MoveSpeed * multifly;
     }
+
+    public void Heal(float healAmount)
+    {
+        hp += healAmount;
+        float currentHpRation = hp / maxHp;
+
+        enemyHpBar.SetCurrentHp(currentHpRation);
+
+        if (hp >= maxHp)
+            hp = maxHp;
+    }
 }

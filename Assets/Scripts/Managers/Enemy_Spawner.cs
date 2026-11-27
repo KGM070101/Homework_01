@@ -37,9 +37,7 @@ public class Enemy_Spawner : MonoBehaviour
     private Player player;
 
     public int enemyCount;
-
-    private Coroutine coroutine;
-
+   
     private void Awake()
     {
         if(Instance!=null)
@@ -60,11 +58,13 @@ public class Enemy_Spawner : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnEnemyDied += HandleEnemyDied;
+        GameManager.OnEnemySpawn += HandleEnemySpawn;
     }
 
     private void OnDisable()
     {
         GameManager.OnEnemyDied -= HandleEnemyDied;
+        GameManager.OnEnemySpawn -= HandleEnemySpawn;
     }
 
     private void Update()
@@ -75,6 +75,11 @@ public class Enemy_Spawner : MonoBehaviour
     private void HandleEnemyDied(float xp)
     {
         RemoveEnemyCount();
+    }
+
+    private void HandleEnemySpawn()
+    {
+        AddEnemyCount();
     }
 
     public void SpawnEnemies(float statMultiplier)
@@ -93,10 +98,10 @@ public class Enemy_Spawner : MonoBehaviour
         AddEnemyCount();
     }
 
-    public void SpawnEnemiesVer2(float statMultiplier)
+    public void SpawnEnemiesVer2(float statMultiplier) //95
     {
         float randomTrigger = Random.Range(0, 99);
-        int index = randomTrigger < 99 ? 7 : 0;
+        int index = randomTrigger < 95 ? 7 : 12;
 
         PoolObject pool = poolManager.Get(index);
 
@@ -146,7 +151,7 @@ public class Enemy_Spawner : MonoBehaviour
 
         if (enemyCount <= 0)
             enemyCount = 0;
-    }
+    }   
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
