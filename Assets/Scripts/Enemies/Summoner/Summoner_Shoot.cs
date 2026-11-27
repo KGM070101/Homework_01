@@ -79,11 +79,18 @@ public class Summoner_Shoot : Summoner_States
         Vector2 dir =
             summoner.FacingDir;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;       
-        summoner.Rigidbody2D.SetRotation(angle);
-        summoner.Rigidbody2D.linearVelocity = Vector2.zero;
+        summoner.Rigidbody2D.SetRotation(angle);       
 
         if (timer >= endDelay)
+        {
             fsm.ChangeState(SummonerStateEnum.normal);
+            return;
+        }
+
+        if (summoner.IsKnockbacking)
+            return;
+
+        summoner.Rigidbody2D.linearVelocity = Vector2.zero;
     }
 
     private void GetBullet()

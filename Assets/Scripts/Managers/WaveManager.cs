@@ -61,7 +61,7 @@ public class WaveManager : MonoBehaviour
 
                 for (int i = 0; i < enemyCount; i++)
                 {
-                    enemy_Spawner.SpawnEnemies(multiplier);                    
+                    enemy_Spawner.SpawnEnemies(multiplier);
                     yield return new WaitForSeconds(spawnInterval);
                 }
             }
@@ -75,8 +75,8 @@ public class WaveManager : MonoBehaviour
                     if (UnityEngine.Random.value < Mathf.Max(0.9f - 0.04f * (wave - 11), 0.5f))
                         enemy_Spawner.SpawnEnemies(multiplier);
                     else
-                        enemy_Spawner.SpawnEnemiesVer2(multiplier);                    
-                    
+                        enemy_Spawner.SpawnEnemiesVer2(multiplier);
+
                     yield return new WaitForSeconds(spawnInterval);
                 }                
             }

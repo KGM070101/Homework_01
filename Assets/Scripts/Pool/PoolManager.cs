@@ -91,6 +91,8 @@ public class PoolManager : MonoBehaviour
         
         PoolObject pool = Instantiate(poolables[index]);
 
+        pool.gameObject.SetActive(true);
+
         pool.SetIndex(index);
 
         pool.Init();

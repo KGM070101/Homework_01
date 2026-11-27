@@ -6,6 +6,7 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
 {
     [SerializeField] private Transform enemyBox;
     [SerializeField] private Transform firePoint;
+    [SerializeField] public int SummonCount = 5;
     public Transform FirePoint => firePoint;
     public Transform EnemyBox => enemyBox;
 
@@ -45,6 +46,10 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
     private float knockbackDuration;
     public float WaveMultiplier { get; private set; } = 1f;
 
+    private float minRadius = 2;
+    private float maxRadius = 3;
+    
+
     private bool isKnockbacking = false;
     public bool IsKnockbacking => isKnockbacking;
 
@@ -80,6 +85,7 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
     public override void Init()
     {
         isDying = false;
+        isKnockbacking = false;
         maxHp = data[0].MaxHp;
         hp = maxHp;
 
@@ -191,5 +197,43 @@ public class Summoner : Character, IDamageable, IKnockbackable, IWaveScalable
 
         if (hp >= maxHp)
             hp = maxHp;
+    }
+
+    private Vector3 GetRandomPos()
+    {
+        Vector3 randomDir = Random.insideUnitCircle.normalized;
+
+        float dist = Random.Range(minRadius, maxRadius);
+
+        Vector3 randomPoint = transform.position + randomDir * dist;
+
+        return randomPoint;
+    }
+
+    public IEnumerator Co_SummonSkeleton()
+    {
+        for (int i = 0; i < SummonCount; i++)
+        {
+            PoolObject fx = poolManager.Get(13);
+
+            Vector3 position = GetRandomPos();
+
+            fx.transform.position = position;
+
+            yield return new WaitForSeconds(0.15f);
+
+            PoolObject skeleton = poolManager.Get(9);
+
+
+            skeleton.transform.SetParent(enemyBox);
+            skeleton.transform.position = position;
+            skeleton.transform.rotation = Quaternion.identity;
+
+            GameManager.EnemySpawn();
+
+            skeleton.GetComponent<IWaveScalable>().ApplyWaveScale(WaveMultiplier);
+
+            yield return new WaitForSeconds(0.3f);
+        }
     }
 }

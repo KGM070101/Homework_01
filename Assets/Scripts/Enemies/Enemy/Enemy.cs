@@ -25,7 +25,7 @@ public partial class Enemy : Character, IDamageable, IKnockbackable, IWaveScalab
     private Vector2 originalLeftArmPos;
     private Vector2 originalRightArmPos;
     private Vector2 randomXpAmount = new Vector2(1.0f, 2.0f);
-    private Vector2 knockbackVelocity;
+    
 
     private Color damageColor = new Color(0.7f, 0.3f, 0.3f);
     private Color originalColor;

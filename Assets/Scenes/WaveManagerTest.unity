@@ -2576,7 +2576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92cc814569672144a920feb1c7253b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wave: 10
+  wave: 0
   baseEnemyCount: 5
   enemyAddPerWave: 3
   enemyStatAddPerWave: 0.02
@@ -3906,6 +3906,7 @@ MonoBehaviour:
   - {fileID: 7818096845062878062, guid: 952d9d1fb2e179a45bfadab200dc99ae, type: 3}
   - {fileID: 3528366524376894989, guid: 5123162ee4a736c49943708f7e7b1470, type: 3}
   - {fileID: 6382736558187477978, guid: 52c9cef2f145a9047a810b77ad37d77b, type: 3}
+  - {fileID: 8308937603404967427, guid: 1de0d8fb1f428234c8b20049873dee76, type: 3}
   enemyBox: {fileID: 2001906324}
   bulletBox: {fileID: 1300738274}
 --- !u!4 &328881306
@@ -14359,6 +14360,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6191c405f5ab5db4f8222f922b4a86be, type: 2}
   - {fileID: 11400000, guid: 22a9abd5ebe38e24bb5f5088a84c82ad, type: 2}
   - {fileID: 11400000, guid: 155f0a1905260fd42a9ed18cad3e65e0, type: 2}
+  - {fileID: 11400000, guid: 0b42a1114e15bea4990a0049234f2af3, type: 2}
   cardWaitTime: 0.25
 --- !u!1 &1242029132
 GameObject:

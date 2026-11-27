@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Summoner_Summon : Summoner_States
@@ -10,13 +11,13 @@ public class Summoner_Summon : Summoner_States
     }
     private Phase phase;
 
-    private float minRadius = 2;
-    private float maxRadius = 3;
-    private int SummonCount = 5;       
+        
 
     private float aimDuration = 2.0f;
     private float endDelay = 2.0f;
     private float timer;
+
+    private bool isSummoning = false;
     
     public Summoner_Summon(Summoner summoner, Summoner_FSM fsm) : base(summoner, fsm)
     {
@@ -29,6 +30,7 @@ public class Summoner_Summon : Summoner_States
 
         phase = Phase.Aim;
         timer = 0.0f;
+        isSummoning = false;
 
         summoner.Rigidbody2D.linearVelocity = Vector2.zero;
     }
@@ -61,57 +63,65 @@ public class Summoner_Summon : Summoner_States
     {
         Vector2 dir =
             (summoner.Player.transform.position - summoner.transform.position);
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        summoner.Rigidbody2D.linearVelocity = Vector2.zero;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;        
         summoner.Rigidbody2D.SetRotation(angle);
 
         if(timer>=aimDuration)
         {
             phase = Phase.Summon;
             timer = 0.0f;
+            return;
         }
+
+        if (summoner.IsKnockbacking)
+            return;
+        summoner.Rigidbody2D.linearVelocity = Vector2.zero;
     }
 
     private void Tick_Summon()
     {
-        SummonSkeleton();
-        summoner.Rigidbody2D.linearVelocity = Vector2.zero;
-        phase = Phase.End;
-        timer = 0;
+        float summonDuration = summoner.SummonCount * 0.45f;
+
+        Vector2 dir =
+            (summoner.Player.transform.position - summoner.transform.position);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        summoner.Rigidbody2D.SetRotation(angle);
+
+        if(timer>=summonDuration)
+        {
+            phase = Phase.End;
+            timer = 0;
+            return;
+        }
+
+        if(!isSummoning)
+        {
+            isSummoning = true;
+            summoner.StartCoroutine(summoner.Co_SummonSkeleton());
+        }
+
+        if (summoner.IsKnockbacking)
+            return;
+
+        summoner.Rigidbody2D.linearVelocity = Vector2.zero;                                
     }
 
     private void Tick_End()
     {
-        summoner.Rigidbody2D.linearVelocity = Vector2.zero;
+        Vector2 dir =
+            (summoner.Player.transform.position - summoner.transform.position);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;        
+        summoner.Rigidbody2D.SetRotation(angle);       
 
         if(timer>=endDelay)
-            fsm.ChangeState(SummonerStateEnum.normal);
-    }
-
-    private Vector3 GetRandomPos()
-    {
-        Vector3 randomDir = Random.insideUnitCircle.normalized;
-
-        float dist = Random.Range(minRadius, maxRadius);
-
-        Vector3 randomPoint = summoner.transform.position + randomDir * dist;
-
-        return randomPoint;
-    }
-
-    private void SummonSkeleton()
-    {
-        for(int i=0; i<SummonCount; i++)
         {
-            PoolObject skeleton = summoner.PoolManager.Get(9);
+            fsm.ChangeState(SummonerStateEnum.normal);
+            return;
+        }
 
-            skeleton.transform.SetParent(summoner.EnemyBox);
-            skeleton.transform.position = GetRandomPos();
-            skeleton.transform.rotation = Quaternion.identity;
+        if (summoner.IsKnockbacking)
+            return;
+        summoner.Rigidbody2D.linearVelocity = Vector2.zero;
 
-            GameManager.EnemySpawn();
-
-            skeleton.GetComponent<IWaveScalable>().ApplyWaveScale(summoner.WaveMultiplier);
-        }        
-    }
+    }    
 }
